@@ -1,0 +1,19 @@
+.login__container {
+  padding: 1em;
+  border: 1px solid blanchedalmond;
+}
+.login__container__textfields {
+  display: flex;
+  flex-direction: column;
+}
+.login__container__buttons {
+  margin-top: 1.5em;
+  button {
+    margin-right: 1em;
+  }
+}
+.login__container__textfields {
+  .login__container__password-input {
+    margin-top: 1em;
+  }
+}
