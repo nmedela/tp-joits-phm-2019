@@ -6,7 +6,20 @@ import "./Tickets.scss";
 export default class Tickets extends Component {
   constructor(props) {
     super(props)
-    this.state = {};
+    this.state = {
+      user: {
+        name: "Nicolas Espindola",
+        wallet: 10000.0,
+        shoppingCart: [],
+      }
+    };
+  }
+
+  agregarTicket = (movieScreening) => {
+    this.setState((prevState) => {
+      prevState.shoppingCart.push(movieScreening);
+      return prevState;
+    })
   }
 
   render() {
@@ -129,12 +142,12 @@ export default class Tickets extends Component {
           </Grid>
 
           <Grid item xs={12} className="myItemContainer">
-            <Button fullWidth variant="contained">Agregar al carrito</Button>
+            <Button fullWidth variant="contained" onClick={this.addToShoppingCart}>Agregar al carrito</Button>
           </Grid>
 
           <Grid item xs={6} className="myItemContainer">
             <Grid container spacing={8}>
-              <Grid item><Typography>Items en el carrito: 3</Typography></Grid>
+              <Grid item><Typography>Items en el carrito: {this.state.user.shoppingCart.length}</Typography></Grid>
               <Grid item xs={6}><Button variant="contained">Finalizar compra</Button></Grid>
             </Grid>
           </Grid>
