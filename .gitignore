@@ -28,3 +28,4 @@ backend/.settings/
 backend/src/main/generated-sources/
 backend/target/
 backend/src/test/generated-sources/
+/.metadata/
