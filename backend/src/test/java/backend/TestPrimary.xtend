@@ -4,14 +4,14 @@ import org.junit.Rule
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert
-import edu.unsam.joits.domain.Usuario
+import edu.unsam.joits.domain.User
 
 class TestPrimary {
-	Usuario user1
+	User user1
 
 	@Before
 	def void initialize() {
-		user1 = new Usuario()=>[
+		user1 = new User()=>[
 		name="Nicolas"
 		lastName="asdd"
 		age = 25

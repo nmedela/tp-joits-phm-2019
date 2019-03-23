@@ -27,7 +27,7 @@ class LoginController {
 
 @Accessors
 class UserDataPost {
-	String usuario
+	String username
 	String password
 
 }
