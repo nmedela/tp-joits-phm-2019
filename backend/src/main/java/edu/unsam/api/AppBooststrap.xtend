@@ -14,6 +14,8 @@ class AppBooststrap {
 		])
 		userRepository.create(new User => [
 			name = "Gonzalo"
+			username="guusygonzalo"
+			password="1234"
 			lastName="Canton"
 			age = 25
 		])
