@@ -19,7 +19,8 @@ class UserRepository extends Repository<User>{
 		return instance
 	}
 
-	def static getUserBy(String userName) {
+	def getUserBy(String username) {
+		return this.repositoryContent.findFirst[ usuario | usuario.username == username ]
 	}
 
 	
