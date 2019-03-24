@@ -6,6 +6,7 @@ import java.util.Set
 import edu.unsam.joits.domain.User
 import org.eclipse.xtend.lib.annotations.Accessors
 
+@Accessors
 class UserRepository extends Repository<User>{
 	private new() {
 	}

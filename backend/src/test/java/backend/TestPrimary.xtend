@@ -12,6 +12,7 @@ class TestPrimary {
 	User user0
 	User user1
 	UserRepository repositorioUsuario
+
 	@Before
 	def void initialize() {
 		user0 = new User()=>[

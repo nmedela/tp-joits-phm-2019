@@ -6,7 +6,8 @@ import LoginService from "../../services/LoginService";
 
 const initialState = {
   userInput: null,
-  passwordInput: null
+  passwordInput: null,
+  errorLogin: null
 };
 
 class Login extends Component {
@@ -15,10 +16,15 @@ class Login extends Component {
   };
   loginUser = async () => {
     try {
-      const loggedUser = await LoginService.login();
+      const loggedUser = await LoginService.login({
+        username: this.state.userInput,
+        password: this.state.passwordInput
+      });
       this.props.history.push("/buying-flow/tickets");
     } catch (e) {
-      console.log("error login", e);
+      this.setState({
+        errorLogin: "Usuario/password incorrectos"
+      });
     }
   };
 
@@ -29,7 +35,7 @@ class Login extends Component {
   };
 
   render() {
-    const { passwordInput, userInput } = this.state;
+    const { passwordInput, userInput, errorLogin } = this.state;
     return (
       <div>
         <div className="login__container">
@@ -52,6 +58,7 @@ class Login extends Component {
                 this.setState({ passwordInput: event.target.value })
               }
             />
+            {!!errorLogin && <div>{errorLogin}</div>}
           </div>
 
           <div className="login__container__buttons">
