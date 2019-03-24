@@ -20,6 +20,9 @@ class Login extends Component {
         username: this.state.userInput,
         password: this.state.passwordInput
       });
+
+      LoginService.saveSession(loggedUser.id);
+      this.props.login();
       this.props.history.push("/buying-flow/tickets");
     } catch (e) {
       this.setState({
