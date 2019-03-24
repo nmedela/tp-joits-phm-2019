@@ -13,10 +13,11 @@ import {
   TableBody,
   Button
 } from "@material-ui/core";
+import "./MovieTable.scss";
 
 export default class MovieTable extends Component {
 
-  onClick = (movie) => {
+  handleClick = (movie) => () => {
     this.props.handleClick(movie);
   }
 
@@ -39,7 +40,7 @@ export default class MovieTable extends Component {
             {
               movies && movies.map(movie => {
                 return (
-                  <TableRow onClick={this.handleClick}>
+                  <TableRow className="tableRow" hover onClick={this.handleClick(movie)}>
                     <TableCell>{movie.title}</TableCell>
                     <TableCell>{movie.date}</TableCell>
                     <TableCell>{movie.rating}</TableCell>

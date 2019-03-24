@@ -3,6 +3,10 @@ import { Grid, Paper, Typography, TextField, InputAdornment, IconButton, Table, 
 import SearchIcon from '@material-ui/icons/Search';
 import "./Tickets.scss";
 import MovieTable from "./components/MovieTable";
+import MovieService from './../../../services/MovieService';
+import MovieServiceMock from './../../../services/mocks/MovieServiceMock';
+
+const movieService = new MovieServiceMock();
 
 export default class Tickets extends Component {
   constructor(props) {
@@ -12,12 +16,33 @@ export default class Tickets extends Component {
         name: "Nicolas Espindola",
         wallet: 10000.0,
         shoppingCart: [],
-      },
-      movies: [{ title: "Elmo en la escuela", date: "10/01/2018", rating: 5, genre: "Animated" }]
+      }
     };
   }
 
-  agregarTicket = (movieScreening) => {
+  componentDidMount = async () => {
+    let movies = await movieService.getMoviesByName("");
+    let recommended = await movieService.getRecommended();
+    this.setState({
+      movies: movies,
+      recommended: recommended
+    });
+  }
+
+  handleSearchTextChange = (event) => {
+    this.setState({ searchText: event.target.value });
+  }
+
+  searchMovies = async (event) => {
+    event.preventDefault();
+    const movies = await movieService.getMoviesByName(this.state.searchText);
+    this.setState((prevState) => {
+      prevState.movies = movies;
+      return prevState;
+    })
+  }
+
+  addTicket = (movieScreening) => {
     this.setState((prevState) => {
       prevState.shoppingCart.push(movieScreening);
       return prevState;
@@ -54,7 +79,9 @@ export default class Tickets extends Component {
               <Grid item xs={12}>
                 <Grid container spacing={8}>
                   <Grid item xs={12}>
-                    <TextField fullWidth variant="filled" label="Buscar Película" InputLabelProps={{ shrink: true }} />
+                    <form onSubmit={this.searchMovies}>
+                      <TextField fullWidth variant="filled" label="Buscar Película" InputLabelProps={{ shrink: true }} onChange={this.handleSearchTextChange} value={this.state.searchText} />
+                    </form>
                   </Grid>
 
                   <Grid item xs={12}>
@@ -67,11 +94,11 @@ export default class Tickets extends Component {
               <Grid item xs={12}>
                 <Grid container spacing={8}>
                   <Grid item xs={12}>
-                    <Typography>Favoritas</Typography>
+                    <Typography>Pelis recomendadas</Typography>
                   </Grid>
 
                   <Grid item xs={12}>
-                    <MovieTable handleClick={this.showMovieScreenings} movies={this.state.movies} />
+                    <MovieTable handleClick={this.showMovieScreenings} movies={this.state.recommended} />
                   </Grid>
                 </Grid>
               </Grid>
