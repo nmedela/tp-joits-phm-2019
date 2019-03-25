@@ -22,4 +22,14 @@ export default class MovieService {
             alert(exception.message);
         }
     }
+
+    getScreeningsForMovie = async (movie) => {
+        try {
+            let resp = await Axios.get(baseURL + "/Peliculas/Funciones/" + movie.id);
+            return resp.data;
+        }
+        catch (exception) {
+            alert(exception.message);
+        }
+    }
 }

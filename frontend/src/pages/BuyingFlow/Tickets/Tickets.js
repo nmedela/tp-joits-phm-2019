@@ -5,8 +5,12 @@ import "./Tickets.scss";
 import MovieTable from "./components/MovieTable";
 import MovieService from './../../../services/MovieService';
 import MovieServiceMock from './../../../services/mocks/MovieServiceMock';
+import MovieDetails from "./components/MovieDetails";
+import ShoppingCartService from './../../../services/ShoppingCartService';
+import ShoppingCartServiceMock from './../../../services/mocks/ShoppingCartServiceMock';
 
 const movieService = new MovieServiceMock();
+const shoppingCartService = new ShoppingCartServiceMock();
 
 export default class Tickets extends Component {
   constructor(props) {
@@ -15,7 +19,6 @@ export default class Tickets extends Component {
       user: {
         name: "Nicolas Espindola",
         wallet: 10000.0,
-        shoppingCart: [],
       }
     };
   }
@@ -23,9 +26,11 @@ export default class Tickets extends Component {
   componentDidMount = async () => {
     let movies = await movieService.getMoviesByName("");
     let recommended = await movieService.getRecommended();
+    let shoppingCart = await shoppingCartService.getShoppingCart(this.state.user);
     this.setState({
       movies: movies,
-      recommended: recommended
+      recommended: recommended,
+      shoppingCart: shoppingCart
     });
   }
 
@@ -50,7 +55,23 @@ export default class Tickets extends Component {
   }
 
   showMovieScreenings = (movie) => {
-    alert(movie.title);
+    this.setState({ openDialog: true, selectedMovie: movie });
+  }
+
+  closeDialog = () => {
+    this.setState({ openDialog: false });
+  }
+
+  updateShoppingCart = async (newShoppingCart) => {
+    const oldShoppingCart = this.state.shoppingCart;
+    try {
+      const response = await shoppingCartService.updateShoppingCart(this.state.user, newShoppingCart);
+      this.setState({ shoppingCart: newShoppingCart });
+    }
+    catch (exception) {
+      this.setState({ shoppingCart: oldShoppingCart });
+    }
+    this.closeDialog();
   }
 
   render() {
@@ -73,76 +94,36 @@ export default class Tickets extends Component {
             </Grid>
           </Grid>
 
-          <Grid item xs={6} className="myItemContainer">
+          <Grid item xs={6}>
             <Grid container spacing={8}>
-
               <Grid item xs={12}>
-                <Grid container spacing={8}>
-                  <Grid item xs={12}>
-                    <form onSubmit={this.searchMovies}>
-                      <TextField fullWidth variant="filled" label="Buscar Película" InputLabelProps={{ shrink: true }} onChange={this.handleSearchTextChange} value={this.state.searchText} />
-                    </form>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <MovieTable handleClick={this.showMovieScreenings} movies={this.state.movies} />
-                  </Grid>
-                </Grid>
+                <form onSubmit={this.searchMovies}>
+                  <TextField fullWidth variant="filled" label="Buscar Película" InputLabelProps={{ shrink: true }} onChange={this.handleSearchTextChange} value={this.state.searchText} />
+                </form>
               </Grid>
 
+              <Grid item xs={12}>
+                <MovieTable handleClick={this.showMovieScreenings} movies={this.state.movies} />
+              </Grid>
+            </Grid>
+          </Grid>
+
+
+          <Grid item xs={6}>
+            <Grid container spacing={8}>
+              <Grid item xs={12}>
+                <Typography>Pelis recomendadas</Typography>
+              </Grid>
 
               <Grid item xs={12}>
-                <Grid container spacing={8}>
-                  <Grid item xs={12}>
-                    <Typography>Pelis recomendadas</Typography>
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <MovieTable handleClick={this.showMovieScreenings} movies={this.state.recommended} />
-                  </Grid>
-                </Grid>
+                <MovieTable handleClick={this.showMovieScreenings} movies={this.state.recommended} />
               </Grid>
             </Grid>
           </Grid>
 
           <Grid item xs={6} className="myItemContainer">
             <Grid container spacing={8}>
-              <Grid item xs={12}>
-                <Typography>Funciones</Typography>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Paper>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Nombre</TableCell>
-                        <TableCell>Fecha</TableCell>
-                        <TableCell>Rating</TableCell>
-                        <TableCell>Genero</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>Test</TableCell>
-                        <TableCell>Test</TableCell>
-                        <TableCell>Test</TableCell>
-                        <TableCell>Test</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} className="myItemContainer">
-            <Button fullWidth variant="contained" onClick={this.addToShoppingCart}>Agregar al carrito</Button>
-          </Grid>
-
-          <Grid item xs={6} className="myItemContainer">
-            <Grid container spacing={8}>
-              <Grid item><Typography>Items en el carrito: {this.state.user.shoppingCart.length}</Typography></Grid>
+              <Grid item><Typography>Items en el carrito: {this.state.shoppingCart && this.state.shoppingCart.length}</Typography></Grid>
               <Grid item xs={6}><Button variant="contained">Finalizar compra</Button></Grid>
             </Grid>
           </Grid>
@@ -151,6 +132,13 @@ export default class Tickets extends Component {
             <Button variant="contained">Panel de Control</Button>
           </Grid>
         </Grid>
+
+        <MovieDetails
+          open={this.state.openDialog}
+          movie={this.state.selectedMovie}
+          handleClose={this.closeDialog}
+          shoppingCart={this.state.shoppingCart}
+          updateShoppingCart={this.updateShoppingCart} />
       </div>
     )
   }
