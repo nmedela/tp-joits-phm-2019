@@ -17,11 +17,11 @@ class AppBooststrap {
 			username="guusygonzalo"
 			password="1234"
 			lastName="Canton"
-			age = 25
+			age = 21
 		])
 		val nico = userRepository.searchById(0)
 		val gonza = userRepository.searchById(1)
-		nico.addFriend(gonza)
+//		nico.addFriend(gonza)
 	}
 	
 }
