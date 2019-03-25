@@ -6,6 +6,14 @@ import org.uqbar.xtrest.api.annotation.Controller
 import edu.unsam.api.repository.UserRepository
 import org.uqbar.xtrest.json.JSONUtils
 import edu.unsam.api.services.UserService
+import org.uqbar.xtrest.api.annotation.Put
+import org.uqbar.xtrest.api.annotation.Body
+import edu.unsam.joits.domain.User
+import edu.unsam.api.services.AddCashRequest
+import edu.unsam.api.services.UserShort
+import java.util.Set
+import com.fasterxml.jackson.databind.ObjectMapper
+import edu.unsam.api.services.RequestFriends
 
 @Controller
 class UserController {
@@ -18,10 +26,47 @@ class UserController {
 		return ok(user.toJson)
 	}
 
-	@Get('/user/getFriends/:id')
-	def Result getAmigos() {
+	@Get('/user/:id/suggestedFriends')
+	def Result getSuggestedFriends() {
 		val wrappedId = Integer.valueOf(id)
-		val friends = UserService.getFriendsUser(wrappedId)
-		return ok(friends.toJson)
+		val suggested = UserService.getSuggested()
+		return ok(suggested.toJson)
 	}
+
+	@Put("/user/:id/addFriend")
+	def addFriend(@Body String body) {
+		val wrappedId = Integer.valueOf(id)
+		try {
+			val UserShort  newFriend = body.fromJson(UserShort)
+			UserService.addNewFriend(wrappedId, newFriend)
+			return ok()
+		} catch (Error e) {
+			badRequest("Can't load cash. ")
+		}
+	}
+
+	@Put("/user/:id/addFriends")
+	def addFriends(@Body String body) {
+		val wrappedId = Integer.valueOf(id)
+		try {
+			val RequestFriends requestFriends = body.fromJson(RequestFriends)
+			UserService.addNewFriends(wrappedId,requestFriends.friends )
+			return ok()
+		} catch (Error e) {
+			badRequest("Can't load cash. ")
+		}
+	}
+
+	@Put("/user/:id/cash")
+	def updateBalance(@Body String body) {
+		val wrappedId = Integer.valueOf(id)
+		try {
+			val AddCashRequest cash = body.fromJson(AddCashRequest)
+			UserService.loadBalance(wrappedId, cash)
+			return ok()
+		} catch (Error e) {
+			badRequest("Can't load cash. ")
+		}
+	}
+
 }

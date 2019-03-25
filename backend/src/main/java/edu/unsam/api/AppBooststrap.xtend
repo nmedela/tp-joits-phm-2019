@@ -15,11 +15,11 @@ class AppBooststrap {
 		userRepository.create(new User => [
 			name = "Gonzalo"
 			lastName="Canton"
-			age = 25
+			age = 21
 		])
 		val nico = userRepository.searchById(0)
 		val gonza = userRepository.searchById(1)
-		nico.addFriend(gonza)
+//		nico.addFriend(gonza)
 	}
 	
 }
