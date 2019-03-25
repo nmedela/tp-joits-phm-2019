@@ -16,8 +16,10 @@ class LoginController {
 	def Result loginUser(@Body String userDataBody) {
 		val UserDataPost userDataPost = userDataBody.fromJson(UserDataPost);
 		try {
-			LoginService.login(userDataPost)
-			return ok()
+			val id = LoginService.login(userDataPost)
+			val LoggedUser loggedUser = new LoggedUser();
+			loggedUser.id = id
+			return ok(loggedUser.toJson)
 		} catch (Exception exception) {
 			return forbidden();
 		}
@@ -29,5 +31,10 @@ class LoginController {
 class UserDataPost {
 	String username
 	String password
+
+}
+@Accessors
+class LoggedUser {
+	Integer id
 
 }

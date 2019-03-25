@@ -12,9 +12,9 @@ class LoginService {
 			if (user.password != userData.password) {
 				throw new ForbiddenException("Usuario/password incorrecta")
 			}
+		return user.id	
 		} else {
 			throw new ForbiddenException("Usuario/password incorrecta")
-
 		}
 
 	}

@@ -1,79 +1,125 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import {
+  Grid,
+  Typography,
+  Button,
+  CardContent,
+  CardActions,
+  Paper,
+  Card,
+  Table,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody
+} from "@material-ui/core";
+import BuyingFlowService from "../../../services/BuyingFlowService";
 
-const CustomTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
-  },
-  body: {
-    fontSize: 14
-  }
-}))(TableCell);
-
-const styles = theme => ({
-  root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3,
-    overflowX: "auto"
-  },
-  table: {
-    minWidth: 700
-  },
-  row: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.background.default
+class Confirm extends Component {
+  state = {
+    cart: {
+      items: [
+        {
+          id: 0,
+          name: "pepito",
+          rating: 7.8,
+          genere: "Miedo",
+          price: 200
+        }
+      ]
     }
-  }
-});
+  };
+  cleanCart = () => {
+    this.setState({
+      cart: {
+        items: [],
+        total: 0
+      }
+    });
+  };
+  goBack = () => {
+    this.props.history.push("/buying-flow/tickets");
+  };
+  buy = async () => {
+    try {
+      await BuyingFlowService.buy(this.state.cart);
+      console.log("Compra exitosa");
+    } catch (e) {
+      console.log("error en la compra", e);
+    }
+  };
+  remove = itemToRemove => () => {
+    const newCart = { ...this.state.cart };
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
+    newCart.items = newCart.items.filter(item => item.id !== itemToRemove.id);
+    newCart.total = newCart.total - itemToRemove.price;
+    this.setState({
+      cart: newCart
+    });
+  };
+  render() {
+    const { cart } = this.state;
+    return (
+      <Paper>
+        <Card>
+          <CardContent style={{ display: "flex", justifyContent: "center" }}>
+            <Grid item xs={12}>
+              <Grid container spacing={12}>
+                <Typography className="userLabel">
+                  Pelis en el carrito
+                </Typography>
+              </Grid>
+              <Grid container spacing={12}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Nombre</TableCell>
+                      <TableCell>Rating</TableCell>
+                      <TableCell>Genero</TableCell>
+                      <TableCell>Precio</TableCell>
+                      <TableCell />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {cart.items.map(item => (
+                      <TableRow>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.rating}</TableCell>
+                        <TableCell>{item.genere}</TableCell>
+                        <TableCell>{item.price}</TableCell>
+                        <TableCell onClick={this.remove(item)}> x </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Grid>
+              <Grid container spacing={12}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    width: "100%",
+                    marginTop: "1em"
+                  }}
+                >
+                  <div>
+                    Total : $
+                    {cart.items.reduce((total, item) => total + item.price, 0)}
+                  </div>
+                </div>
+              </Grid>
+            </Grid>
+          </CardContent>
+          <CardActions>
+            <Button onClick={this.cleanCart}>Limpiar carrito</Button>
+            <Button onClick={this.buy}>Comprar</Button>
+            <Button onClick={this.goBack}>Volver atras</Button>
+          </CardActions>
+        </Card>
+      </Paper>
+    );
+  }
 }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
-
-const Confirm = () => (
-  <Paper>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <CustomTableCell>Dessert (100g serving)</CustomTableCell>
-          <CustomTableCell align="right">Calories</CustomTableCell>
-          <CustomTableCell align="right">Fat (g)</CustomTableCell>
-          <CustomTableCell align="right">Carbs (g)</CustomTableCell>
-          <CustomTableCell align="right">Protein (g)</CustomTableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {rows.map(row => (
-          <TableRow key={row.id}>
-            <CustomTableCell component="th" scope="row">
-              {row.name}
-            </CustomTableCell>
-            <CustomTableCell align="right">{row.calories}</CustomTableCell>
-            <CustomTableCell align="right">{row.fat}</CustomTableCell>
-            <CustomTableCell align="right">{row.carbs}</CustomTableCell>
-            <CustomTableCell align="right">{row.protein}</CustomTableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </Paper>
-);
 export default Confirm;
