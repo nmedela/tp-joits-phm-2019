@@ -15,20 +15,20 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 	}
 
-	def int getNewId() {
+	def Long getNewId() {
 		if (repositoryContent.size() === 0) {
-			return 0
+			return 0l
 		} else {
 			return this.generateNewId()
 		}
 
 	}
 
-	def int generateNewId() {
+	def Long generateNewId() {
 		return this.repositoryContent.maxBy[item|item.id].id + 1
 	}
 
-	def T searchById(int id) {
+	def T searchById(Long id) {
 		val object = this.repositoryContent.findFirst[item|item.id === id]
 		return object;
 	}

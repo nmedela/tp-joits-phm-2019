@@ -6,11 +6,11 @@ import edu.unsam.joits.domain.User
 import java.util.Set
 
 class UserService {
-	def static getUserById(Integer id) {
+	def static getUserById(Long id) {
 		UserRepository.instance.searchById(id)
 	}
 
-	def static loadBalance(Integer id, AddCashRequest cash) {
+	def static loadBalance(Long id, AddCashRequest cash) {
 		val user = getUserById(id)
 		user.loadBalance(cash.amount)
 	}
@@ -28,7 +28,7 @@ class UserService {
 		return suggested
 	}
 
-	def static addNewFriend(Integer id, UserShort newFriendJson) {
+	def static addNewFriend(Long id, UserShort newFriendJson) {
 		val user = getUserById(id)
 		val repository = UserRepository.getInstance.repositoryContent
 		val User newFriend = repository.findFirst [ item |
@@ -39,7 +39,7 @@ class UserService {
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
-	def static addNewFriends(Integer id, Set<UserShort> newFriendsJson) {
+	def static addNewFriends(Long id, Set<UserShort> newFriendsJson) {
 		val user = getUserById(id)
 		val Set<User> newFriends = newHashSet
 		mapperUserShortToUser(newFriendsJson).forEach[friend|user.addFriend(friend)]
@@ -59,7 +59,7 @@ class UserService {
 
 @Accessors
 class UserShort {
-	@Accessors int _id
+	@Accessors Long _id
 	@Accessors String _name
 	@Accessors String _lastName
 }

@@ -9,7 +9,7 @@ import MovieDetails from "./components/MovieDetails";
 import ShoppingCartService from './../../../services/ShoppingCartService';
 import ShoppingCartServiceMock from './../../../services/mocks/ShoppingCartServiceMock';
 
-const movieService = new MovieServiceMock();
+const movieService = new MovieService();
 const shoppingCartService = new ShoppingCartServiceMock();
 
 export default class Tickets extends Component {

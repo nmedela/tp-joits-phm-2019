@@ -42,7 +42,7 @@ export default class MovieTable extends Component {
                 return (
                   <TableRow className="tableRow" hover onClick={this.handleClick(movie)}>
                     <TableCell>{movie.title}</TableCell>
-                    <TableCell>{movie.date}</TableCell>
+                    <TableCell>{movie.year}</TableCell>
                     <TableCell>{movie.rating}</TableCell>
                     <TableCell>{movie.genre}</TableCell>
                   </TableRow>

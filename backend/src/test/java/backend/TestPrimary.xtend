@@ -42,6 +42,6 @@ class TestPrimary {
 	@Test
 	def buscarNombreUserConId1SeEsperaGonzalo() {
 		
-		Assert.assertEquals("Gonzalo",repositorioUsuario.searchById(1).getName())
+		Assert.assertEquals("Gonzalo",repositorioUsuario.searchById(1l).getName())
 	}
 }

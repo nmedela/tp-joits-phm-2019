@@ -1,11 +1,13 @@
 import Axios from "axios";
-import { baseURL } from "./config.js"
+import { baseUrl } from "./config";
+
+const endpointURL = baseUrl + "/ShoppingCart"
 
 export default class ShoppingCartService {
 
     async finalizarCompra(user) {
         try {
-            let resp = await Axios.post(baseURL + "/Carrito/Submit", user.shoppingCart);
+            let resp = await Axios.post(`${endpointURL}/${user.id}`, user.shoppingCart);
             return resp.data;
         }
         catch (exception) {
@@ -15,7 +17,7 @@ export default class ShoppingCartService {
 
     async getShoppingCart(user) {
         try {
-            let resp = await Axios.put(baseURL + "/Carrito/" + user.id);
+            let resp = await Axios.put(`${endpointURL}/${user.id}`);
             return resp.data;
         }
         catch (exception) {
@@ -25,7 +27,7 @@ export default class ShoppingCartService {
 
     async updateShoppingCart(user, shoppingCart) {
         try {
-            let resp = await Axios.put(baseURL + "/Carrito/", { id: user.id, shoppingCart: shoppingCart });
+            let resp = await Axios.put(`${endpointURL}/${user.id}`, { id: user.id, shoppingCart: shoppingCart });
             return resp.data;
         }
         catch (exception) {

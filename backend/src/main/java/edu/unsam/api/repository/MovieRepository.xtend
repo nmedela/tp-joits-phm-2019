@@ -13,12 +13,16 @@ class MovieRepository extends Repository<Movie>{
 		return instance
 	}
 	
+	def getAll(){
+		return this.repositoryContent
+	}
+	
 	def searchByTitle(String searchText){
-		return this.repositoryContent.filter[movie | movie.titulo.contains(searchText)].toSet()
+		return this.repositoryContent.filter[movie | movie.title.toUpperCase().contains(searchText)].toSet()
 	}
 	
 	def getRecommendedMovies() {
-		return this.repositoryContent.filter[movie | movie.recomended ].toSet()
+		return this.repositoryContent.filter[movie | movie.recommended ].toSet()
 	}
 	
 	override exist(Movie object) {

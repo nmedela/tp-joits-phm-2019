@@ -6,12 +6,12 @@ import java.util.Set
 
 @Accessors
 class Movie extends Entity {
-	String titulo
-	Integer anioRodaje
-	Float puntaje
-	String genero
+	String title
+	Integer year
+	Float rating
+	String genre
 	Set<Screening> screenings = newHashSet()
-	boolean recomended
+	boolean recommended
 	
 	override isValid() {
 		

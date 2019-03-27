@@ -16,13 +16,24 @@ class PeliculasController {
 		return ok("pong")
 	}
 	
-	@Get('/Movies/:searchText')
+	@Get('/Movies/Search/')
+	def Result getAllMovies(){
+		return ok(MovieService.getMoviesByTitleSearch("").toJson);
+	}
+	
+	@Get('/Movies/Search/:searchText')
 	def Result getMoviesBySearchText(){
-		return ok(MovieService.getMoviesByTitleSearch(searchText).toJson);
+		return ok(MovieService.getMoviesByTitleSearch(searchText.toUpperCase()).toJson);
 	}
 	
 	@Get('/Movies/Recommended')
 	def Result getMoviesBySearchText(){
 		return ok(MovieService.getRecommendedMovies().toJson);
+	}
+	
+	@Get('/Movies/:id/Screenings')
+	def Result getMovieScreenings(){
+		val _id = Long.valueOf(id)
+		return ok(MovieService.getScreeningsByMovieId(_id).toJson)
 	}
 }
