@@ -19,7 +19,8 @@ export default class Tickets extends Component {
       user: {
         name: "Nicolas Espindola",
         wallet: 10000.0,
-      }
+      },
+      date: new Date()
     };
   }
 
@@ -89,7 +90,7 @@ export default class Tickets extends Component {
               </Grid>
 
               <Grid item xs={6}>
-                <Typography className="dateLabel">Fecha: 10/02/2019</Typography>
+                <Typography className="dateLabel">Fecha: {`${this.state.date.getDate()}/${this.state.date.getMonth() + 1}/${this.state.date.getFullYear()}`}</Typography>
               </Grid>
             </Grid>
           </Grid>

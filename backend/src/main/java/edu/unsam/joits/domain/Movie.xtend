@@ -8,10 +8,13 @@ import java.util.Set
 class Movie extends Entity {
 	String title
 	Integer year
-	Float rating
+	int rating
 	String genre
-	Set<Screening> screenings = newHashSet()
 	boolean recommended
+	
+	def getBasePrice(){
+		return 30d
+	}
 	
 	override isValid() {
 		
