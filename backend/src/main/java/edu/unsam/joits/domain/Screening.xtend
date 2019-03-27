@@ -13,9 +13,6 @@ import java.text.DateFormat
 
 @Accessors
 class Screening extends Entity{
-	
-	@JsonIgnore final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy")
-	
 	@JsonIgnore final Double weekendPrice = 120d
 	@JsonIgnore final Double wednesdayPrice = 50d
 	@JsonIgnore final Double defaultPrice = 80d
@@ -27,7 +24,7 @@ class Screening extends Entity{
 	
 	@JsonProperty('date')
 	def dateToString(){		
-		dateFormat.format(date)		
+		DateFormatArgentina.dateFormat.format(date)		
 	}
 	
 	@JsonProperty('time')
@@ -36,7 +33,7 @@ class Screening extends Entity{
 	}
 	
 	@JsonProperty("price")
-	def getTotalPrice(){
+	def Double getTotalPrice(){
 		return movie.getBasePrice() + this.getScreeningPrice() 
 	}
 	

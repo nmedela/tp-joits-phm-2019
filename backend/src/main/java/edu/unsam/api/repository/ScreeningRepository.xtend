@@ -21,6 +21,10 @@ class ScreeningRepository extends Repository<Screening>{
 		return this.repositoryContent.filter(screening | screening.movie.id == id).toSet()
 	}
 	
+	def getByMovieIdRange(Iterable<Long> IDs){
+		return this.repositoryContent.filter(screening | IDs.findFirst[id | id == screening.id] != null)
+	}
+	
 	override exist(Screening object) {
 		return true
 	}

@@ -52,7 +52,7 @@ class PeliculasBootstrap {
 			recommended = true
 		])
 		movieRepository.create(new Saga => [
-			title = "Super Saga"
+			title = "La momia + Guardians"
 			year = 2000
 			rating = 3
 			genre = "Suspenso"
@@ -61,7 +61,7 @@ class PeliculasBootstrap {
 			sagaLevel = 100.5d
 		])	
 				
-		
+		//La momia---------------------------------------------------------
 		val screeningRepository = ScreeningRepository.getInstance
 		screeningRepository.create(new Screening => [
 			movie = movieRepository.searchById(0l)
@@ -80,6 +80,88 @@ class PeliculasBootstrap {
 			date = new Date(2019 - 1900, 01, 02)
 			time = LocalTime.of(20,00)
 			cinemaName = "Unicenter"
+		])
+		
+		//Guardians of the Galaxy-------------------------------------------		
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(1l)
+			date = new Date(2019 - 1900, 06, 10)
+			time = LocalTime.of(10,00)
+			cinemaName = "Joits Miramar"
+		])
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(1l)
+			date = new Date(2019 - 1900, 10, 22)
+			time = LocalTime.of(20,00)
+			cinemaName = "Colegio Holters"
+		])
+		
+		//Interstellar------------------------------------------------------		
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(2l)
+			date = new Date(2019 - 1900, 03, 23)
+			time = LocalTime.of(10,00)
+			cinemaName = "Carrefour San Justo"
+		])		
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(2l)
+			date = new Date(2019 - 1900, 02, 27)
+			time = LocalTime.of(20,00)
+			cinemaName = "Municipalidad de Buenos Aires"
+		])
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(2l)
+			date = new Date(2019 - 1900, 01, 02)
+			time = LocalTime.of(20,00)
+			cinemaName = "Teatro Colon"
+		])
+		
+		//Avengers: Endgame--------------------------------------------------	
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(3l)
+			date = new Date(2019 - 1900, 06, 10)
+			time = LocalTime.of(10,00)
+			cinemaName = "Autocine Recoleta"
+		])
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(3l)
+			date = new Date(2019 - 1900, 10, 22)
+			time = LocalTime.of(20,00)
+			cinemaName = "Sodimac Miguelete"
+		])
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(3l)
+			date = new Date(2019 - 1900, 06, 10)
+			time = LocalTime.of(10,00)
+			cinemaName = "Obelisco"
+		])
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(3l)
+			date = new Date(2019 - 1900, 10, 22)
+			time = LocalTime.of(20,00)
+			cinemaName = "Radio Mitre"
+		])
+		
+		//Dragon ball super: Broly-------------------------------------------------		
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(4l)
+			date = new Date(2019 - 1900, 04, 12)
+			time = LocalTime.of(20,00)
+			cinemaName = "Jardin Japones"
+		])
+		
+		//La Momia + Guardians-----------------------------------------------------	
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(5l)
+			date = new Date(2019 - 1900, 05, 15)
+			time = LocalTime.of(11,00)
+			cinemaName = "Terreno valdio"
+		])
+		screeningRepository.create(new Screening => [
+			movie = movieRepository.searchById(5l)
+			date = new Date(2019 - 1900, 12, 25)
+			time = LocalTime.of(21,45)
+			cinemaName = "Cinema Las toninas"
 		])
 	}
 }

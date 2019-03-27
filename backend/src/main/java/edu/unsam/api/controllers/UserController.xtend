@@ -14,6 +14,7 @@ import edu.unsam.api.services.UserShort
 import java.util.Set
 import com.fasterxml.jackson.databind.ObjectMapper
 import edu.unsam.api.services.RequestFriends
+import org.uqbar.xtrest.api.annotation.Post
 
 @Controller
 class UserController {
@@ -68,5 +69,22 @@ class UserController {
 			badRequest("Can't load cash. ")
 		}
 	}
-
+	
+	@Get("/ShoppingCart/:userId")
+	def Result getShoppingCartByUserId() {
+		return ok(UserService.getUserById(Long.valueOf(userId)).shoppingCart.toJson)
+	}
+	
+	@Put("/ShoppingCart/:userId")
+	def updateShoppingCart(@Body String body){
+		val Set<Long> newShoppingCart = body.fromJson(Set)
+		UserService.updateShoppingCart(Long.valueOf(userId), newShoppingCart)
+		return ok()
+	}
+	
+	@Post("/ShoppingCart/:userId")
+	def finishShopping(){
+		UserService.finishShopping(Long.valueOf(userId))
+		return ok()
+	}
 }

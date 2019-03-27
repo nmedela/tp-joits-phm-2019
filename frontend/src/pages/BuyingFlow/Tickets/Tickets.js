@@ -10,7 +10,7 @@ import ShoppingCartService from './../../../services/ShoppingCartService';
 import ShoppingCartServiceMock from './../../../services/mocks/ShoppingCartServiceMock';
 
 const movieService = new MovieService();
-const shoppingCartService = new ShoppingCartServiceMock();
+const shoppingCartService = new ShoppingCartService();
 
 export default class Tickets extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export default class Tickets extends Component {
   componentDidMount = async () => {
     let movies = await movieService.getMoviesByName("");
     let recommended = await movieService.getRecommended();
-    let shoppingCart = await shoppingCartService.getShoppingCart(this.state.user);
+    let shoppingCart = await shoppingCartService.getShoppingCart(this.props.userId);
     this.setState({
       movies: movies,
       recommended: recommended,
@@ -66,7 +66,7 @@ export default class Tickets extends Component {
   updateShoppingCart = async (newShoppingCart) => {
     const oldShoppingCart = this.state.shoppingCart;
     try {
-      const response = await shoppingCartService.updateShoppingCart(this.state.user, newShoppingCart);
+      const response = await shoppingCartService.updateShoppingCart(this.props.userId, newShoppingCart);
       this.setState({ shoppingCart: newShoppingCart });
     }
     catch (exception) {

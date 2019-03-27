@@ -15,9 +15,9 @@ export default class ShoppingCartService {
         }
     }
 
-    async getShoppingCart(user) {
+    async getShoppingCart(userId) {
         try {
-            let resp = await Axios.put(`${endpointURL}/${user.id}`);
+            let resp = await Axios.get(`${endpointURL}/${userId}`);
             return resp.data;
         }
         catch (exception) {
@@ -25,9 +25,9 @@ export default class ShoppingCartService {
         }
     }
 
-    async updateShoppingCart(user, shoppingCart) {
+    async updateShoppingCart(userId, shoppingCart) {
         try {
-            let resp = await Axios.put(`${endpointURL}/${user.id}`, { id: user.id, shoppingCart: shoppingCart });
+            let resp = await Axios.put(`${endpointURL}/${userId}`, shoppingCart);
             return resp.data;
         }
         catch (exception) {

@@ -4,6 +4,12 @@ import edu.unsam.api.repository.UserRepository
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.unsam.joits.domain.User
 import java.util.Set
+import edu.unsam.api.repository.ScreeningRepository
+import edu.unsam.joits.domain.Screening
+import edu.unsam.joits.domain.Ticket
+import java.util.Date
+import java.util.Calendar
+import java.time.LocalTime
 
 class UserService {
 	def static getUserById(Long id) {
@@ -54,6 +60,45 @@ class UserService {
 			])
 		]
 		return newFriends
+	}
+	
+	def static updateShoppingCart(Long id, Set<Long> newShoppingCart){
+		getUserById(id).shoppingCart = newShoppingCart
+	}
+	
+	def static finishShopping(Long id){
+		var user = getUserById(id)		
+		val shoppingCart = ScreeningRepository.getInstance().getByMovieIdRange(user.shoppingCart)
+		
+		deduceBalanceFromUser(user, shoppingCart)
+		addTicketsToShoppingHistory(user, shoppingCart)		
+		cleanShoppingCart(user)
+	}
+	
+	
+	def private static addTicketsToShoppingHistory(User user, Iterable<Screening> screenings) {
+		user.shoppingHistory.addAll(screenings.map[scr | new Ticket => [
+			screening = scr	
+			price = scr.totalPrice
+			buyDate = Calendar.getInstance().getTime()
+			buyTime	= LocalTime.now()		 
+		]])
+	}
+	
+	def private static deduceBalanceFromUser(User user, Iterable<Screening> shoppingCart){
+		var Double sum = 0d;
+		for(Screening screening: shoppingCart){
+			sum = sum + screening.totalPrice
+		}
+		
+		if(user.balance < sum)
+			throw new Exception("El usuario no cuenta con fondos suficientes")
+		
+		user.balance = user.balance - sum
+	}
+	
+	def private static cleanShoppingCart(User user) {
+		user.shoppingCart.removeAll()
 	}
 }
 
