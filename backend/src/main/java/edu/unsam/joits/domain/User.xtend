@@ -19,7 +19,7 @@ class User extends Entity {
 	@Accessors Integer age
 	Double balance= 0.0
 	@JsonIgnore Set<User> friends = newHashSet
-	List<Movie> seenMovies = new ArrayList
+	@JsonIgnore List<Movie> seenMovies = new ArrayList
 
 	new() {
 	}
@@ -45,6 +45,16 @@ class User extends Entity {
 				])
 		)
 		return friendsShort
+	}
+	@JsonProperty("seenMovies")
+	def getSeenMovies() {
+		val Set<String> movies = newHashSet
+		this.seenMovies.forEach[movie | movies.add(movie.titulo)]
+		return movies
+	}
+	
+	def addMovie(Movie movie){
+		this.seenMovies.add(movie)
 	}
 
 	override isValid() {
