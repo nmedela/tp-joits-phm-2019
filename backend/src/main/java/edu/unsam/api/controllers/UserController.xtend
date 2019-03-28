@@ -14,9 +14,15 @@ import edu.unsam.api.services.UserShort
 import java.util.Set
 import com.fasterxml.jackson.databind.ObjectMapper
 import edu.unsam.api.services.RequestFriends
+import edu.unsam.api.services.BalanceRequest
 import org.uqbar.xtrest.api.annotation.Post
 import edu.unsam.api.repository.ScreeningRepository
 import edu.unsam.joits.domain.CartDTO
+
+import edu.unsam.api.services.AgeRequest
+
+import org.eclipse.xtend.lib.annotations.Accessors
+
 
 @Controller
 class UserController {
@@ -29,31 +35,58 @@ class UserController {
 		return ok(user.toJson)
 	}
 
-	@Get('/user/:id/suggestedFriends')
+	@Get('/user/:id/friends/suggested')
 	def Result getSuggestedFriends() {
 		val wrappedId = Long.valueOf(id)
 		val suggested = UserService.getSuggested()
 		return ok(suggested.toJson)
 	}
 
-	@Put("/user/:id/addFriend")
+	@Get('/user/:id/friends')
+	def Result getFriends(String name) {
+		val wrappedId = Long.valueOf(id)
+		val suggested = UserService.searchFriends(wrappedId,name)
+		return ok(suggested.toJson)
+	}
+
+
+	@Get('/user/:id/movies/seen')
+	def Result getSeenMovies() {
+		val wrappedId = Long.valueOf(id)
+		val movies = UserService.getSeenMovies(wrappedId)
+		return ok(movies.toJson)
+	}
+
+	@Put("/user/:id/friend")
 	def addFriend(@Body String body) {
 		val wrappedId = Long.valueOf(id)
 		try {
-			val UserShort  newFriend = body.fromJson(UserShort)
+			val Friend newFriend = body.fromJson(Friend)
 			UserService.addNewFriend(wrappedId, newFriend)
 			return ok()
 		} catch (Error e) {
-			badRequest("Can't load cash. ")
+			badRequest("Can't load friend. ")
 		}
 	}
 
-	@Put("/user/:id/addFriends")
+	@Put("/user/:id/friends")
 	def addFriends(@Body String body) {
 		val wrappedId = Long.valueOf(id)
 		try {
 			val RequestFriends requestFriends = body.fromJson(RequestFriends)
-			UserService.addNewFriends(wrappedId,requestFriends.friends )
+			UserService.addNewFriends(wrappedId, requestFriends.friends)
+			return ok()
+		} catch (Error e) {
+			badRequest("Can't load friends. ")
+		}
+	}
+
+	@Put("/user/:id")
+	def updateUser(@Body String body) {
+		val wrappedId = Long.valueOf(id)
+		try {
+			val AgeRequest newAge = body.fromJson(AgeRequest)
+			UserService.changeAge(wrappedId, newAge)
 			return ok()
 		} catch (Error e) {
 			badRequest("Can't load cash. ")
@@ -66,35 +99,42 @@ class UserController {
 		try {
 			val AddCashRequest cash = body.fromJson(AddCashRequest)
 			UserService.loadBalance(wrappedId, cash)
-			return ok()
+			val user = UserService.getUserById(wrappedId)
+			return ok(user.balance.toJson)
 		} catch (Error e) {
 			badRequest("Can't load cash. ")
 		}
 	}
-	
+
 	@Get("/ShoppingCart/:userId")
 	def Result getShoppingCartByUserId() {
 		return ok(UserService.getUserById(Long.valueOf(userId)).shoppingCart.toJson)
 	}
-	
+
 	@Get("/ShoppingCart/:userId/Details")
 	def Result getShoppingCartDetailsByUserId() {
 		val Set<Long> shoppingCart = UserService.getUserById(Long.valueOf(userId)).shoppingCart
 		val shoppingCartDetails = ScreeningRepository.getInstance().getByIdRange(shoppingCart)
 		return ok(shoppingCartDetails.toJson)
 	}
-	
+
 	@Put("/ShoppingCart/:userId")
 	def updateShoppingCart(@Body String body){
 		val Set<Long> newShoppingCart = body.fromJson(CartDTO).cart
-		
 		UserService.updateShoppingCart(Long.valueOf(userId), newShoppingCart)
 		return ok()
 	}
-	
+
 	@Post("/ShoppingCart/:userId")
-	def finishShopping(){
+	def finishShopping() {
 		UserService.finishShopping(Long.valueOf(userId))
 		return ok()
 	}
+}
+@Accessors
+class Friend {
+	@Accessors Long id
+	@Accessors String name
+	@Accessors String lastName
+
 }

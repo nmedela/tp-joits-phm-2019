@@ -17,38 +17,30 @@ class User extends Entity {
 	@Accessors String lastName
 	@Accessors String password
 	@Accessors Integer age
-	Double balance= 0.0
+	Double balance = 0.0
 	@JsonIgnore Set<User> friends = newHashSet
-	List<Movie> seenMovies = new ArrayList
 	Set<Long> shoppingCart = newHashSet()
 	List<Ticket> shoppingHistory = new ArrayList 
 
 	new() {
 	}
 
-
-	def loadBalance(Double cash){
+	def loadBalance(Double cash) {
 		this.balance = this.balance + cash
 	}
+
 	def addFriend(User newUser) {
 		this.friends.add(newUser)
 	}
 
-	//Ver si se hace en UserService *
+	// Ver si se hace en UserService *
 	@JsonProperty("friends")
 	def getFriends() {
 		val Set<UserShort> friendsShort = newHashSet
-		this.friends.forEach(
-			friend |
-				friendsShort.add(new UserShort => [
-					_id = friend.id
-					_name = friend.name
-					_lastName = friend.lastName
-				])
-		)
+		this.friends.forEach(friend|friendsShort.add(new UserShort(friend.id, friend.name, friend.lastName)))
 		return friendsShort
 	}
-
+	
 	override isValid() {
 	}
 
