@@ -15,15 +15,18 @@ export default class ProfileService {
   static modifyUser(user) {
     return Promise.resolve();
   }
-  static addFriend(friend) {
-    return Promise.resolve();
+  static async addFriend(id,friend) {
+    const response = await axios.put(`${baseUrl}/user/${id}/friend`,{ ...friend });
+    return response.data
   }
-  static searchFriends(searchFriends) {
-    return Promise.resolve([
-      {
-        name: "Gonzalo",
-        lastname: "rodriguez"
-      }
-    ]);
+  static async searchFriends(id,searchFriends) {
+    const response = await axios.get(`${baseUrl}/user/${id}/friends`,{params:{
+      name:searchFriends
+    }});
+    return response.data
+  }
+  static async suggestedFriends(id) {
+    const response = await axios.get(`${baseUrl}/user/${id}/friends/suggested`);
+    return response.data
   }
 }

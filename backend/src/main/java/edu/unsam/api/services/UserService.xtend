@@ -11,6 +11,7 @@ import java.util.Date
 import java.util.Calendar
 import java.time.LocalTime
 import edu.unsam.joits.domain.Movie
+import edu.unsam.api.controllers.Friend
 
 class UserService {
 	def static getUserById(Long id) {
@@ -33,12 +34,11 @@ class UserService {
 		return suggested
 	}
 
-	def static addNewFriend(Long id, UserShort newFriendJson) {
+	def static addNewFriend(Long id, Friend newFriendJson) {
 		val user = getUserById(id)
 		val repository = UserRepository.getInstance.repositoryContent
 		val User newFriend = repository.findFirst [ item |
-			item.id == newFriendJson.id ||
-				(item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
+			item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
 		]
 		user.addFriend(newFriend)
 	}
@@ -60,51 +60,67 @@ class UserService {
 		]
 		return newFriends
 	}
-	
-	def static updateShoppingCart(Long id, Set<Long> newShoppingCart){
+
+	def static updateShoppingCart(Long id, Set<Long> newShoppingCart) {
 		getUserById(id).shoppingCart = newShoppingCart
 	}
-	
-	def static finishShopping(Long id){
-		var user = getUserById(id)		
+
+	def static finishShopping(Long id) {
+		var user = getUserById(id)
 		val shoppingCart = ScreeningRepository.getInstance().getByIdRange(user.shoppingCart)
-		
+
 		deduceBalanceFromUser(user, shoppingCart)
-		addTicketsToShoppingHistory(user, shoppingCart)		
+		addTicketsToShoppingHistory(user, shoppingCart)
 		cleanShoppingCart(user)
 	}
-	
-	
+
 	def private static addTicketsToShoppingHistory(User user, Iterable<Screening> screenings) {
-		user.shoppingHistory.addAll(screenings.map[scr | new Ticket => [
-			screening = scr	
-			price = scr.totalPrice
-			buyDate = Calendar.getInstance().getTime()
-			buyTime	= LocalTime.now()		 
-		]])
+		user.shoppingHistory.addAll(screenings.map [ scr |
+			new Ticket => [
+				screening = scr
+				price = scr.totalPrice
+				buyDate = Calendar.getInstance().getTime()
+				buyTime = LocalTime.now()
+			]
+		])
 	}
-	
-	def private static deduceBalanceFromUser(User user, Iterable<Screening> shoppingCart){
+
+	def private static deduceBalanceFromUser(User user, Iterable<Screening> shoppingCart) {
 		var Double sum = 0d;
-		for(Screening screening: shoppingCart){
+		for (Screening screening : shoppingCart) {
 			sum = sum + screening.totalPrice
 		}
-		
-		if(user.balance < sum)
+
+		if (user.balance < sum)
 			throw new Exception("El usuario no cuenta con fondos suficientes")
-		
+
 		user.balance = user.balance - sum
 	}
-	
+
 	def private static cleanShoppingCart(User user) {
 		user.shoppingCart.removeAll()
 	}
+
 	def static getSeenMovies(Long id) {
 		val user = getUserById(id)
 		val Set<Movie> movies = newHashSet
-		user.shoppingHistory.forEach[ticket | movies.add(ticket.screening.movie)]
+		user.shoppingHistory.forEach[ticket|movies.add(ticket.screening.movie)]
 		return movies
 	}
+
+	def static searchFriends(Long id, String name) {
+		val user = getUserById(id)
+		val nameLower = name.toLowerCase()
+		return user.friends.filter [ friend |
+			(friend.name.toLowerCase()).contains(nameLower) || (friend.lastName.toLowerCase()).contains(nameLower)
+		].toList();
+	}
+
+	def static suggestedFriends(Long id) {
+		val user = getUserById(id)
+		return UserRepository.getInstance.repositoryContent
+	}
+
 }
 
 @Accessors

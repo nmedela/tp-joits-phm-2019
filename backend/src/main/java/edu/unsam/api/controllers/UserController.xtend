@@ -17,6 +17,7 @@ import edu.unsam.api.services.RequestFriends
 import edu.unsam.api.services.BalanceRequest
 import org.uqbar.xtrest.api.annotation.Post
 import edu.unsam.api.repository.ScreeningRepository
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Controller
 class UserController {
@@ -35,6 +36,18 @@ class UserController {
 		val suggested = UserService.getSuggested()
 		return ok(suggested.toJson)
 	}
+	@Get('/user/:id/friends')
+	def Result getFriends(String name) {
+		val wrappedId = Long.valueOf(id)
+		val suggested = UserService.searchFriends(wrappedId,name)
+		return ok(suggested.toJson)
+	}
+	@Get('/user/:id/friends')
+	def Result getFriendsSuggested() {
+		val wrappedId = Long.valueOf(id)
+		val suggested = UserService.suggestedFriends(wrappedId)
+		return ok(suggested.toJson)
+	}
 	@Get('/user/:id/movies/seen')
 	def Result getSeenMovies() {
 		val wrappedId = Long.valueOf(id)
@@ -47,7 +60,7 @@ class UserController {
 	def addFriend(@Body String body) {
 		val wrappedId = Long.valueOf(id)
 		try {
-			val UserShort  newFriend = body.fromJson(UserShort)
+			val Friend newFriend = body.fromJson(Friend)
 			UserService.addNewFriend(wrappedId, newFriend)
 			return ok()
 		} catch (Error e) {
@@ -106,4 +119,11 @@ class UserController {
 		UserService.finishShopping(Long.valueOf(userId))
 		return ok()
 	}
+}
+@Accessors
+class Friend {
+	@Accessors Long id
+	@Accessors String name
+	@Accessors String lastName
+
 }
