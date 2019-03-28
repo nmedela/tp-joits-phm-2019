@@ -10,6 +10,7 @@ import edu.unsam.joits.domain.Ticket
 import java.util.Date
 import java.util.Calendar
 import java.time.LocalTime
+import edu.unsam.joits.domain.Movie
 
 class UserService {
 	def static getUserById(Long id) {
@@ -98,6 +99,12 @@ class UserService {
 	def private static cleanShoppingCart(User user) {
 		user.shoppingCart.removeAll()
 	}
+	def static getSeenMovies(Long id) {
+		val user = getUserById(id)
+		val Set<Movie> movies = newHashSet
+		user.shoppingHistory.forEach[ticket | movies.add(ticket.screening.movie)]
+		return movies
+	}
 }
 
 @Accessors
@@ -106,7 +113,7 @@ class UserShort {
 	@Accessors String name
 	@Accessors String lastName
 
-	new(int id, String name, String lastName) {
+	new(Long id, String name, String lastName) {
 		this.id = id
 		this.name = name
 		this.lastName = lastName

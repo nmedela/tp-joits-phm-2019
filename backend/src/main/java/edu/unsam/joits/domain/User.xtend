@@ -45,14 +45,14 @@ class User extends Entity {
 	@JsonProperty("seenMovies")
 	def getSeenMovies() {
 		val Set<String> movies = newHashSet
-		this.seenMovies.forEach[movie|movies.add(movie.titulo)]
+		this.seenMovies.forEach[movie|movies.add(movie.title)]
 		return movies
 	}
 
 	def addMovie(Movie movie) {
 		this.seenMovies.add(movie)
 	}
-
+	
 	override isValid() {
 	}
 

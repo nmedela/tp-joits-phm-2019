@@ -10,12 +10,12 @@ import edu.unsam.api.bootstrap.PeliculasBootstrap
 class AppBooststrap {
 	def static crearContenidoInicial() {
 		val movie1 = new Movie => [
-			titulo = "Batman"
-			anioRodaje = 1960
+			title = "Batman"
+			year = 1960
 		]
 		val movie2 = new Movie => [
-			titulo = "superMan"
-			anioRodaje = 1800
+			title = "superMan"
+			year = 1800
 		]
 		val userRepository = UserRepository.getInstance
 		userRepository.create(new User => [
@@ -41,6 +41,7 @@ class AppBooststrap {
 		nico.addMovie(movie2)
 		
 		PeliculasBootstrap.crearContenidoInicial()
+//		nico.shoppingHistory.add(PeliculasBootstrap.get)
 	}
 
 }

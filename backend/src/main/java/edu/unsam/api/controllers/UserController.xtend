@@ -35,6 +35,13 @@ class UserController {
 		val suggested = UserService.getSuggested()
 		return ok(suggested.toJson)
 	}
+	@Get('/user/:id/movies/seen')
+	def Result getSeenMovies() {
+		val wrappedId = Long.valueOf(id)
+		val movies = UserService.getSeenMovies(wrappedId)
+		return ok(movies.toJson)
+	}
+	
 
 	@Put("/user/:id/friend")
 	def addFriend(@Body String body) {
