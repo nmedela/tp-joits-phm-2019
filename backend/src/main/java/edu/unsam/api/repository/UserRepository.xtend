@@ -22,6 +22,8 @@ class UserRepository extends Repository<User>{
 	def getUserBy(String username) {
 		return this.repositoryContent.findFirst[ usuario | usuario.username == username ]
 	}
+	
+	
 
 	
 	override exist(User object) {

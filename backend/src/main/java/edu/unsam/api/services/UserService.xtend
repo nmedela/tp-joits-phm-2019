@@ -11,6 +11,7 @@ import java.util.Date
 import java.util.Calendar
 import java.time.LocalTime
 import edu.unsam.joits.domain.Movie
+import edu.unsam.api.controllers.Friend
 
 class UserService {
 	def static getUserById(Long id) {
@@ -38,7 +39,7 @@ class UserService {
 		return suggested
 	}
 
-	def static addNewFriend(Long id, UserShort newFriendJson) {
+	def static addNewFriend(Long id, Friend newFriendJson) {
 		val user = getUserById(id)
 		val repository = UserRepository.getInstance.repositoryContent
 		val User newFriend = repository.findFirst [ item |
@@ -111,6 +112,20 @@ class UserService {
 		user.shoppingHistory.forEach[ticket|movies.add(ticket.screening.movie)]
 		return movies
 	}
+
+	def static searchFriends(Long id, String name) {
+		val user = getUserById(id)
+		val nameLower = name.toLowerCase()
+		return user.friends.filter [ friend |
+			(friend.name.toLowerCase()).contains(nameLower) || (friend.lastName.toLowerCase()).contains(nameLower)
+		].toList();
+	}
+
+	def static suggestedFriends(Long id) {
+		val user = getUserById(id)
+		return UserRepository.getInstance.repositoryContent
+	}
+
 }
 
 @Accessors
