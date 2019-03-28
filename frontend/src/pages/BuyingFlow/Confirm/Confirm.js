@@ -12,54 +12,64 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  TableBody
+  TableBody,
+  IconButton
 } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
 import BuyingFlowService from "../../../services/BuyingFlowService";
+import ShoppingCartService from './../../../services/ShoppingCartService';
 
+const shoppingCartService = new ShoppingCartService();
 class Confirm extends Component {
-  state = {
-    cart: {
-      items: [
-        {
-          id: 0,
-          name: "pepito",
-          rating: 7.8,
-          genere: "Miedo",
-          price: 200
-        }
-      ]
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      shoppingCart: null
     }
-  };
-  cleanCart = () => {
-    this.setState({
-      cart: {
-        items: [],
-        total: 0
-      }
-    });
-  };
+  }
+
+  componentDidMount = async () => {
+    const _shoppingCart = await shoppingCartService.getShoppingCartDetails(this.props.userId)
+    this.setState({ shoppingCart: _shoppingCart })
+  }
+
   goBack = () => {
     this.props.history.push("/buying-flow/tickets");
   };
-  buy = async () => {
-    try {
-      await BuyingFlowService.buy(this.state.cart);
-      console.log("Compra exitosa");
-    } catch (e) {
-      console.log("error en la compra", e);
-    }
-  };
-  remove = itemToRemove => () => {
-    const newCart = { ...this.state.cart };
 
-    newCart.items = newCart.items.filter(item => item.id !== itemToRemove.id);
-    newCart.total = newCart.total - itemToRemove.price;
-    this.setState({
-      cart: newCart
-    });
-  };
+  removeScreening = (element) => async () => {
+    const newShoppingCart = this.state.shoppingCart.filter(screening => screening.id !== element.id)
+    this.updateShoppingCart(newShoppingCart)
+  }
+
+  removeAll = () => {
+    this.updateShoppingCart([])
+  }
+
+  updateShoppingCart = async (newShoppingCart) => {
+    const oldShoppingCart = this.state.shoppingCart;
+    const newShoppingCartIDs = newShoppingCart.map(screening => screening.id)
+
+    try {
+      const response = await shoppingCartService.updateShoppingCart(this.props.userId, newShoppingCartIDs);
+      this.setState({ shoppingCart: newShoppingCart });
+    }
+    catch (exception) {
+      this.setState({ shoppingCart: oldShoppingCart });
+    }
+  }
+
+  submitOrder = async () => {
+    alert(this.props.userId)
+    const userId = this.props.userId;
+    const response = await shoppingCartService.submitOrder(userId);
+    const _shoppingCart = await shoppingCartService.getShoppingCartDetails(userId);
+    this.setState({ shoppingCart: _shoppingCart })
+  }
+
   render() {
-    const { cart } = this.state;
+    const { shoppingCart } = this.state;
     return (
       <Paper>
         <Card>
@@ -76,19 +86,19 @@ class Confirm extends Component {
                     <TableRow>
                       <TableCell>Nombre</TableCell>
                       <TableCell>Rating</TableCell>
+                      <TableCell>Precio entrada ($)</TableCell>
                       <TableCell>Genero</TableCell>
-                      <TableCell>Precio</TableCell>
-                      <TableCell />
+                      <TableCell><IconButton><DeleteIcon onClick={this.removeAll} /></IconButton></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {cart.items.map(item => (
+                    {shoppingCart && shoppingCart.map(screening => (
                       <TableRow>
-                        <TableCell>{item.name}</TableCell>
-                        <TableCell>{item.rating}</TableCell>
-                        <TableCell>{item.genere}</TableCell>
-                        <TableCell>{item.price}</TableCell>
-                        <TableCell onClick={this.remove(item)}> x </TableCell>
+                        <TableCell>{screening.movie.title}</TableCell>
+                        <TableCell>{screening.movie.rating}</TableCell>
+                        <TableCell>{"$" + screening.price}</TableCell>
+                        <TableCell>{screening.movie.genre}</TableCell>
+                        <TableCell onClick={this.removeScreening(screening)}><IconButton><DeleteIcon /></IconButton></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -105,15 +115,15 @@ class Confirm extends Component {
                 >
                   <div>
                     Total : $
-                    {cart.items.reduce((total, item) => total + item.price, 0)}
+                    {shoppingCart && shoppingCart.reduce((total, screening) => total + screening.price, 0)}
                   </div>
                 </div>
               </Grid>
             </Grid>
           </CardContent>
           <CardActions>
-            <Button onClick={this.cleanCart}>Limpiar carrito</Button>
-            <Button onClick={this.buy}>Comprar</Button>
+            <Button onClick={this.removeAll}>Limpiar carrito</Button>
+            <Button onClick={this.submitOrder}>Comprar</Button>
             <Button onClick={this.goBack}>Volver atras</Button>
           </CardActions>
         </Card>

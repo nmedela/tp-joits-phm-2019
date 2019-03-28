@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { Dialog, DialogTitle, Table, TableHead, TableRow, TableCell, TableBody, Typography, DialogContentText, DialogContent, Divider, Checkbox, DialogActions, Button } from '@material-ui/core';
 import "./MovieTable.scss";
 import MovieServiceMock from './../../../../services/mocks/MovieServiceMock';
+import MovieService from './../../../../services/MovieService';
 
-const movieService = new MovieServiceMock();
+const movieService = new MovieService();
 
 export default class MovieDetails extends Component {
 
@@ -49,6 +50,7 @@ export default class MovieDetails extends Component {
                   <TableCell padding="none"></TableCell>
                   <TableCell>Fecha</TableCell>
                   <TableCell>Hora</TableCell>
+                  <TableCell numeric>Precio entrada ($)</TableCell>
                   <TableCell>Ubicacion</TableCell>
                 </TableRow>
               </TableHead>
@@ -59,7 +61,8 @@ export default class MovieDetails extends Component {
                       <TableCell padding="none"><Checkbox checked={this.state.shoppingCart.includes(screen.id)} /></TableCell>
                       <TableCell>{screen.date}</TableCell>
                       <TableCell>{screen.time}</TableCell>
-                      <TableCell>{screen.location}</TableCell>
+                      <TableCell numeric>{"$" + screen.price}</TableCell>
+                      <TableCell>{screen.cinemaName}</TableCell>
                     </TableRow>
                   )
                 })}

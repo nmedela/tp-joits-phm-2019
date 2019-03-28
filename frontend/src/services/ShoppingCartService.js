@@ -1,11 +1,13 @@
 import Axios from "axios";
-import { baseURL } from "./config.js"
+import { baseUrl } from "./config";
+
+const endpointURL = baseUrl + "/ShoppingCart"
 
 export default class ShoppingCartService {
 
-    async finalizarCompra(user) {
+    async submitOrder(userId) {
         try {
-            let resp = await Axios.post(baseURL + "/Carrito/Submit", user.shoppingCart);
+            let resp = await Axios.post(`${endpointURL}/${userId}`);
             return resp.data;
         }
         catch (exception) {
@@ -13,9 +15,9 @@ export default class ShoppingCartService {
         }
     }
 
-    async getShoppingCart(user) {
+    async getShoppingCart(userId) {
         try {
-            let resp = await Axios.put(baseURL + "/Carrito/" + user.id);
+            let resp = await Axios.get(`${endpointURL}/${userId}`);
             return resp.data;
         }
         catch (exception) {
@@ -23,9 +25,29 @@ export default class ShoppingCartService {
         }
     }
 
-    async updateShoppingCart(user, shoppingCart) {
+    async getShoppingCartDetails(userId) {
         try {
-            let resp = await Axios.put(baseURL + "/Carrito/", { id: user.id, shoppingCart: shoppingCart });
+            let resp = await Axios.get(`${endpointURL}/${userId}/Details`);
+            return resp.data;
+        }
+        catch (exception) {
+            alert(exception.message);
+        }
+    }
+
+    async updateShoppingCart(userId, shoppingCart) {
+        try {
+            let resp = await Axios.put(`${endpointURL}/${userId}`, shoppingCart);
+            return resp.data;
+        }
+        catch (exception) {
+            alert(exception.message);
+        }
+    }
+
+    async removeAll(userId) {
+        try {
+            let resp = await Axios.delete(`${endpointURL}/${userId}`);
             return resp.data;
         }
         catch (exception) {

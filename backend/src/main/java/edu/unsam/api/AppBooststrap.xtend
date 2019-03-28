@@ -5,6 +5,7 @@ import java.math.BigDecimal
 import edu.unsam.joits.domain.User
 import edu.unsam.joits.domain.Movie
 import java.util.ArrayList
+import edu.unsam.api.bootstrap.PeliculasBootstrap
 
 class AppBooststrap {
 	def static crearContenidoInicial() {
@@ -32,12 +33,14 @@ class AppBooststrap {
 			age = 21
 		])
 
-		val nico = userRepository.searchById(0)
-		val gonza = userRepository.searchById(1)
+		val nico = userRepository.searchById(0l)
+		val gonza = userRepository.searchById(1l)
+		
 		nico.addFriend(gonza)
 		nico.addMovie(movie1)
 		nico.addMovie(movie2)
-//		nico.addFriend(gonza)
+		
+		PeliculasBootstrap.crearContenidoInicial()
 	}
 
 }

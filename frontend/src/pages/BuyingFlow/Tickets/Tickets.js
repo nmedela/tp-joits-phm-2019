@@ -9,8 +9,8 @@ import MovieDetails from "./components/MovieDetails";
 import ShoppingCartService from './../../../services/ShoppingCartService';
 import ShoppingCartServiceMock from './../../../services/mocks/ShoppingCartServiceMock';
 
-const movieService = new MovieServiceMock();
-const shoppingCartService = new ShoppingCartServiceMock();
+const movieService = new MovieService();
+const shoppingCartService = new ShoppingCartService();
 
 export default class Tickets extends Component {
   constructor(props) {
@@ -19,14 +19,15 @@ export default class Tickets extends Component {
       user: {
         name: "Nicolas Espindola",
         wallet: 10000.0,
-      }
+      },
+      date: new Date()
     };
   }
 
   componentDidMount = async () => {
     let movies = await movieService.getMoviesByName("");
     let recommended = await movieService.getRecommended();
-    let shoppingCart = await shoppingCartService.getShoppingCart(this.state.user);
+    let shoppingCart = await shoppingCartService.getShoppingCart(this.props.userId);
     this.setState({
       movies: movies,
       recommended: recommended,
@@ -65,13 +66,17 @@ export default class Tickets extends Component {
   updateShoppingCart = async (newShoppingCart) => {
     const oldShoppingCart = this.state.shoppingCart;
     try {
-      const response = await shoppingCartService.updateShoppingCart(this.state.user, newShoppingCart);
+      const response = await shoppingCartService.updateShoppingCart(this.props.userId, newShoppingCart);
       this.setState({ shoppingCart: newShoppingCart });
     }
     catch (exception) {
       this.setState({ shoppingCart: oldShoppingCart });
     }
     this.closeDialog();
+  }
+
+  goToCheckout = () => {
+    this.props.history.push("/buying-flow/confirm")
   }
 
   render() {
@@ -89,7 +94,7 @@ export default class Tickets extends Component {
               </Grid>
 
               <Grid item xs={6}>
-                <Typography className="dateLabel">Fecha: 10/02/2019</Typography>
+                <Typography className="dateLabel">Fecha: {`${this.state.date.getDate()}/${this.state.date.getMonth() + 1}/${this.state.date.getFullYear()}`}</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -124,7 +129,7 @@ export default class Tickets extends Component {
           <Grid item xs={6} className="myItemContainer">
             <Grid container spacing={8}>
               <Grid item><Typography>Items en el carrito: {this.state.shoppingCart && this.state.shoppingCart.length}</Typography></Grid>
-              <Grid item xs={6}><Button variant="contained">Finalizar compra</Button></Grid>
+              <Grid item xs={6}><Button variant="contained" onClick={this.goToCheckout}>Finalizar compra</Button></Grid>
             </Grid>
           </Grid>
 
