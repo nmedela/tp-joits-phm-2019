@@ -19,6 +19,7 @@ class AppBooststrap {
 			password="1234"
 			lastName="Canton"
 			age = 21
+			balance = 10000d
 		])
 		val nico = userRepository.searchById(0l)
 		val gonza = userRepository.searchById(1l)

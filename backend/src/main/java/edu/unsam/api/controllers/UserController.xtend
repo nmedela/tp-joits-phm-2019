@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import edu.unsam.api.services.RequestFriends
 import org.uqbar.xtrest.api.annotation.Post
 import edu.unsam.api.repository.ScreeningRepository
+import edu.unsam.joits.domain.CartDTO
 
 @Controller
 class UserController {
@@ -85,7 +86,8 @@ class UserController {
 	
 	@Put("/ShoppingCart/:userId")
 	def updateShoppingCart(@Body String body){
-		val Set<Long> newShoppingCart = body.fromJson(Set)
+		val Set<Long> newShoppingCart = body.fromJson(CartDTO).cart
+		
 		UserService.updateShoppingCart(Long.valueOf(userId), newShoppingCart)
 		return ok()
 	}

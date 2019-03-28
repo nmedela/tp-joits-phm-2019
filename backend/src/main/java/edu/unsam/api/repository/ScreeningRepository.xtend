@@ -23,7 +23,7 @@ class ScreeningRepository extends Repository<Screening>{
 	}
 	
 	def getByIdRange(Set<Long> IDs){
-		return this.repositoryContent.filter(screening | IDs.findFirst(id | id === screening.id) !== null).toSet()
+		return this.repositoryContent.filter(screening | IDs.findFirst(id | id as Long  === screening.id) !== null).toSet()
 	}
 	
 	override exist(Screening object) {
