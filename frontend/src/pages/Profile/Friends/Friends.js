@@ -70,7 +70,11 @@ class Friends extends Component {
         <Paper>
           <Card>
             <CardContent>
-              <form action="" onSubmit={this.searchFriends}>
+              <form
+                action=""
+                onSubmit={this.searchFriends}
+                style={{ display: "flex", alignItems: "baseline" }}
+              >
                 <TextField
                   label="Buscar Persona"
                   value={searchInput}
@@ -78,9 +82,17 @@ class Friends extends Component {
                     this.setState({ searchInput: event.target.value })
                   }
                 />
+                <div style={{ marginLeft: "1em" }}>
+                  <Button
+                    onClick={this.searchFriends}
+                    color="primary"
+                    variant="contained"
+                  >
+                    Buscar
+                  </Button>
+                </div>
               </form>
 
-              <Button onClick={this.searchFriends}>Buscar</Button>
               <div>
                 <FriendsTable friends={friends} />
               </div>
