@@ -4,15 +4,20 @@ import org.uqbar.xtrest.api.annotation.Controller
 import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.api.Result
 import edu.unsam.api.services.MovieService
+import org.eclipse.jetty.server.Request
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import org.uqbar.xtrest.json.JSONUtils
 
 @Controller
 class PeliculasController {
 	
 	extension JSONUtils = new JSONUtils
-	
+  
 	@Get('/ping')
-	def Result getEventoById() {
+	def Result getEventoById(String queryParam) {
+		System.out.println(queryParam)
+
 		return ok("pong")
 	}
 	
