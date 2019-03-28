@@ -3,6 +3,7 @@ package edu.unsam.api
 import edu.unsam.api.repository.UserRepository
 import java.math.BigDecimal
 import edu.unsam.joits.domain.User
+import edu.unsam.api.bootstrap.PeliculasBootstrap
 
 class AppBooststrap {
 	def static crearContenidoInicial(){
@@ -19,9 +20,11 @@ class AppBooststrap {
 			lastName="Canton"
 			age = 21
 		])
-		val nico = userRepository.searchById(0)
-		val gonza = userRepository.searchById(1)
+		val nico = userRepository.searchById(0l)
+		val gonza = userRepository.searchById(1l)
 //		nico.addFriend(gonza)
+		
+		PeliculasBootstrap.crearContenidoInicial()
 	}
 	
 }

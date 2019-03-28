@@ -35,6 +35,6 @@ class UserDataPost {
 }
 @Accessors
 class LoggedUser {
-	Integer id
+	Long id
 
 }

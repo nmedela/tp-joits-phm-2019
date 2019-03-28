@@ -20,6 +20,8 @@ class User extends Entity {
 	Double balance= 0.0
 	@JsonIgnore Set<User> friends = newHashSet
 	List<Movie> seenMovies = new ArrayList
+	Set<Long> shoppingCart = newHashSet()
+	List<Ticket> shoppingHistory = new ArrayList 
 
 	new() {
 	}
