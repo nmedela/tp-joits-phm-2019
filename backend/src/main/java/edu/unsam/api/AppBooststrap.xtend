@@ -34,6 +34,7 @@ class AppBooststrap {
 
 		val nico = userRepository.searchById(0)
 		val gonza = userRepository.searchById(1)
+		nico.addFriend(gonza)
 		nico.addMovie(movie1)
 		nico.addMovie(movie2)
 //		nico.addFriend(gonza)
