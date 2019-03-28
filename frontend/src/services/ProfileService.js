@@ -15,4 +15,15 @@ export default class ProfileService {
   static modifyUser(user) {
     return Promise.resolve();
   }
+  static addFriend(friend) {
+    return Promise.resolve();
+  }
+  static searchFriends(searchFriends) {
+    return Promise.resolve([
+      {
+        name: "Gonzalo",
+        lastname: "rodriguez"
+      }
+    ]);
+  }
 }

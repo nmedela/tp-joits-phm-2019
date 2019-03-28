@@ -39,7 +39,13 @@ class App extends Component {
               userId={userId}
               render={props => <Login {...props} login={this.login} />}
             />
-            <PrivateRoute path="/profile" userId={userId} component={Profile} />
+
+            <PrivateRoute
+              path="/profile"
+              userId={userId}
+              exact
+              component={Profile}
+            />
             <PrivateRoute
               path="/profile/friends"
               userId={userId}
