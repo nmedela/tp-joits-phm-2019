@@ -25,11 +25,9 @@ class UserService {
 		val repository = UserRepository.instance.repositoryContent
 		val suggested = newHashSet
 		repository.forEach [ user |
-			suggested.add(new UserShort => [
-				_id = user.getId
-				_name = user.getName
-				_lastName = user.getLastName
-			])
+			suggested.add(
+				new UserShort(user.getId, user.getName, user.getLastName)
+			)
 		]
 		return suggested
 	}
@@ -38,8 +36,8 @@ class UserService {
 		val user = getUserById(id)
 		val repository = UserRepository.getInstance.repositoryContent
 		val User newFriend = repository.findFirst [ item |
-			item.id == newFriendJson._id ||
-				(item.name == newFriendJson._name && item.lastName == newFriendJson._lastName)
+			item.id == newFriendJson.id ||
+				(item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
 		]
 		user.addFriend(newFriend)
 	}
@@ -56,7 +54,7 @@ class UserService {
 		val Set<User> newFriends = newHashSet
 		usersShort.forEach [ newFriend |
 			newFriends.add(repository.findFirst [ item |
-				item.id == newFriend._id || (item.name == newFriend._name && item.lastName == newFriend._lastName)
+				item.id == newFriend.id || (item.name == newFriend.name && item.lastName == newFriend.lastName)
 			])
 		]
 		return newFriends
@@ -104,14 +102,26 @@ class UserService {
 
 @Accessors
 class UserShort {
-	@Accessors Long _id
-	@Accessors String _name
-	@Accessors String _lastName
+	@Accessors Long id
+	@Accessors String name
+	@Accessors String lastName
+
+	new(int id, String name, String lastName) {
+		this.id = id
+		this.name = name
+		this.lastName = lastName
+	}
+
 }
 
 @Accessors
 class AddCashRequest {
 	Double amount
+}
+
+@Accessors
+class BalanceRequest {
+	Double balance
 }
 
 @Accessors

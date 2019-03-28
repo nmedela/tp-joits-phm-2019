@@ -1,13 +1,16 @@
 .profile {
   display: flex;
+justify-content: space-around;
+width: 100%;
 }
 
 .profile__side {
-  padding: 1em;
+  display: flex;
+  flex-direction: column;
   margin-right: 15px;
 }
 .lds-ring {
-  display: inline-block;
+  display: center;
   position: relative;
   width: 64px;
   height: 64px;
