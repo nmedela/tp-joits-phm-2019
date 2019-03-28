@@ -17,7 +17,7 @@ class Screening extends Entity{
 	@JsonIgnore final Double wednesdayPrice = 50d
 	@JsonIgnore final Double defaultPrice = 80d
 	
-	@JsonIgnore	Movie movie
+	Movie movie
 	@JsonIgnore Date date
 	@JsonIgnore LocalTime time
 	String cinemaName

@@ -68,7 +68,7 @@ class UserService {
 	
 	def static finishShopping(Long id){
 		var user = getUserById(id)		
-		val shoppingCart = ScreeningRepository.getInstance().getByMovieIdRange(user.shoppingCart)
+		val shoppingCart = ScreeningRepository.getInstance().getByIdRange(user.shoppingCart)
 		
 		deduceBalanceFromUser(user, shoppingCart)
 		addTicketsToShoppingHistory(user, shoppingCart)		

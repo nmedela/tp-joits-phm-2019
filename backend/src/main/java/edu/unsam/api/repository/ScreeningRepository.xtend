@@ -1,6 +1,7 @@
 package edu.unsam.api.repository
 
 import edu.unsam.joits.domain.Screening
+import java.util.Set
 
 class ScreeningRepository extends Repository<Screening>{
 	
@@ -21,8 +22,8 @@ class ScreeningRepository extends Repository<Screening>{
 		return this.repositoryContent.filter(screening | screening.movie.id == id).toSet()
 	}
 	
-	def getByMovieIdRange(Iterable<Long> IDs){
-		return this.repositoryContent.filter(screening | IDs.findFirst[id | id == screening.id] != null)
+	def getByIdRange(Set<Long> IDs){
+		return this.repositoryContent.filter(screening | IDs.findFirst(id | id === screening.id) !== null).toSet()
 	}
 	
 	override exist(Screening object) {

@@ -75,6 +75,10 @@ export default class Tickets extends Component {
     this.closeDialog();
   }
 
+  goToCheckout = () => {
+    this.props.history.push("/buying-flow/confirm")
+  }
+
   render() {
 
     //const { classes } = this.props;
@@ -125,7 +129,7 @@ export default class Tickets extends Component {
           <Grid item xs={6} className="myItemContainer">
             <Grid container spacing={8}>
               <Grid item><Typography>Items en el carrito: {this.state.shoppingCart && this.state.shoppingCart.length}</Typography></Grid>
-              <Grid item xs={6}><Button variant="contained">Finalizar compra</Button></Grid>
+              <Grid item xs={6}><Button variant="contained" onClick={this.goToCheckout}>Finalizar compra</Button></Grid>
             </Grid>
           </Grid>
 

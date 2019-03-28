@@ -15,6 +15,7 @@ import java.util.Set
 import com.fasterxml.jackson.databind.ObjectMapper
 import edu.unsam.api.services.RequestFriends
 import org.uqbar.xtrest.api.annotation.Post
+import edu.unsam.api.repository.ScreeningRepository
 
 @Controller
 class UserController {
@@ -73,6 +74,13 @@ class UserController {
 	@Get("/ShoppingCart/:userId")
 	def Result getShoppingCartByUserId() {
 		return ok(UserService.getUserById(Long.valueOf(userId)).shoppingCart.toJson)
+	}
+	
+	@Get("/ShoppingCart/:userId/Details")
+	def Result getShoppingCartDetailsByUserId() {
+		val Set<Long> shoppingCart = UserService.getUserById(Long.valueOf(userId)).shoppingCart
+		val shoppingCartDetails = ScreeningRepository.getInstance().getByIdRange(shoppingCart)
+		return ok(shoppingCartDetails.toJson)
 	}
 	
 	@Put("/ShoppingCart/:userId")
