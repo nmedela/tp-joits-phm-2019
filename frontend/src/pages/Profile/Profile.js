@@ -17,24 +17,8 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
+import FriendsTable from "../../components/FriendsTable";
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-
-];
 class Profile extends Component {
   state = {
     user: null,
@@ -48,9 +32,9 @@ class Profile extends Component {
   }
   chargeMoney = async () => {
     try {
-      const newBalance = await ProfileService.chargeMoney(this.props.userId,this.state.moneyToCharge);
-      const user = {...this.state.user}
-      user.balance =newBalance
+      const newBalance = await ProfileService.chargeMoney(this.props.userId, this.state.moneyToCharge);
+      const user = { ...this.state.user }
+      user.balance = newBalance
       this.setState({
         moneyToCharge: "",
         user
@@ -99,24 +83,7 @@ class Profile extends Component {
                     <div style={{ margin: "2em", boxSizing: 'border-box' }}>Amigos</div>
                     <div>
                       <Paper >
-                        <Table  style={{ overflow:"auto", maxHeight:"10em" }} >
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Nombre</TableCell>
-                              <TableCell align="right">Apellido</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {rows.map(row => (
-                              <TableRow key={row.id}>
-                                <TableCell component="th" scope="row">
-                                  {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
+                        <FriendsTable friends={this.state.user.friends}></FriendsTable>
                       </Paper>
                     </div>
                   </div>
@@ -139,16 +106,16 @@ class Profile extends Component {
                   <div style={{ margin: "1em" }}>
                     <div style={{ margin: "2em" }}>Pelis vistas</div>
                     <div><Paper >
-                      <List style={{ overflow:"auto", height:"10em" }}>
-                        {this.state.user && this.state.user.seenMovies.map(movie => 
+                      <List style={{ overflow: "auto", height: "10em" }}>
+                        {this.state.user && this.state.user.seenMovies.map(movie =>
                           <ListItem>
                             <ListItemText
                               primary={movie}
                             ></ListItemText>
                           </ListItem>,
-                          
-                          )}
-                          </List>
+
+                        )}
+                      </List>
                     </Paper> </div>
                   </div>
                 </div>

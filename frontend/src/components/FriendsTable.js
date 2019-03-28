@@ -23,7 +23,7 @@ const FriendsTable = props => {
         {props.friends.map(friend => (
           <TableRow onClick={onClick(friend)}>
             <TableCell>{friend.name}</TableCell>
-            <TableCell>{friend.lastname}</TableCell>
+            <TableCell>{friend.lastName}</TableCell>
           </TableRow>
         ))}
       </TableBody>
