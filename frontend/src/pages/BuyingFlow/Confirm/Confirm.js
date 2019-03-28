@@ -61,11 +61,12 @@ class Confirm extends Component {
   }
 
   submitOrder = async () => {
-    alert(this.props.userId)
     const userId = this.props.userId;
     const response = await shoppingCartService.submitOrder(userId);
     const _shoppingCart = await shoppingCartService.getShoppingCartDetails(userId);
     this.setState({ shoppingCart: _shoppingCart })
+    alert("Se completo con exito su compra")
+    this.props.history.push("/buying-flow/tickets")
   }
 
   render() {
