@@ -140,14 +140,15 @@ class Profile extends Component {
                     <div style={{ margin: "2em" }}>Pelis vistas</div>
                     <div><Paper >
                       <List style={{ overflow:"auto", height:"10em" }}>
-                        {generate(
+                        {this.state.user && this.state.user.seenMovies.map(movie => 
                           <ListItem>
                             <ListItemText
-                              primary="Single-line item"
-                            />
+                              primary={movie}
+                            ></ListItemText>
                           </ListItem>,
-                        )}
-                      </List>
+                          
+                          )}
+                          </List>
                     </Paper> </div>
                   </div>
                 </div>
