@@ -6,6 +6,12 @@ import edu.unsam.joits.domain.User
 import edu.unsam.joits.domain.Movie
 import java.util.ArrayList
 import edu.unsam.api.bootstrap.PeliculasBootstrap
+import edu.unsam.api.repository.ScreeningRepository
+import edu.unsam.joits.domain.Ticket
+import java.util.Date
+import java.time.LocalDateTime
+import java.util.Calendar
+import java.time.LocalTime
 
 class AppBooststrap {
 	def static crearContenidoInicial() {
@@ -37,11 +43,16 @@ class AppBooststrap {
 		val gonza = userRepository.searchById(1l)
 		
 		nico.addFriend(gonza)
-		nico.addMovie(movie1)
-		nico.addMovie(movie2)
 		
 		PeliculasBootstrap.crearContenidoInicial()
-//		nico.shoppingHistory.add(PeliculasBootstrap.get)
+		val repoScreen= ScreeningRepository.instance
+		val funcion1 = repoScreen.searchById(0l)
+		nico.shoppingHistory.add(new Ticket=>[
+			screening= funcion1
+			buyDate= Calendar.getInstance().getTime()
+			buyTime = LocalTime.now() 
+		])
+	
 	}
 
 }

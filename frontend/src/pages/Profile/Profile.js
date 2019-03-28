@@ -8,11 +8,6 @@ import "./Profile.scss";
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ProfileService from "../../services/ProfileService";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -22,12 +17,15 @@ import FriendsTable from "../../components/FriendsTable";
 class Profile extends Component {
   state = {
     user: null,
-    moneyToCharge: null
+    moneyToCharge: null,
+    seenMovies: null
   };
   async componentDidMount() {
     const user = await ProfileService.getUserData(this.props.userId);
+    const seenMovies = await ProfileService.getSeenMovies(this.props.userId)
     this.setState({
-      user
+      user,
+      seenMovies
     });
   }
   chargeMoney = async () => {
@@ -45,7 +43,7 @@ class Profile extends Component {
   };
   acepptModifies = async () => {
     try {
-      await ProfileService.modifyUser(this.state.user);
+      await ProfileService.modifyUser(this.props.userId,this.state.user.age)
     } catch (e) {
       console.log("error", e);
     }
@@ -105,12 +103,13 @@ class Profile extends Component {
                   </div>
                   <div style={{ margin: "1em" }}>
                     <div style={{ margin: "2em" }}>Pelis vistas</div>
-                    <div><Paper >
+                    <div>
+                      <Paper >
                       <List style={{ overflow: "auto", height: "10em" }}>
-                        {this.state.user && this.state.user.seenMovies.map(movie =>
+                        {this.state.seenMovies && this.state.seenMovies.map(movie =>
                           <ListItem>
                             <ListItemText
-                              primary={movie}
+                              primary={movie.title}
                             ></ListItemText>
                           </ListItem>,
 
