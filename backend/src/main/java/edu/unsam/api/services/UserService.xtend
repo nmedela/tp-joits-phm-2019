@@ -68,7 +68,10 @@ class UserShort {
 class AddCashRequest {
 	Double amount
 }
-
+@Accessors
+class BalanceRequest{
+	Double balance
+}
 @Accessors
 class RequestFriends {
 	Set<UserShort> friends

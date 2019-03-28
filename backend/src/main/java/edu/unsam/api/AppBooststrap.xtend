@@ -9,7 +9,9 @@ class AppBooststrap {
 		val userRepository = UserRepository.getInstance
 		userRepository.create(new User => [
 			name = "Nicolas"
+			username="nmedela"
 			lastName="Medela"
+			password="1234"
 			age = 25
 		])
 		userRepository.create(new User => [
