@@ -104,7 +104,6 @@ class UserService {
 
 	def private static cleanShoppingCart(User user) {
 		user.shoppingCart = newHashSet
-		System.out.println(user.shoppingCart.size())
 	}
 
 	def static getSeenMovies(Long id) {
