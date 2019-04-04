@@ -7,6 +7,7 @@ import MovieService from './../../../services/MovieService';
 import MovieServiceMock from './../../../services/mocks/MovieServiceMock';
 import MovieDetails from "./components/MovieDetails";
 import ShoppingCartService from './../../../services/ShoppingCartService';
+import ProfileService from './../../../services/ProfileService';
 import ShoppingCartServiceMock from './../../../services/mocks/ShoppingCartServiceMock';
 
 const movieService = new MovieService();
@@ -16,10 +17,7 @@ export default class Tickets extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {
-        name: "Nicolas Espindola",
-        wallet: 10000.0,
-      },
+      user: null,
       date: new Date()
     };
   }
@@ -28,10 +26,12 @@ export default class Tickets extends Component {
     let movies = await movieService.getMoviesByName("");
     let recommended = await movieService.getRecommended();
     let shoppingCart = await shoppingCartService.getShoppingCart(this.props.userId);
+    const user = await ProfileService.getUserData(this.props.userId);
     this.setState({
       movies: movies,
       recommended: recommended,
-      shoppingCart: shoppingCart
+      shoppingCart: shoppingCart,
+      user
     });
   }
 
@@ -90,7 +90,7 @@ export default class Tickets extends Component {
           <Grid item xs={12}>
             <Grid container spacing={8} className="">
               <Grid item xs={6}>
-                <Typography className="userLabel">Usuario: {this.state.user.name}</Typography>
+                <Typography className="userLabel">Usuario: {this.state.user && `${this.state.user.name} ${this.state.user.lastName}`}</Typography>
               </Grid>
 
               <Grid item xs={6}>
@@ -134,7 +134,7 @@ export default class Tickets extends Component {
           </Grid>
 
           <Grid item xs={6} className="panelDeControl">
-            <Button variant="contained">Panel de Control</Button>
+            <Button variant="contained" onClick={() => this.props.history.push("/profile")}>Panel de Control</Button>
           </Grid>
         </Grid>
 

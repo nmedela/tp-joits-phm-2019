@@ -39,7 +39,7 @@ class User extends Entity {
 		this.friends.forEach(friend|friendsShort.add(new UserShort(friend.id, friend.name, friend.lastName)))
 		return friendsShort
 	}
-	
+
 	override isValid() {
 	}
 

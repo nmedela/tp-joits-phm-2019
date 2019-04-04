@@ -39,7 +39,7 @@ class Confirm extends Component {
   };
 
   removeScreening = (element) => async () => {
-    const newShoppingCart = this.state.shoppingCart.filter(screening => screening.id !== element.id)
+    const newShoppingCart = this.state.shoppingCart.filter(screening => screening.screeningId !== element.screeningId)
     this.updateShoppingCart(newShoppingCart)
   }
 
@@ -61,10 +61,12 @@ class Confirm extends Component {
 
   submitOrder = async () => {
     const userId = this.props.userId;
-    const response = await shoppingCartService.submitOrder(userId);
-    const _shoppingCart = await shoppingCartService.getShoppingCartDetails(userId);
-    this.setState({ shoppingCart: _shoppingCart })
-    alert("Se completo con exito su compra")
+    try{
+      await shoppingCartService.submitOrder(userId);
+      alert("Se completo con exito su compra")
+    }catch(e){
+      alert("No se pudo completar su compra")
+    }
     this.props.history.push("/buying-flow/tickets")
   }
 

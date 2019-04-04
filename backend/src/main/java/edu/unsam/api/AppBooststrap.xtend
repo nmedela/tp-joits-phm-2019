@@ -12,6 +12,7 @@ import java.util.Date
 import java.time.LocalDateTime
 import java.util.Calendar
 import java.time.LocalTime
+import edu.unsam.joits.domain.Screening
 
 class AppBooststrap {
 	def static crearContenidoInicial() {
@@ -55,6 +56,16 @@ class AppBooststrap {
 		nico.addFriend(gonza)
 
 		gonza.addFriend(nico)
+		/*val screenRepository = ScreeningRepository.instance
+		val s = new Screening => [
+			date = new Date(2019 - 1900, 02, 27)
+			time = LocalTime.of(20,00)
+			cinemaName = "Joits recoleta"
+		]
+		screenRepository.create(s)
+		
+		movie1.screenings.add(s)
+		gonza.shoppingCart.add(new Ticket(movie1,s)) */
 		
 		PeliculasBootstrap.crearContenidoInicial()
 		/*val repoScreen= ScreeningRepository.instance

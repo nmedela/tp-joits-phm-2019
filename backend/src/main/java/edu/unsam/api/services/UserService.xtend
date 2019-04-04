@@ -101,7 +101,7 @@ class UserService {
 	}
 
 	def static getSeenMovies(Long id) {
-		return getUserById(id).shoppingHistory.map(ticket | ticket.movie).toList()
+		return getUserById(id).shoppingHistory.map(ticket | ticket.movie).toSet()
 	}
 
 	def static searchFriends(Long id, String name) {

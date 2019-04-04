@@ -71,7 +71,6 @@ describe("basic render", () => {
   });
 
   it("render a AcceptButton", () => {
-    console.log(wrapper.debug());
     expect(AcceptButton).toExist();
   });
 

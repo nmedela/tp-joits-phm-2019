@@ -25,7 +25,11 @@ export default class MovieDetails extends Component {
 
   handleClick = (screening) => () => {
     if (this.state.shoppingCart.some( ticket => ticket.movie.id === this.props.movie.id && ticket.screeningId === screening.id)) {
-      this.setState((prevState) => ({ shoppingCart: prevState.shoppingCart.filter((ticket) => { return ticket.movie.id !== this.props.movie.id && ticket.screeningId !== screening.id }) }));
+      const indexToRemove = this.state.shoppingCart.findIndex(chorizo => chorizo.movie.id === this.props.movie.id && chorizo.screeningId === screening.id) 
+
+      this.setState((prevState) => ({ shoppingCart: prevState.shoppingCart.filter((ticket,index) => { 
+        return index !== indexToRemove})
+       }));
     }
     else {
       this.setState((prevState) => { prevState.shoppingCart.push({movie: this.props.movie, screeningId: screening.id}); return prevState; });

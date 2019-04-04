@@ -35,9 +35,20 @@ class Friends extends Component {
       () => this.handleClickOpen()
     );
   };
-  addFriend = () => {
+  addFriend = async () => {
     try {
-      ProfileService.addFriend(this.props.userId,this.state.friendToAdd);
+      ProfileService.addFriend(this.props.userId, this.state.friendToAdd).then(
+        () => {
+          const friends = ProfileService.searchFriends(
+            this.props.userId,
+            this.state.searchInput
+          ).then(friends =>
+            this.setState({
+              friends
+            })
+          );
+        }
+      );
       console.log("se agrego al amigo exitosamente");
       this.handleClose();
     } catch (error) {
@@ -55,22 +66,32 @@ class Friends extends Component {
   searchFriends = async event => {
     event.preventDefault();
     try {
-      const result = await ProfileService.searchFriends(this.props.userId,this.state.searchInput);
+      const result = await ProfileService.searchFriends(
+        this.props.userId,
+        this.state.searchInput
+      );
       this.setState({
         friends: result
       });
-      console.log("friends ?",result)
+      console.log("friends ?", result);
     } catch (error) {
       console.log("error searching friend", error);
     }
   };
-  async componentDidMount(){
-    try{
-      const result = await ProfileService.suggestedFriends(this.props.userId);
+  async componentDidMount() {
+    try {
+      const suggestedFriends = await ProfileService.suggestedFriends(
+        this.props.userId
+      );
+      const friends = await ProfileService.searchFriends(
+        this.props.userId,
+        this.state.searchInput
+      );
+
       this.setState({
-        suggestedFriends: result
+        suggestedFriends,
+        friends
       });
-      console.log("friends ?",result)
     } catch (error) {
       console.log("error searching friend", error);
     }
