@@ -37,7 +37,7 @@ export default class ShoppingCartService {
 
     async updateShoppingCart(userId, shoppingCart) {
         try {
-            let resp = await Axios.put(`${endpointURL}/${userId}`, {cart: shoppingCart});
+            let resp = await Axios.put(`${endpointURL}/${userId}`, { tickets: shoppingCart.map(ticket => ({movieId: ticket.movie.id, screeningId: ticket.screeningId}))});
             return resp.data;
         }
         catch (exception) {

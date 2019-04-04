@@ -17,12 +17,13 @@ import edu.unsam.api.services.RequestFriends
 import edu.unsam.api.services.BalanceRequest
 import org.uqbar.xtrest.api.annotation.Post
 import edu.unsam.api.repository.ScreeningRepository
-import edu.unsam.joits.domain.CartDTO
 
 import edu.unsam.api.services.AgeRequest
 
 import org.eclipse.xtend.lib.annotations.Accessors
-
+import edu.unsam.joits.domain.dtos.ShoppingCartDTO
+import edu.unsam.joits.domain.Friend
+import edu.unsam.api.services.TicketService
 
 @Controller
 class UserController {
@@ -107,20 +108,15 @@ class UserController {
 	}
 
 	@Get("/ShoppingCart/:userId")
-	def Result getShoppingCartByUserId() {
-		return ok(UserService.getUserById(Long.valueOf(userId)).shoppingCart.toJson)
-	}
-
-	@Get("/ShoppingCart/:userId/Details")
 	def Result getShoppingCartDetailsByUserId() {
-		val Set<Long> shoppingCart = UserService.getUserById(Long.valueOf(userId)).shoppingCart
-		val shoppingCartDetails = ScreeningRepository.getInstance().getByIdRange(shoppingCart)
-		return ok(shoppingCartDetails.toJson)
+		val shoppingCart = UserService.getUserById(Long.valueOf(userId)).shoppingCart
+		return ok(shoppingCart.toJson)
 	}
 
 	@Put("/ShoppingCart/:userId")
 	def updateShoppingCart(@Body String body){
-		val Set<Long> newShoppingCart = body.fromJson(CartDTO).cart
+		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
+		val newShoppingCart = TicketService.convertFromDTO(newShoppingCartDTO)
 		UserService.updateShoppingCart(Long.valueOf(userId), newShoppingCart)
 		return ok()
 	}
@@ -130,11 +126,4 @@ class UserController {
 		UserService.finishShopping(Long.valueOf(userId))
 		return ok()
 	}
-}
-@Accessors
-class Friend {
-	@Accessors Long id
-	@Accessors String name
-	@Accessors String lastName
-
 }

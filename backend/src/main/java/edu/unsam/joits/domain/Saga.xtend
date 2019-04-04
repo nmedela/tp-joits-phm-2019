@@ -8,7 +8,7 @@ class Saga extends Movie{
 	Double sagaLevel
 	Set<Movie> movies = newHashSet()
 	
-	override getBasePrice(){
+	override getPrice(){
 		return movies.length * 10d + sagaLevel
 	}
 }

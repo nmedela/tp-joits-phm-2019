@@ -2,7 +2,8 @@ package edu.unsam.joits.domain
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import edu.unsam.api.repository.Entity
-import java.util.Set
+import com.fasterxml.jackson.annotation.JsonIgnore
+import java.util.List
 
 @Accessors
 class Movie extends Entity {
@@ -11,8 +12,9 @@ class Movie extends Entity {
 	int rating
 	String genre
 	boolean recommended
+	@JsonIgnore List<Screening> screenings = newArrayList()
 	
-	def getBasePrice(){
+	def getPrice(){
 		return 30d
 	}
 	

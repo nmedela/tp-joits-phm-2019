@@ -17,7 +17,6 @@ class Screening extends Entity{
 	@JsonIgnore final Double wednesdayPrice = 50d
 	@JsonIgnore final Double defaultPrice = 80d
 	
-	Movie movie
 	@JsonIgnore Date date
 	@JsonIgnore LocalTime time
 	String cinemaName
@@ -30,15 +29,10 @@ class Screening extends Entity{
 	@JsonProperty('time')
 	def timeToString(){
 		return this.time.toString()
-	}
+	}	
 	
-	@JsonProperty("price")
-	def Double getTotalPrice(){
-		return movie.getBasePrice() + this.getScreeningPrice() 
-	}
-	
-	@JsonIgnore
-	def getScreeningPrice(){
+	@JsonProperty('price')
+	def getPrice(){
 		var Calendar calObj = Calendar.getInstance()
 		calObj.time = date
 		switch(calObj.get(Calendar.DAY_OF_WEEK)){

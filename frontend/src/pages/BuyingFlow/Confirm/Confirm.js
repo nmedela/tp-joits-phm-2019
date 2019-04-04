@@ -30,7 +30,7 @@ class Confirm extends Component {
   }
 
   componentDidMount = async () => {
-    const _shoppingCart = await shoppingCartService.getShoppingCartDetails(this.props.userId)
+    const _shoppingCart = await shoppingCartService.getShoppingCart(this.props.userId)
     this.setState({ shoppingCart: _shoppingCart })
   }
 
@@ -49,10 +49,9 @@ class Confirm extends Component {
 
   updateShoppingCart = async (newShoppingCart) => {
     const oldShoppingCart = this.state.shoppingCart;
-    const newShoppingCartIDs = newShoppingCart.map(screening => screening.id)
 
     try {
-      const response = await shoppingCartService.updateShoppingCart(this.props.userId, newShoppingCartIDs);
+      const response = await shoppingCartService.updateShoppingCart(this.props.userId, newShoppingCart);
       this.setState({ shoppingCart: newShoppingCart });
     }
     catch (exception) {

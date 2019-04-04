@@ -1,13 +1,12 @@
 package edu.unsam.joits.domain
 
 import java.util.Set
-import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.List
+import edu.unsam.api.services.UserShort
 import edu.unsam.api.repository.Entity
 import com.fasterxml.jackson.annotation.JsonIgnore
-import java.util.ArrayList
-import java.util.List
 import com.fasterxml.jackson.annotation.JsonProperty
-import edu.unsam.api.services.UserShort
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class User extends Entity {
@@ -19,8 +18,8 @@ class User extends Entity {
 	@Accessors Integer age
 	Double balance = 0.0
 	@JsonIgnore Set<User> friends = newHashSet
-	Set<Long> shoppingCart = newHashSet()
-	List<Ticket> shoppingHistory = new ArrayList 
+	List<Ticket> shoppingCart = newArrayList()
+	List<Ticket> shoppingHistory = newArrayList()
 
 	new() {
 	}

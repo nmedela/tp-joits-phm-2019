@@ -11,7 +11,9 @@ import java.util.Date
 import java.util.Calendar
 import java.time.LocalTime
 import edu.unsam.joits.domain.Movie
-import edu.unsam.api.controllers.Friend
+import edu.unsam.joits.domain.dtos.TicketDTO
+import edu.unsam.joits.domain.Friend
+import java.util.List
 
 class UserService {
 	def static getUserById(Long id) {
@@ -66,34 +68,26 @@ class UserService {
 		return newFriends
 	}
 
-	def static updateShoppingCart(Long id, Set<Long> newShoppingCart) {
+	def static updateShoppingCart(Long id, List<Ticket> newShoppingCart) {
 		getUserById(id).shoppingCart = newShoppingCart
 	}
 
 	def static finishShopping(Long id) {
 		var user = getUserById(id)
-		val shoppingCart = ScreeningRepository.getInstance().getByIdRange(user.shoppingCart)
 
-		deduceBalanceFromUser(user, shoppingCart)
-		addTicketsToShoppingHistory(user, shoppingCart)
+		deduceBalanceFromUser(user)
+		addTicketsToShoppingHistory(user)
 		cleanShoppingCart(user)
 	}
 
-	def private static addTicketsToShoppingHistory(User user, Iterable<Screening> screenings) {
-		user.shoppingHistory.addAll(screenings.map [ scr |
-			new Ticket => [
-				screening = scr
-				price = scr.totalPrice
-				buyDate = Calendar.getInstance().getTime()
-				buyTime = LocalTime.now()
-			]
-		])
+	def private static addTicketsToShoppingHistory(User user) {
+		user.shoppingHistory.addAll(user.shoppingCart)
 	}
 
-	def private static deduceBalanceFromUser(User user, Iterable<Screening> shoppingCart) {
+	def private static deduceBalanceFromUser(User user) {
 		var Double sum = 0d;
-		for (Screening screening : shoppingCart) {
-			sum = sum + screening.totalPrice
+		for (Ticket ticket : user.shoppingCart) {
+			sum = sum + ticket.price
 		}
 
 		if (user.balance < sum)
@@ -103,14 +97,11 @@ class UserService {
 	}
 
 	def private static cleanShoppingCart(User user) {
-		user.shoppingCart = newHashSet
+		user.shoppingCart = newArrayList
 	}
 
 	def static getSeenMovies(Long id) {
-		val user = getUserById(id)
-		val Set<Movie> movies = newHashSet
-		user.shoppingHistory.forEach[ticket|movies.add(ticket.screening.movie)]
-		return movies
+		return getUserById(id).shoppingHistory.map(ticket | ticket.movie).toList()
 	}
 
 	def static searchFriends(Long id, String name) {

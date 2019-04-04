@@ -16,7 +16,7 @@ class MovieService {
 	}
 	
 	def static getScreeningsByMovieId(Long movieId) {
-		return ScreeningRepository.instance.getByMovieId(movieId)
+		return MovieRepository.instance.searchById(movieId).screenings
 	}
 	
 }

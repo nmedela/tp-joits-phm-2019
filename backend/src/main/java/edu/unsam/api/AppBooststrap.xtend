@@ -57,13 +57,13 @@ class AppBooststrap {
 		gonza.addFriend(nico)
 		
 		PeliculasBootstrap.crearContenidoInicial()
-		val repoScreen= ScreeningRepository.instance
+		/*val repoScreen= ScreeningRepository.instance
 		val funcion1 = repoScreen.searchById(0l)
 		nico.shoppingHistory.add(new Ticket=>[
 			screening= funcion1
 			buyDate= Calendar.getInstance().getTime()
 			buyTime = LocalTime.now() 
-		])
+		])*/
 	
 	}
 

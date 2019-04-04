@@ -23,12 +23,12 @@ export default class MovieDetails extends Component {
     this.props.updateShoppingCart(this.state.shoppingCart);
   }
 
-  handleClick = (screen) => () => {
-    if (this.state.shoppingCart.includes(screen.id)) {
-      this.setState((prevState) => ({ shoppingCart: prevState.shoppingCart.filter((element) => { return element !== screen.id }) }));
+  handleClick = (screening) => () => {
+    if (this.state.shoppingCart.some( ticket => ticket.movie.id === this.props.movie.id && ticket.screeningId === screening.id)) {
+      this.setState((prevState) => ({ shoppingCart: prevState.shoppingCart.filter((ticket) => { return ticket.movie.id !== this.props.movie.id && ticket.screeningId !== screening.id }) }));
     }
     else {
-      this.setState((prevState) => { prevState.shoppingCart.push(screen.id); return prevState; });
+      this.setState((prevState) => { prevState.shoppingCart.push({movie: this.props.movie, screeningId: screening.id}); return prevState; });
     }
   }
 
@@ -55,14 +55,14 @@ export default class MovieDetails extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.screenings && this.state.screenings.map((screen) => {
+                {this.state.screenings && this.state.screenings.map((screening) => {
                   return (
-                    <TableRow className="tableRow" onClick={this.handleClick(screen)} selected={this.state.shoppingCart.includes(screen.id)}>
-                      <TableCell padding="none"><Checkbox checked={this.state.shoppingCart.includes(screen.id)} /></TableCell>
-                      <TableCell>{screen.date}</TableCell>
-                      <TableCell>{screen.time}</TableCell>
-                      <TableCell numeric>{"$" + screen.price}</TableCell>
-                      <TableCell>{screen.cinemaName}</TableCell>
+                    <TableRow className="tableRow" onClick={this.handleClick(screening)} selected={this.state.shoppingCart.includes(screening.id)}>
+                      <TableCell padding="none"><Checkbox checked={this.state.shoppingCart.some(ticket => ticket.movie.id === this.props.movie.id && ticket.screeningId === screening.id)} /></TableCell>
+                      <TableCell>{screening.date}</TableCell>
+                      <TableCell>{screening.time}</TableCell>
+                      <TableCell numeric>{"$" + screening.price}</TableCell>
+                      <TableCell>{screening.cinemaName}</TableCell>
                     </TableRow>
                   )
                 })}
