@@ -42,20 +42,20 @@ class AppBooststrap {
 		])
 			userRepository.create(new User => [
 			name = "Facundo"
-			username = "guusygonzalo"
+			username = "facundo_1197"
 			password = "1234"
 			lastName = "Rodriguez"
 			age = 21
 		])
 
-		val nico = userRepository.searchById(0l)
-		val gonza = userRepository.searchById(1l)
-		val facundo = userRepository.searchById(2l)
+		//val nico = userRepository.searchById(0l)
+		//val gonza = userRepository.searchById(1l)
+		//val facundo = userRepository.searchById(2l)
 		
 		
-		nico.addFriend(gonza)
+		//nico.addFriend(gonza)
 
-		gonza.addFriend(nico)
+		//gonza.addFriend(nico)
 		/*val screenRepository = ScreeningRepository.instance
 		val s = new Screening => [
 			date = new Date(2019 - 1900, 02, 27)
@@ -67,7 +67,7 @@ class AppBooststrap {
 		movie1.screenings.add(s)
 		gonza.shoppingCart.add(new Ticket(movie1,s)) */
 		
-		PeliculasBootstrap.crearContenidoInicial()
+		//PeliculasBootstrap.crearContenidoInicial()
 		/*val repoScreen= ScreeningRepository.instance
 		val funcion1 = repoScreen.searchById(0l)
 		nico.shoppingHistory.add(new Ticket=>[

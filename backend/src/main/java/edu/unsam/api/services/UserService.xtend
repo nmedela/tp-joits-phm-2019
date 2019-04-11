@@ -16,7 +16,7 @@ import edu.unsam.joits.domain.Friend
 import java.util.List
 
 class UserService {
-	def static getUserById(Long id) {
+	def static User  getUserById(Long id) {
 		UserRepository.instance.searchById(id)
 	}
 
@@ -31,23 +31,23 @@ class UserService {
 	}
 
 	def static getSuggested() {
-		val repository = UserRepository.instance.repositoryContent
+		//val repository = UserRepository.instance.repositoryContent
 		val suggested = newHashSet
-		repository.forEach [ user |
+		/*repository.forEach [ user |
 			suggested.add(
 				new UserShort(user.getId, user.getName, user.getLastName)
 			)
-		]
+		]*/
 		return suggested
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
-		val user = getUserById(id)
+		/*val user = getUserById(id)
 		val repository = UserRepository.getInstance.repositoryContent
 		val User newFriend = repository.findFirst [ item |
 			item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
 		]
-		user.addFriend(newFriend)
+		user.addFriend(newFriend)*/
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
@@ -58,14 +58,14 @@ class UserService {
 	}
 
 	def static Set<User> mapperUserShortToUser(Set<UserShort> usersShort) {
-		val repository = UserRepository.getInstance.repositoryContent
+		/*val repository = UserRepository.getInstance.repositoryContent
 		val Set<User> newFriends = newHashSet
 		usersShort.forEach [ newFriend |
 			newFriends.add(repository.findFirst [ item |
 				item.id == newFriend.id || (item.name == newFriend.name && item.lastName == newFriend.lastName)
 			])
 		]
-		return newFriends
+		return newFriends*/
 	}
 
 	def static updateShoppingCart(Long id, List<Ticket> newShoppingCart) {
@@ -113,8 +113,8 @@ class UserService {
 	}
 
 	def static suggestedFriends(Long id) {
-		val user = getUserById(id)
-		return UserRepository.getInstance.repositoryContent
+		/*val user = getUserById(id)
+		return UserRepository.getInstance.repositoryContent*/
 	}
 
 }

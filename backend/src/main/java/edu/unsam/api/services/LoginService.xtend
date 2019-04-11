@@ -7,12 +7,17 @@ import edu.unsam.joits.domain.User
 
 class LoginService {
 	def static login(UserDataPost userData) {
-		val User  user = UserRepository.instance.getUserBy(userData.username);
+		System.out.println("username")
+		System.out.println(userData.username)
+		System.out.println(userData.password)
+		
+		
+		val User user = UserRepository.instance.getUserBy(userData.username, userData.password);
+		System.out.println("user")
+		System.out.println(user)
+
 		if (user !== null) {
-			if (user.password != userData.password) {
-				throw new ForbiddenException("Usuario/password incorrecta")
-			}
-		return user.id	
+			return user.id
 		} else {
 			throw new ForbiddenException("Usuario/password incorrecta")
 		}

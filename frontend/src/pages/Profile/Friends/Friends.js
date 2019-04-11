@@ -49,7 +49,6 @@ class Friends extends Component {
           );
         }
       );
-      console.log("se agrego al amigo exitosamente");
       this.handleClose();
     } catch (error) {
       console.log("un error en la agregacion del amigo", error);

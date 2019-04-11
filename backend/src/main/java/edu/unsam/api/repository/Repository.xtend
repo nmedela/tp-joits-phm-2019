@@ -1,37 +1,85 @@
 package edu.unsam.api.repository
 
-import java.util.Set
-import java.util.HashSet
+import java.util.List
+import javax.persistence.EntityManagerFactory
+import javax.persistence.Persistence
+import javax.persistence.PersistenceException
+import javax.persistence.criteria.CriteriaBuilder
+import javax.persistence.criteria.CriteriaQuery
+import javax.persistence.criteria.Root
 import org.eclipse.xtend.lib.annotations.Accessors
 
-@Accessors abstract class Repository<T extends Entity> {
+@Accessors abstract class Repository<T> {
+	
+	 static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Joits")
+	
 
-	@Accessors Set<T> repositoryContent = new HashSet<T>()
-
-	def void create(T entity) {
-		entity.isValid()
-		entity.setId(this.getNewId())
-		this.repositoryContent.add(entity)
-
-	}
-
-	def Long getNewId() {
-		if (repositoryContent.size() === 0) {
-			return 0l
-		} else {
-			return this.generateNewId()
+	def List<T> allInstances() {
+		val entityManager = this.entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery as CriteriaQuery<T>
+			val from = query.from(entityType)
+			query.select(from)
+			entityManager.createQuery(query).resultList
+		} finally {
+			entityManager.close
 		}
+	}
+	
+	abstract def Class<T> getEntityType()
 
+	def searchBy(T t) {
+		val entityManager = this.entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery as CriteriaQuery<T>
+			val from = query.from(entityType)
+			query.select(from)
+			generateWhere(criteria, query, from, t)
+			entityManager.createQuery(query).resultList
+		} finally {
+			entityManager.close
+		}
+	}
+	
+	abstract def void generateWhere(CriteriaBuilder criteria, CriteriaQuery<T> query, Root<T> camposCandidato,T t)
+	
+	def create(T t) {
+		val entityManager = this.entityManager
+		try {
+			entityManager => [
+				transaction.begin
+				persist(t)
+				transaction.commit
+			]
+		} catch (PersistenceException e) {
+			e.printStackTrace
+			entityManager.transaction.rollback
+			throw new RuntimeException("Ocurrió un error, la operación no puede completarse", e)
+		} finally {
+			entityManager.close
+		}
 	}
 
-	def Long generateNewId() {
-		return this.repositoryContent.maxBy[item|item.id].id + 1
+	def update(T t) {
+		val entityManager = this.entityManager
+		try {
+			entityManager => [
+				transaction.begin
+				merge(t)
+				transaction.commit
+			]
+		} catch (PersistenceException e) {
+			e.printStackTrace
+			entityManager.transaction.rollback
+			throw new RuntimeException("Ocurrió un error, la operación no puede completarse", e)
+		} finally {
+			entityManager.close
+		}
 	}
 
-	def T searchById(Long id) {
-		val object = this.repositoryContent.findFirst[item|item.id === id]
-		return object;
+	def getEntityManager() {
+		entityManagerFactory.createEntityManager
 	}
-
-	def boolean exist(T object)
 }
