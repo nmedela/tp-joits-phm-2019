@@ -107,7 +107,7 @@ class UserController {
 		}
 	}
 
-	@Get("/ShoppingCart/:userId")
+	@Get("/user/:userId/shoppingcart")
 	def Result getShoppingCartDetailsByUserId() {
 		val shoppingCart = UserService.getUserById(Long.valueOf(userId)).shoppingCart
 		return ok(shoppingCart.toJson)

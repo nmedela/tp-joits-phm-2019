@@ -1,13 +1,17 @@
-import Axios from "axios";
+import axios from "axios";
 import { baseUrl } from "./config";
 
-const endpointURL = baseUrl + "/Movies"
+const endpointURL = baseUrl;
 
 export default class MovieService {
 
     getMoviesByName = async (searchText) => {
         try {
-            let resp = await Axios.get(`${endpointURL}/Search/${searchText}`);
+            let resp = await axios.get(`${endpointURL}/movies`,{
+                params:{
+                    title:searchText
+                }
+            });
             return resp.data;
         }
         catch (exception) {
@@ -17,7 +21,7 @@ export default class MovieService {
 
     getRecommended = async () => {
         try {
-            let resp = await Axios.get(`${endpointURL}/Recommended`);
+            let resp = await axios.get(`${endpointURL}/movies/recommended`);
             return resp.data;
         }
         catch (exception) {
@@ -27,7 +31,7 @@ export default class MovieService {
 
     getScreeningsForMovie = async (movie) => {
         try {
-            let resp = await Axios.get(`${endpointURL}/${movie.id}/Screenings`);
+            let resp = await axios.get(`${endpointURL}/movies/${movie.id}/screenings`);
             return resp.data;
         }
         catch (exception) {
