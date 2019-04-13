@@ -25,13 +25,13 @@ class AppBooststrap {
 			year = 1800
 		]
 		val userRepository = UserRepository.getInstance
-		userRepository.create(new User => [
+		val User nico = new User => [
 			name = "Nicolas"
 			username = "nmedela"
 			lastName = "Medela"
 			password = "1234"
 			age = 25
-		])
+		]
 		userRepository.create(new User => [
 			name = "Gonzalo"
 			username = "guusygonzalo"
@@ -40,20 +40,37 @@ class AppBooststrap {
 			age = 21
 			balance = 10000d
 		])
-			userRepository.create(new User => [
+		val User facundo = new User => [
 			name = "Facundo"
 			username = "facundo_1197"
 			password = "1234"
 			lastName = "Rodriguez"
 			age = 21
-		])
-
-		//val nico = userRepository.searchById(0l)
+		]
+		
+		userRepository.create(facundo)
+		nico.addFriend(facundo)
+		userRepository.create(nico)
+		
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println("Aca tira algo ")
+//		val nico = userRepository.searchById(0l)
 		//val gonza = userRepository.searchById(1l)
 		//val facundo = userRepository.searchById(2l)
 		
 		
-		//nico.addFriend(gonza)
+//		nico.addFriend(gonza)
 
 		//gonza.addFriend(nico)
 		/*val screenRepository = ScreeningRepository.instance

@@ -24,7 +24,7 @@ class MovieRepository extends Repository<Movie>{
 		//return this.repositoryContent.filter[movie | movie.title.toUpperCase().contains(searchText)].toSet()
 	}
 	def Movie searchById(Long id){
-		//return this.repositoryContent.filter[movie | movie.title.toUpperCase().contains(searchText)].toSet()
+//		return this.repositoryContent.filter[movie | movie.title.toUpperCase().contains(searchText)].toSet()
 	}
 	
 	def getRecommendedMovies() {
@@ -38,6 +38,10 @@ class MovieRepository extends Repository<Movie>{
 	}
 	
 	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato, Movie t) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override buscarId(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato, Long id) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	

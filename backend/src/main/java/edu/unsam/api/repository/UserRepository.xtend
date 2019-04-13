@@ -46,5 +46,7 @@ class UserRepository extends Repository<User> {
 	def User searchById(Long long1) {
 		// throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-
+	override def buscarId(CriteriaBuilder criteria, CriteriaQuery<User> query, Root<User> from, Long id){
+		query.where(criteria.equal(from.get("id"), id))
+	}
 }

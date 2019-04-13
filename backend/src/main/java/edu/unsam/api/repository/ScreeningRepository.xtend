@@ -36,4 +36,8 @@ class ScreeningRepository extends Repository<Screening>{
 		
 	}
 	
+	override buscarId(CriteriaBuilder criteria, CriteriaQuery<Screening> query, Root<Screening> camposCandidato, Long id) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

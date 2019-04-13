@@ -36,7 +36,8 @@ class User {
 	@Column
 	Double balance = 0.0
 	
-	@Transient
+	
+	@OneToMany(fetch=FetchType.LAZY)
 	@JsonIgnore Set<User> friends = newHashSet
 	
 	@Transient
