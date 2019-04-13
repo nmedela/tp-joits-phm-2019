@@ -42,7 +42,9 @@ class User {
 	
 	@Transient
 	List<Ticket> shoppingCart = newArrayList()
-	@Transient
+
+	@OneToMany(fetch=FetchType.LAZY)
+//	@JsonIgnore
 	List<Ticket> shoppingHistory = newArrayList()
 
 	new() {

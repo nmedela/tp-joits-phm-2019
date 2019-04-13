@@ -57,7 +57,7 @@ class PeliculasBootstrap {
 			rating = 3
 			genre = "Suspenso"
 			recommended = true
-			movies = new HashSet<Movie>(Arrays.asList(movieRepository.searchById(0l), movieRepository.searchById(1l)))
+//			movies = new HashSet<Movie>(Arrays.asList(movieRepository.searchById(0l), movieRepository.searchById(1l)))
 			sagaLevel = 100.5d
 		])	
 			

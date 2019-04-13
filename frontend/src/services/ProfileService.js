@@ -19,8 +19,8 @@ export default class ProfileService {
     await axios.put(`${baseUrl}/user/${id}`,{age});
     // return Promise.resolve();
   }
-  static async modifyUser(id,age) {
-    await axios.put(`${baseUrl}/user/${id}`,{age});
+  static async modifyUser(id,user) {
+    await axios.put(`${baseUrl}/user/${id}`,{...user});
   }
   static async addFriend(id,friend) {
     const response = await axios.put(`${baseUrl}/user/${id}/friend`,{ ...friend });

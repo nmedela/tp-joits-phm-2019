@@ -2,11 +2,13 @@ package edu.unsam.api.services
 
 import edu.unsam.api.repository.MovieRepository
 import edu.unsam.api.repository.ScreeningRepository
+import edu.unsam.joits.domain.Movie
+import java.util.List
 
 class MovieService {
-	def static getMoviesByTitleSearch(String searchText){
+	def static List<Movie> getMoviesByTitleSearch(String searchText){
 		if(searchText == "")
-			return MovieRepository.instance.getAll()
+			return MovieRepository.instance.allInstances()
 		else
 			return MovieRepository.instance.searchByTitle(searchText)
 	}
@@ -16,7 +18,7 @@ class MovieService {
 	}
 	
 	def static getScreeningsByMovieId(Long movieId) {
-		return MovieRepository.instance.searchById(movieId).screenings
+		return MovieRepository.instance.searchFullMovieById(movieId).screenings
 	}
 	
 }

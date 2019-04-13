@@ -49,6 +49,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 			val query = criteria.createQuery(entityType)
 			val from = query.from(entityType)
 			from.fetch("friends")
+			from.fetch("shoppingHistory")
 			query.select(from)
 			if (id !== null) {
 				buscarId(criteria, query,from, id)

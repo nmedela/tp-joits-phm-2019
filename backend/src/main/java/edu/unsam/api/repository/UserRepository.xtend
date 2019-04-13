@@ -43,8 +43,17 @@ class UserRepository extends Repository<User> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-	def User searchById(Long long1) {
-		// throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	def User searchById(Long id) {
+		val entityManager = entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val camposUser = query.from(entityType)
+			query.select(camposUser).where(criteria.equal(camposUser.get("id"), id))
+			return entityManager.createQuery(query).singleResult
+		} finally {
+			entityManager.close
+		}
 	}
 	override def buscarId(CriteriaBuilder criteria, CriteriaQuery<User> query, Root<User> from, Long id){
 		query.where(criteria.equal(from.get("id"), id))

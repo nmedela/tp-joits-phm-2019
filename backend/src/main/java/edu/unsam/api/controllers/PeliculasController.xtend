@@ -21,22 +21,18 @@ class PeliculasController {
 		return ok("pong")
 	}
 	
-	@Get('/Movies/Search/')
-	def Result getAllMovies(){
-		return ok(MovieService.getMoviesByTitleSearch("").toJson);
+	@Get('/movies')
+	def Result getMoviesBySearchText(String title){
+		System.out.println("hola estas haciendo una busqueda por titulo")
+		return ok(MovieService.getMoviesByTitleSearch(title).toJson);
 	}
 	
-	@Get('/Movies/Search/:searchText')
-	def Result getMoviesBySearchText(){
-		return ok(MovieService.getMoviesByTitleSearch(searchText.toUpperCase()).toJson);
-	}
-	
-	@Get('/Movies/Recommended')
+	@Get('/movies/recommended')
 	def Result getMoviesBySearchText(){
 		return ok(MovieService.getRecommendedMovies().toJson);
 	}
 	
-	@Get('/Movies/:id/Screenings')
+	@Get('/movies/:id/screenings')
 	def Result getMovieScreenings(){
 		val _id = Long.valueOf(id)
 		return ok(MovieService.getScreeningsByMovieId(_id).toJson)

@@ -30,7 +30,9 @@ class UserService {
 		val user = getUserById(id)
 		user.setAge(newAge.age)
 	}
-
+	def static updateUser(Long id,User newUser){
+		UserRepository.instance.update(newUser)
+	}
 	def static getSuggested() {
 		//val repository = UserRepository.instance.repositoryContent
 		val suggested = newHashSet

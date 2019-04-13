@@ -30,9 +30,9 @@ class Profile extends Component {
   }
   chargeMoney = async () => {
     try {
-      const newBalance = await ProfileService.chargeMoney(this.props.userId, this.state.moneyToCharge);
+      // const newBalance = await ProfileService.chargeMoney(this.props.userId, this.state.moneyToCharge);
       const user = { ...this.state.user }
-      user.balance = newBalance
+      user.balance = parseFloat(user.balance) + parseFloat(this.state.moneyToCharge)
       this.setState({
         moneyToCharge: "",
         user
@@ -43,7 +43,14 @@ class Profile extends Component {
   };
   acepptModifies = async () => {
     try {
-      await ProfileService.modifyUser(this.props.userId,this.state.user.age)
+      await ProfileService.modifyUser(this.props.userId, this.state.user)
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+  cancelChange = async () => {
+    try {
+      this.componentDidMount();
     } catch (e) {
       console.log("error", e);
     }
@@ -105,17 +112,17 @@ class Profile extends Component {
                     <div style={{ margin: "2em" }}>Pelis vistas</div>
                     <div>
                       <Paper >
-                      <List style={{ overflow: "auto", height: "10em" }}>
-                        {this.state.seenMovies && this.state.seenMovies.map(movie =>
-                          <ListItem>
-                            <ListItemText
-                              primary={movie.title}
-                            ></ListItemText>
-                          </ListItem>,
+                        <List style={{ overflow: "auto", height: "10em" }}>
+                          {this.state.seenMovies && this.state.seenMovies.map(movie =>
+                            <ListItem>
+                              <ListItemText
+                                primary={movie.title}
+                              ></ListItemText>
+                            </ListItem>,
 
-                        )}
-                      </List>
-                    </Paper> </div>
+                          )}
+                        </List>
+                      </Paper> </div>
                   </div>
                 </div>
               </div>
@@ -133,7 +140,7 @@ class Profile extends Component {
               <Button variant="contained" onClick={this.goToFriendsPage}>Buscar amigos</Button>
               <div >
                 <Button variant="contained" color="primary" onClick={this.acepptModifies}>Aceptar</Button>
-                <Button color="secondary"  >Cancelar</Button>
+                <Button color="secondary" onClick={this.cancelChange}  >Cancelar</Button>
               </div>
             </CardActions>
           )}

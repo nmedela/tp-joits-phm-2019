@@ -1,24 +1,30 @@
 package edu.unsam.joits.domain
 
-import edu.unsam.api.repository.Entity
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.time.LocalDate
-import java.time.LocalTime
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalTime
 import java.util.Calendar
 import java.util.Date
-import java.text.SimpleDateFormat
-import java.text.DateFormat
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import org.eclipse.xtend.lib.annotations.Accessors
 
+@Entity
 @Accessors
-class Screening extends Entity{
+class Screening {
+	
+	@Id @GeneratedValue
+	Long id
 	@JsonIgnore final Double weekendPrice = 120d
 	@JsonIgnore final Double wednesdayPrice = 50d
 	@JsonIgnore final Double defaultPrice = 80d
 	
 	@JsonIgnore Date date
 	@JsonIgnore LocalTime time
+	
+	@Column(length=150)
 	String cinemaName
 	
 	@JsonProperty('date')
@@ -50,7 +56,5 @@ class Screening extends Entity{
 		}
 	}
 	
-	override isValid() {		
-	}
 	
 }
