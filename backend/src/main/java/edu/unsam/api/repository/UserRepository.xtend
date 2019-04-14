@@ -55,5 +55,7 @@ class UserRepository extends Repository<User> {
 			entityManager.close
 		}
 	}
-
+	override def buscarId(CriteriaBuilder criteria, CriteriaQuery<User> query, Root<User> from, Long id){
+		query.where(criteria.equal(from.get("id"), id))
+	}
 }

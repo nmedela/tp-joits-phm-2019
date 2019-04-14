@@ -14,10 +14,11 @@ import edu.unsam.joits.domain.Movie
 import edu.unsam.joits.domain.dtos.TicketDTO
 import edu.unsam.joits.domain.Friend
 import java.util.List
+import edu.unsam.api.repository.Repository
 
 class UserService {
 	def static User  getUserById(Long id) {
-		UserRepository.instance.searchById(id)
+		UserRepository.instance.searchById2(id)
 	}
 
 	def static loadBalance(Long id, AddCashRequest cash) {
@@ -29,7 +30,9 @@ class UserService {
 		val user = getUserById(id)
 		user.setAge(newAge.age)
 	}
-
+	def static updateUser(Long id,User newUser){
+		UserRepository.instance.update(newUser)
+	}
 	def static getSuggested() {
 		//val repository = UserRepository.instance.repositoryContent
 		val suggested = newHashSet
