@@ -1,13 +1,13 @@
-import Axios from "axios";
+import axios from "axios";
 import { baseUrl } from "./config";
 
-const endpointURL = baseUrl + "/ShoppingCart"
+const endpointURL = baseUrl;
 
 export default class ShoppingCartService {
 
     async submitOrder(userId) {
         try {
-            let resp = await Axios.post(`${endpointURL}/${userId}`);
+            let resp = await axios.post(`${endpointURL}/${userId}`);
             return resp.data;
         }
         catch (exception) {
@@ -17,7 +17,7 @@ export default class ShoppingCartService {
 
     async getShoppingCart(userId) {
         try {
-            let resp = await Axios.get(`${endpointURL}/${userId}`);
+            let resp = await axios.get(`${endpointURL}/${userId}`);
             return resp.data;
         }
         catch (exception) {
@@ -25,9 +25,9 @@ export default class ShoppingCartService {
         }
     }
 
-    async getShoppingCartDetails(userId) {
+    async getShoppingCartDetails(userId,shoppingCart) {
         try {
-            let resp = await Axios.get(`${endpointURL}/${userId}/Details`);
+            let resp = await axios.get(`${endpointURL}/${userId}/shoppingcart/detail`);
             return resp.data;
         }
         catch (exception) {
@@ -36,18 +36,14 @@ export default class ShoppingCartService {
     }
 
     async updateShoppingCart(userId, shoppingCart) {
-        try {
-            let resp = await Axios.put(`${endpointURL}/${userId}`, { tickets: shoppingCart.map(ticket => ({movieId: ticket.movie.id, screeningId: ticket.screeningId}))});
-            return resp.data;
-        }
-        catch (exception) {
-            alert(exception.message);
-        }
+        console.log("hola manolo");
+        const tickets = shoppingCart.map(ticket => ({movieId: ticket.movie.id, screeningId: ticket.screeningId}))
+        sessionStorage.setItem("tickets",JSON.stringify(tickets));
     }
 
     async removeAll(userId) {
         try {
-            let resp = await Axios.delete(`${endpointURL}/${userId}`);
+            let resp = await axios.delete(`${endpointURL}/${userId}`);
             return resp.data;
         }
         catch (exception) {

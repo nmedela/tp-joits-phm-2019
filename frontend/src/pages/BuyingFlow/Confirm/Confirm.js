@@ -30,7 +30,7 @@ class Confirm extends Component {
   }
 
   componentDidMount = async () => {
-    const _shoppingCart = await shoppingCartService.getShoppingCart(this.props.userId)
+    const _shoppingCart = await shoppingCartService.getShoppingCartDetails(this.props.userId)
     this.setState({ shoppingCart: _shoppingCart })
   }
 
