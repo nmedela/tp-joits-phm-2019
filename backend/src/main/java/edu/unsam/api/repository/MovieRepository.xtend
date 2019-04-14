@@ -8,8 +8,8 @@ import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
 import javax.persistence.criteria.JoinType
 
-class MovieRepository extends Repository<Movie>{
-	
+class MovieRepository extends Repository<Movie> {
+
 	static MovieRepository instance
 
 	static def getInstance() {
@@ -18,17 +18,22 @@ class MovieRepository extends Repository<Movie>{
 		}
 		return instance
 	}
-	
-	def getAll(){
-		//return this.repositoryContent
+
+	def getAll() {
+		// return this.repositoryContent
 	}
-	
-	def List<Movie> searchByTitle(String title){
+
+	def List<Movie> searchByTitle(String title) {
 		val Movie searchMovie = new Movie()
 		searchMovie.title = title
 		return this.searchBy(searchMovie)
 	}
-	def Movie searchFullMovieById(Long id){
+
+	def Movie searchById(Long id) {
+//		return this.repositoryContent.filter[movie | movie.title.toUpperCase().contains(searchText)].toSet()
+	}
+
+	def Movie searchFullMovieById(Long id) {
 		val entityManager = this.entityManager
 		try {
 			val criteria = entityManager.criteriaBuilder
@@ -36,31 +41,34 @@ class MovieRepository extends Repository<Movie>{
 			val from = query.from(entityType)
 			from.fetch("screenings", JoinType.LEFT)
 			query.select(from)
-			query.where(criteria.equal(from.get('id'),id))
+			query.where(criteria.equal(from.get('id'), id))
 			entityManager.createQuery(query).singleResult
-		}catch (PersistenceException e) {
+		} catch (PersistenceException e) {
 			e.printStackTrace
 			entityManager.transaction.rollback
 			throw new RuntimeException("Ocurrió un error, la operación no puede completarse", e)
-		 }finally {
+		} finally {
 			entityManager.close
 		}
 	}
-	
+
 	def getRecommendedMovies() {
 		return allInstances
 	}
-	
 
-	
 	override getEntityType() {
 		typeof(Movie)
 	}
-	
-	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato, Movie movie) {
+
+	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato,
+		Movie movie) {
 		if (movie.title !== null) {
-			query.where(criteria.like(camposCandidato.get("title"), "%"+movie.title+"%"))
-		} 
+			query.where(criteria.like(camposCandidato.get("title"), "%" + movie.title + "%"))
+		}
 	}
-	
+
+	override buscarId(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato, Long id) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+
 }

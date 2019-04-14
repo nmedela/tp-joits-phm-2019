@@ -9,16 +9,19 @@ import edu.unsam.joits.domain.User
 import java.time.LocalTime
 import java.util.Arrays
 import java.util.Date
+import edu.unsam.joits.domain.Ticket
+import java.util.Calendar
+import edu.unsam.api.repository.TicketRepository
 
 class AppBooststrap {
 	def static crearContenidoInicial() {
 		val movieRepository = MovieRepository.getInstance
 		
-		
-		val screeningRepository = ScreeningRepository.getInstance		
+		val screeningRepository = ScreeningRepository.getInstance
+		val ticketRepository = TicketRepository.getInstance
 		val Screening newScreening = new Screening => [
 			date = new Date(2019 - 1900, 03, 23)
-			time = LocalTime.of(10,00)
+			time = LocalTime.of(10, 00)
 			cinemaName = "Buenos Aires Cinema"
 		]
 		screeningRepository.create(newScreening)
@@ -27,7 +30,7 @@ class AppBooststrap {
 			year = 1999
 			rating = 3
 			genre = "Terror"
-			screenings = newArrayList(newScreening)  
+			screenings = newArrayList(newScreening)
 		]
 		// movie1.screenings.add(newScreening)
 		val movie2 = new Movie => [
@@ -36,14 +39,22 @@ class AppBooststrap {
 		]
 		movieRepository.create(movie1)
 		
+		val newTicket = new Ticket => [
+			screening = newScreening
+			movie = movie1
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		ticketRepository.create(newTicket)
+		
 		val userRepository = UserRepository.getInstance
-		userRepository.create(new User => [
+		val User nico = new User => [
 			name = "Nicolas"
 			username = "nmedela"
 			lastName = "Medela"
 			password = "1234"
 			age = 25
-		])
+		]
 		userRepository.create(new User => [
 			name = "Gonzalo"
 			username = "guusygonzalo"
@@ -52,42 +63,49 @@ class AppBooststrap {
 			age = 21
 			balance = 10000d
 		])
-			userRepository.create(new User => [
+		val User facundo = new User => [
 			name = "Facundo"
 			username = "facundo_1197"
 			password = "1234"
 			lastName = "Rodriguez"
 			age = 21
-		])
-
-		//val nico = userRepository.searchById(0l)
-		//val gonza = userRepository.searchById(1l)
-		//val facundo = userRepository.searchById(2l)
-		
-		
-		//nico.addFriend(gonza)
-
-		//gonza.addFriend(nico)
-		/*val screenRepository = ScreeningRepository.instance
-		val s = new Screening => [
-			date = new Date(2019 - 1900, 02, 27)
-			time = LocalTime.of(20,00)
-			cinemaName = "Joits recoleta"
 		]
-		screenRepository.create(s)
+
+		userRepository.create(facundo)
 		
-		movie1.screenings.add(s)
-		gonza.shoppingCart.add(new Ticket(movie1,s)) */
-		
-		//PeliculasBootstrap.crearContenidoInicial()
-		/*val repoScreen= ScreeningRepository.instance
-		val funcion1 = repoScreen.searchById(0l)
-		nico.shoppingHistory.add(new Ticket=>[
-			screening= funcion1
-			buyDate= Calendar.getInstance().getTime()
-			buyTime = LocalTime.now() 
-		])*/
-	
+		nico.addFriend(facundo)
+		nico.shoppingHistory.add(newTicket)
+		userRepository.create(nico)
+
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println(" ")
+		System.out.println("Aca tira algo ")
+//		val nico = userRepository.searchById(0l)
+	// val gonza = userRepository.searchById(1l)
+	// val facundo = userRepository.searchById(2l)
+//		nico.addFriend(gonza)
+	// gonza.addFriend(nico)
+	/*val screenRepository = ScreeningRepository.instance
+	 * val s = new Screening => [
+	 * 	date = new Date(2019 - 1900, 02, 27)
+	 * 	time = LocalTime.of(20,00)
+	 * 	cinemaName = "Joits recoleta"
+	 * ]
+	 * screenRepository.create(s)
+	 * 
+	 * movie1.screenings.add(s)
+	 gonza.shoppingCart.add(new Ticket(movie1,s)) */
+	// PeliculasBootstrap.crearContenidoInicial()
 	}
 
 }

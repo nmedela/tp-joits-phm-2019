@@ -10,9 +10,8 @@ import javax.persistence.criteria.Root
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors abstract class Repository<T> {
-	
-	 static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Joits")
-	
+
+	static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Joits")
 
 	def List<T> allInstances() {
 		val entityManager = this.entityManager
@@ -26,14 +25,14 @@ import org.eclipse.xtend.lib.annotations.Accessors
 			entityManager.close
 		}
 	}
-	
+
 	abstract def Class<T> getEntityType()
 
 	def searchBy(T t) {
 		val entityManager = this.entityManager
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery as CriteriaQuery<T>
+			val query = criteria.createQuery as CriteriaQuery<	T>
 			val from = query.from(entityType)
 			query.select(from)
 			generateWhere(criteria, query, from, t)
@@ -42,9 +41,29 @@ import org.eclipse.xtend.lib.annotations.Accessors
 			entityManager.close
 		}
 	}
-	
-	abstract def void generateWhere(CriteriaBuilder criteria, CriteriaQuery<T> query, Root<T> camposCandidato,T t)
-	
+
+	def searchById2(Long id) {
+		val entityManager = this.entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val from = query.from(entityType)
+			from.fetch("friends")
+			from.fetch("shoppingHistory")
+			query.select(from)
+			if (id !== null) {
+				buscarId(criteria, query,from, id)
+			}
+			entityManager.createQuery(query).singleResult
+		} finally {
+			entityManager.close
+		}
+	}
+
+	abstract def void generateWhere(CriteriaBuilder criteria, CriteriaQuery<T> query, Root<T> camposCandidato, T t)
+
+	abstract def void buscarId(CriteriaBuilder criteria, CriteriaQuery<T> query, Root<T> camposCandidato, Long id)
+
 	def create(T t) {
 		val entityManager = this.entityManager
 		try {

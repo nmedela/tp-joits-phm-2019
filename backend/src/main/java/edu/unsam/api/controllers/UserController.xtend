@@ -46,10 +46,9 @@ class UserController {
 	@Get('/user/:id/friends')
 	def Result getFriends(String name) {
 		val wrappedId = Long.valueOf(id)
-		val suggested = UserService.searchFriends(wrappedId,name)
+		val suggested = UserService.searchFriends(wrappedId, name)
 		return ok(suggested.toJson)
 	}
-
 
 	@Get('/user/:id/movies/seen')
 	def Result getSeenMovies() {
@@ -86,8 +85,8 @@ class UserController {
 	def updateUser(@Body String body) {
 		val wrappedId = Long.valueOf(id)
 		try {
-			val AgeRequest newAge = body.fromJson(AgeRequest)
-			UserService.changeAge(wrappedId, newAge)
+			val User newUser = body.fromJson(User)
+			UserService.updateUser(wrappedId, newUser)
 			return ok()
 		} catch (Error e) {
 			badRequest("Can't load cash. ")
@@ -114,7 +113,7 @@ class UserController {
 	}
 
 	@Put("/ShoppingCart/:userId")
-	def updateShoppingCart(@Body String body){
+	def updateShoppingCart(@Body String body) {
 		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
 		val newShoppingCart = TicketService.convertFromDTO(newShoppingCartDTO)
 		UserService.updateShoppingCart(Long.valueOf(userId), newShoppingCart)

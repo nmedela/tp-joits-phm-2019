@@ -1,51 +1,59 @@
 package edu.unsam.joits.domain
 
-import edu.unsam.api.repository.Entity
 import com.fasterxml.jackson.annotation.JsonIgnore
-import java.util.Date
-import java.time.LocalTime
-import org.eclipse.xtend.lib.annotations.Accessors
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalTime
 import java.util.Calendar
+import java.util.Date
+import javax.persistence.Entity
+import javax.persistence.ManyToOne
+import org.eclipse.xtend.lib.annotations.Accessors
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.Column
 
 @Accessors
-class Ticket extends Entity{
-	
+@Entity
+class Ticket {
+	@Id @GeneratedValue
+	Long id
+	@ManyToOne
 	Movie movie
-    Screening screening
-		
+
+	@ManyToOne
+	Screening screening
+
 	@JsonIgnore Date buyDate
 	@JsonIgnore LocalTime buyTime
 	
+	@Column
 	Double price
-	
-	new(Movie movie, Screening screening){
+
+	new(Movie movie, Screening screening) {
 		super()
 		this.movie = movie
 		this.screening = screening
-		price = movie.getPrice() + screening.getPrice() 
+		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()
-	}	
+	}
 	
+	new() {
+	}
+
 	@JsonProperty("screeningId")
-	def getScreeningId(){
+	def getScreeningId() {
 		return screening.id
 	}
-	
+
 	@JsonProperty("buyTime")
-	def buyTimeToString(){
+	def buyTimeToString() {
 		buyTime.toString()
 	}
+
 	@JsonProperty("buyDate")
-	def buyDateToString(){
+	def buyDateToString() {
 		DateFormatArgentina.dateFormat.format(buyDate)
 	}
-	
-	
-	
-	override isValid() {}
-	
-	
-	
+
 }
