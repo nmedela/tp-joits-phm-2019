@@ -11,8 +11,8 @@ import edu.unsam.api.repository.ScreeningRepository
 
 class TicketService {
 	def static List<Ticket> convertFromDTO(ShoppingCartDTO shoppingCartDTO){
-		shoppingCartDTO.tickets.map( ticket | return new Ticket(MovieRepository.instance.searchById(ticket.movieId),
-			ScreeningRepository.instance.searchById(ticket.screeningId)
+		shoppingCartDTO.tickets.map( ticket | 
+			return new Ticket(MovieRepository.instance.searchById(ticket.movieId),ScreeningRepository.instance.searchById(ticket.screeningId)
 		) ).toList
 	}
 }

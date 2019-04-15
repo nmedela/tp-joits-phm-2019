@@ -40,12 +40,6 @@ class User {
 	@OneToMany(fetch=FetchType.LAZY)
 	@JsonIgnore Set<User> friends = newHashSet
 	
-	@Transient
-	List<Ticket> shoppingCart = newArrayList()
-
-	@OneToMany(fetch=FetchType.LAZY)
-//	@JsonIgnore
-	List<Ticket> shoppingHistory = newArrayList()
 
 	new() {
 	}
@@ -57,8 +51,7 @@ class User {
 	def addFriend(User newUser) {
 		this.friends.add(newUser)
 	}
-
-	// Ver si se hace en UserService *
+	
 	@JsonProperty("friends")
 	def getFriends() {
 		val Set<UserShort> friendsShort = newHashSet

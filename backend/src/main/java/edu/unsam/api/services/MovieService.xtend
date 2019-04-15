@@ -6,7 +6,7 @@ import edu.unsam.joits.domain.Movie
 import java.util.List
 
 class MovieService {
-	def static List<Movie> getMoviesByTitleSearch(String searchText){
+	def static List<Movie> getMoviesByTitleSearch(String searchText){		
 		if(searchText == "")
 			return MovieRepository.instance.allInstances()
 		else

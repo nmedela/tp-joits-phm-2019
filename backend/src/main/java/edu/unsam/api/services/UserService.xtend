@@ -1,24 +1,19 @@
 package edu.unsam.api.services
 
+import edu.unsam.api.repository.ShoppingCart
 import edu.unsam.api.repository.UserRepository
-import org.eclipse.xtend.lib.annotations.Accessors
-import edu.unsam.joits.domain.User
-import java.util.Set
-import edu.unsam.api.repository.ScreeningRepository
-import edu.unsam.joits.domain.Screening
-import edu.unsam.joits.domain.Ticket
-import java.util.Date
-import java.util.Calendar
-import java.time.LocalTime
-import edu.unsam.joits.domain.Movie
-import edu.unsam.joits.domain.dtos.TicketDTO
 import edu.unsam.joits.domain.Friend
+import edu.unsam.joits.domain.Movie
+import edu.unsam.joits.domain.Ticket
+import edu.unsam.joits.domain.User
+import java.util.HashSet
 import java.util.List
-import edu.unsam.api.repository.Repository
+import java.util.Set
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class UserService {
-	def static User  getUserById(Long id) {
-		UserRepository.instance.searchById2(id)
+	def static User getUserById(Long id) {
+		return UserRepository.instance.test(id)
 	}
 
 	def static loadBalance(Long id, AddCashRequest cash) {
@@ -30,27 +25,29 @@ class UserService {
 		val user = getUserById(id)
 		user.setAge(newAge.age)
 	}
-	def static updateUser(Long id,User newUser){
+
+	def static updateUser(Long id, User newUser) {
 		UserRepository.instance.update(newUser)
 	}
+
 	def static getSuggested() {
-		//val repository = UserRepository.instance.repositoryContent
+		// val repository = UserRepository.instance.repositoryContent
 		val suggested = newHashSet
 		/*repository.forEach [ user |
-			suggested.add(
-				new UserShort(user.getId, user.getName, user.getLastName)
-			)
-		]*/
+		 * 	suggested.add(
+		 * 		new UserShort(user.getId, user.getName, user.getLastName)
+		 * 	)
+		 ]*/
 		return suggested
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
 		/*val user = getUserById(id)
-		val repository = UserRepository.getInstance.repositoryContent
-		val User newFriend = repository.findFirst [ item |
-			item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
-		]
-		user.addFriend(newFriend)*/
+		 * val repository = UserRepository.getInstance.repositoryContent
+		 * val User newFriend = repository.findFirst [ item |
+		 * 	item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
+		 * ]
+		 user.addFriend(newFriend)*/
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
@@ -62,34 +59,24 @@ class UserService {
 
 	def static Set<User> mapperUserShortToUser(Set<UserShort> usersShort) {
 		/*val repository = UserRepository.getInstance.repositoryContent
-		val Set<User> newFriends = newHashSet
-		usersShort.forEach [ newFriend |
-			newFriends.add(repository.findFirst [ item |
-				item.id == newFriend.id || (item.name == newFriend.name && item.lastName == newFriend.lastName)
-			])
-		]
-		return newFriends*/
+		 * val Set<User> newFriends = newHashSet
+		 * usersShort.forEach [ newFriend |
+		 * 	newFriends.add(repository.findFirst [ item |
+		 * 		item.id == newFriend.id || (item.name == newFriend.name && item.lastName == newFriend.lastName)
+		 * 	])
+		 * ]
+		 return newFriends*/
 	}
 
-	def static updateShoppingCart(Long id, List<Ticket> newShoppingCart) {
-		getUserById(id).shoppingCart = newShoppingCart
-	}
-
-	def static finishShopping(Long id) {
+	def static finishShopping(Long id, List<Ticket> shoppingCart) {
 		var user = getUserById(id)
-
-		deduceBalanceFromUser(user)
-		addTicketsToShoppingHistory(user)
-		cleanShoppingCart(user)
+		deduceBalanceFromUser(user,shoppingCart)
+		ShoppingCart.instance.addBuyOut(id, shoppingCart)
 	}
 
-	def private static addTicketsToShoppingHistory(User user) {
-		user.shoppingHistory.addAll(user.shoppingCart)
-	}
-
-	def private static deduceBalanceFromUser(User user) {
+	def private static deduceBalanceFromUser(User user, List<Ticket> shoppingCart) {
 		var Double sum = 0d;
-		for (Ticket ticket : user.shoppingCart) {
+		for (Ticket ticket : shoppingCart) {
 			sum = sum + ticket.price
 		}
 
@@ -97,14 +84,17 @@ class UserService {
 			throw new Exception("El usuario no cuenta con fondos suficientes")
 
 		user.balance = user.balance - sum
+		UserRepository.instance.update(user)
 	}
 
-	def private static cleanShoppingCart(User user) {
-		user.shoppingCart = newArrayList
-	}
+	def static Set<Movie> getSeenMovies(Long id) {
+		val List<Ticket> cart = ShoppingCart.instance.getCart(id)
+		if (cart === null) {
+			return new HashSet
+		} else {
+			return cart.map(ticket|ticket.movie).toSet()
 
-	def static getSeenMovies(Long id) {
-		return getUserById(id).shoppingHistory.map(ticket | ticket.movie).toSet()
+		}
 	}
 
 	def static searchFriends(Long id, String name) {
@@ -117,7 +107,7 @@ class UserService {
 
 	def static suggestedFriends(Long id) {
 		/*val user = getUserById(id)
-		return UserRepository.getInstance.repositoryContent*/
+		 return UserRepository.getInstance.repositoryContent*/
 	}
 
 }

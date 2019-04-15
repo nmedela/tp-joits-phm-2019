@@ -1,29 +1,21 @@
 package edu.unsam.api.controllers
 
-import org.uqbar.xtrest.api.annotation.Get
-import org.uqbar.xtrest.api.Result
-import org.uqbar.xtrest.api.annotation.Controller
-import edu.unsam.api.repository.UserRepository
-import org.uqbar.xtrest.json.JSONUtils
-import edu.unsam.api.services.UserService
-import org.uqbar.xtrest.api.annotation.Put
-import org.uqbar.xtrest.api.annotation.Body
-import edu.unsam.joits.domain.User
 import edu.unsam.api.services.AddCashRequest
-import edu.unsam.api.services.UserShort
-import java.util.Set
-import com.fasterxml.jackson.databind.ObjectMapper
 import edu.unsam.api.services.RequestFriends
-import edu.unsam.api.services.BalanceRequest
-import org.uqbar.xtrest.api.annotation.Post
-import edu.unsam.api.repository.ScreeningRepository
-
-import edu.unsam.api.services.AgeRequest
-
-import org.eclipse.xtend.lib.annotations.Accessors
-import edu.unsam.joits.domain.dtos.ShoppingCartDTO
-import edu.unsam.joits.domain.Friend
 import edu.unsam.api.services.TicketService
+import edu.unsam.api.services.UserService
+import edu.unsam.joits.domain.Friend
+import edu.unsam.joits.domain.User
+import edu.unsam.joits.domain.dtos.ShoppingCartDTO
+import org.uqbar.xtrest.api.Result
+import org.uqbar.xtrest.api.annotation.Body
+import org.uqbar.xtrest.api.annotation.Controller
+import org.uqbar.xtrest.api.annotation.Get
+import org.uqbar.xtrest.api.annotation.Post
+import org.uqbar.xtrest.api.annotation.Put
+import org.uqbar.xtrest.json.JSONUtils
+import edu.unsam.joits.domain.Movie
+import java.util.Set
 
 @Controller
 class UserController {
@@ -53,7 +45,7 @@ class UserController {
 	@Get('/user/:id/movies/seen')
 	def Result getSeenMovies() {
 		val wrappedId = Long.valueOf(id)
-		val movies = UserService.getSeenMovies(wrappedId)
+		val Set<Movie> movies = UserService.getSeenMovies(wrappedId)
 		return ok(movies.toJson)
 	}
 
@@ -106,23 +98,23 @@ class UserController {
 		}
 	}
 
-	@Get("/user/:userId/shoppingcart")
-	def Result getShoppingCartDetailsByUserId() {
-		val shoppingCart = UserService.getUserById(Long.valueOf(userId)).shoppingCart
-		return ok(shoppingCart.toJson)
-	}
+	@Post("/shoppingcart/details")
+	def Result getShoppingCartDetailsBy(@Body String body) {
+		System.out.println("lo que me llego es")
+		System.out.println(body)
 
-	@Put("/ShoppingCart/:userId")
-	def updateShoppingCart(@Body String body) {
 		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
 		val newShoppingCart = TicketService.convertFromDTO(newShoppingCartDTO)
-		UserService.updateShoppingCart(Long.valueOf(userId), newShoppingCart)
-		return ok()
+		return ok(newShoppingCart.toJson)
 	}
 
-	@Post("/ShoppingCart/:userId")
-	def finishShopping() {
-		UserService.finishShopping(Long.valueOf(userId))
+
+	@Post("/user/:userId/shoppingcart")
+	def finishShopping(@Body String body) {
+		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
+		val newShoppingCart = TicketService.convertFromDTO(newShoppingCartDTO)
+		
+		UserService.finishShopping(Long.valueOf(userId),newShoppingCart)
 		return ok()
 	}
 }

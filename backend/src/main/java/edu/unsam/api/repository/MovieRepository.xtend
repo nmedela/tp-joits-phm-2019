@@ -30,7 +30,7 @@ class MovieRepository extends Repository<Movie> {
 	}
 
 	def Movie searchById(Long id) {
-//		return this.repositoryContent.filter[movie | movie.title.toUpperCase().contains(searchText)].toSet()
+		return this.searchById2(id)
 	}
 
 	def Movie searchFullMovieById(Long id) {
@@ -68,7 +68,7 @@ class MovieRepository extends Repository<Movie> {
 	}
 
 	override buscarId(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato, Long id) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		query.where(criteria.equal(camposCandidato.get("id"), id))
 	}
 
 }

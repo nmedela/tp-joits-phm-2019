@@ -49,7 +49,6 @@ class Confirm extends Component {
 
   updateShoppingCart = async (newShoppingCart) => {
     const oldShoppingCart = this.state.shoppingCart;
-
     try {
       const response = await shoppingCartService.updateShoppingCart(this.props.userId, newShoppingCart);
       this.setState({ shoppingCart: newShoppingCart });
@@ -64,10 +63,11 @@ class Confirm extends Component {
     try{
       await shoppingCartService.submitOrder(userId);
       alert("Se completo con exito su compra")
+      this.removeAll();
     }catch(e){
       alert("No se pudo completar su compra")
     }
-    this.props.history.push("/buying-flow/tickets")
+    // this.props.history.push("/buying-flow/tickets")
   }
 
   render() {

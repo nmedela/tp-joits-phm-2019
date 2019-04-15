@@ -23,7 +23,6 @@ class PeliculasController {
 	
 	@Get('/movies')
 	def Result getMoviesBySearchText(String title){
-		System.out.println("hola estas haciendo una busqueda por titulo")
 		return ok(MovieService.getMoviesByTitleSearch(title).toJson);
 	}
 	

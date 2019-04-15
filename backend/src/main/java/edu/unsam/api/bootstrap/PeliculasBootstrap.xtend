@@ -14,208 +14,169 @@ import java.util.HashSet
 import java.util.Arrays
 
 class PeliculasBootstrap {
-	def static crearContenidoInicial(){
+	def static crearContenidoInicial() {
 		val movieRepository = MovieRepository.getInstance
-		movieRepository.create(new Movie => [
+
+		// La momia---------------------------------------------------------
+		val screeningRepository = ScreeningRepository.getInstance
+		val screeningMomia1 = new Screening => [
+			date = new Date(2019 - 1900, 03, 23)
+			time = LocalTime.of(10, 00)
+			cinemaName = "Buenos Aires Cinema"
+		]
+
+		val screeningMomia2 = new Screening => [
+			date = new Date(2019 - 1900, 02, 27)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Joits recoleta"
+		]
+
+		val screeningMomia3 = new Screening => [
+			date = new Date(2019 - 1900, 01, 02)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Unicenter"
+		]
+		screeningRepository.create(screeningMomia1)
+		screeningRepository.create(screeningMomia2)
+		screeningRepository.create(screeningMomia3)
+
+		val momiaMovie = new Movie => [
 			title = "La momia"
 			year = 1999
 			rating = 3
 			genre = "Terror"
-			recommended = true
-		])
-		movieRepository.create(new Movie => [
+			screenings = newArrayList(screeningMomia1, screeningMomia2, screeningMomia3)
+		]
+		movieRepository.create(momiaMovie)
+
+		// Guardians of the Galaxy-------------------------------------------		
+		val screeningGalaxy1 = new Screening => [
+			date = new Date(2019 - 1900, 06, 10)
+			time = LocalTime.of(10, 00)
+			cinemaName = "Joits Miramar"
+		]
+		val screeningGalaxy2 = new Screening => [
+			date = new Date(2019 - 1900, 10, 22)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Colegio Holters"
+		]
+		screeningRepository.create(screeningGalaxy1)
+		screeningRepository.create(screeningGalaxy2)
+		val guardiansMovie = new Movie => [
 			title = "Guardians of the Galaxy"
 			year = 2014
 			rating = 5
 			genre = "Aventura/Ciencia ficcion"
-			recommended = false
-		])
+			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2)
+		]
+		movieRepository.create(guardiansMovie)
+
+		// Interstellar------------------------------------------------------
+		val screeningInterstellar1 = new Screening => [
+			date = new Date(2019 - 1900, 03, 23)
+			time = LocalTime.of(10, 00)
+			cinemaName = "Carrefour San Justo"
+		]
+		screeningRepository.create(screeningInterstellar1)
+
+		val screeningInterstellar2 = new Screening => [
+			date = new Date(2019 - 1900, 02, 27)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Municipalidad de Buenos Aires"
+		]
+		screeningRepository.create(screeningInterstellar2)
+
+		val screeningInterstellar3 = new Screening => [
+			date = new Date(2019 - 1900, 01, 02)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Teatro Colon"
+		]
+		screeningRepository.create(screeningInterstellar3)
+
 		movieRepository.create(new Movie => [
 			title = "Interstellar"
 			year = 2014
 			rating = 4
 			genre = "Accion/Ciencia ficcion"
-			recommended = false
+			screenings = newArrayList(screeningInterstellar1, screeningInterstellar2, screeningInterstellar3)
 		])
+
+		// Avengers: Endgame--------------------------------------------------
+		val screeningAvengers1 = new Screening => [
+			date = new Date(2019 - 1900, 06, 10)
+			time = LocalTime.of(10, 00)
+			cinemaName = "Autocine Recoleta"
+		]
+		screeningRepository.create(screeningAvengers1)
+
+		val screeningAvengers2 = new Screening => [
+			date = new Date(2019 - 1900, 10, 22)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Sodimac Miguelete"
+		]
+		screeningRepository.create(screeningAvengers2)
+
+		val screeningAvengers3 = new Screening => [
+			date = new Date(2019 - 1900, 06, 10)
+			time = LocalTime.of(10, 00)
+			cinemaName = "Obelisco"
+		]
+		screeningRepository.create(screeningAvengers3)
+
+		val screeningAvengers4 = new Screening => [
+			date = new Date(2019 - 1900, 10, 22)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Radio Mitre"
+		]
+		screeningRepository.create(screeningAvengers4)
+
 		movieRepository.create(new Movie => [
 			title = "Avengers: Endgame"
 			year = 2019
 			rating = 3
 			genre = "Accion"
-			recommended = false
+			screenings = newArrayList(screeningAvengers1, screeningAvengers2, screeningAvengers3, screeningAvengers4)
 		])
+
+		// Dragon ball super: Broly-------------------------------------------------		
+		val screeningDragon = new Screening => [
+			date = new Date(2019 - 1900, 04, 12)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Jardin Japones"
+		]
+		screeningRepository.create(screeningDragon)
+
 		movieRepository.create(new Movie => [
 			title = "Dragon ball super: Broly"
 			year = 2019
 			rating = 5
 			genre = "Anime"
-			recommended = true
+			screenings = newArrayList(screeningDragon)
 		])
+		// La Momia + Guardians-----------------------------------------------------	
+		val screeningMomiaAndGuardians1 = new Screening => [
+			date = new Date(2019 - 1900, 05, 15)
+			time = LocalTime.of(11, 00)
+			cinemaName = "Terreno valdio"
+		]
+		screeningRepository.create(screeningMomiaAndGuardians1)
+
+		val screeningMomiaAndGuardians2 = new Screening => [
+			date = new Date(2019 - 1900, 12, 25)
+			time = LocalTime.of(21, 45)
+			cinemaName = "Cinema Las toninas"
+		]
+		screeningRepository.create(screeningMomiaAndGuardians2)
+
 		movieRepository.create(new Saga => [
 			title = "La momia + Guardians"
 			year = 2000
 			rating = 3
 			genre = "Suspenso"
-			recommended = true
-//			movies = new HashSet<Movie>(Arrays.asList(movieRepository.searchById(0l), movieRepository.searchById(1l)))
+			movies = new HashSet<Movie>(Arrays.asList(momiaMovie, guardiansMovie))
+			screenings = newArrayList(screeningMomiaAndGuardians1, screeningMomiaAndGuardians2)
 			sagaLevel = 100.5d
-		])	
-			
-				
-		//La momia---------------------------------------------------------
-		val screeningRepository = ScreeningRepository.getInstance		
-		var newScreening = new Screening => [
-			//movie = movieRepository.searchById(0l)
-			date = new Date(2019 - 1900, 03, 23)
-			time = LocalTime.of(10,00)
-			cinemaName = "Buenos Aires Cinema"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(0L).screenings.add(newScreening)
-				
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(0l)
-			date = new Date(2019 - 1900, 02, 27)
-			time = LocalTime.of(20,00)
-			cinemaName = "Joits recoleta"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(0L).screenings.add(newScreening)
-		
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(0l)
-			date = new Date(2019 - 1900, 01, 02)
-			time = LocalTime.of(20,00)
-			cinemaName = "Unicenter"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(0L).screenings.add(newScreening) 
-		
-		
-		//Guardians of the Galaxy-------------------------------------------		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(1l)
-			date = new Date(2019 - 1900, 06, 10)
-			time = LocalTime.of(10,00)
-			cinemaName = "Joits Miramar"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(1L).screenings.add(newScreening)
-		
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(1l)
-			date = new Date(2019 - 1900, 10, 22)
-			time = LocalTime.of(20,00)
-			cinemaName = "Colegio Holters"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(1L).screenings.add(newScreening)
-		
-		
-		//Interstellar------------------------------------------------------
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(2l)
-			date = new Date(2019 - 1900, 03, 23)
-			time = LocalTime.of(10,00)
-			cinemaName = "Carrefour San Justo"
-		]		
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(2L).screenings.add(newScreening)
-		
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(2l)
-			date = new Date(2019 - 1900, 02, 27)
-			time = LocalTime.of(20,00)
-			cinemaName = "Municipalidad de Buenos Aires"
-		]		
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(2L).screenings.add(newScreening)
-		
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(2l)
-			date = new Date(2019 - 1900, 01, 02)
-			time = LocalTime.of(20,00)
-			cinemaName = "Teatro Colon"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(2L).screenings.add(newScreening)
-		
-		
-		//Avengers: Endgame--------------------------------------------------
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(3l)
-			date = new Date(2019 - 1900, 06, 10)
-			time = LocalTime.of(10,00)
-			cinemaName = "Autocine Recoleta"
-		]	
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(3L).screenings.add(newScreening)
-		
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(3l)
-			date = new Date(2019 - 1900, 10, 22)
-			time = LocalTime.of(20,00)
-			cinemaName = "Sodimac Miguelete"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(3L).screenings.add(newScreening)
-		
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(3l)
-			date = new Date(2019 - 1900, 06, 10)
-			time = LocalTime.of(10,00)
-			cinemaName = "Obelisco"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(3L).screenings.add(newScreening)
-		
-		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(3l)
-			date = new Date(2019 - 1900, 10, 22)
-			time = LocalTime.of(20,00)
-			cinemaName = "Radio Mitre"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(3L).screenings.add(newScreening)
-		
-		
-		//Dragon ball super: Broly-------------------------------------------------		
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(4l)
-			date = new Date(2019 - 1900, 04, 12)
-			time = LocalTime.of(20,00)
-			cinemaName = "Jardin Japones"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(4L).screenings.add(newScreening)
-		
-		
-		//La Momia + Guardians-----------------------------------------------------	
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(5l)
-			date = new Date(2019 - 1900, 05, 15)
-			time = LocalTime.of(11,00)
-			cinemaName = "Terreno valdio"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(5L).screenings.add(newScreening)
-		
-				
-		newScreening = new Screening => [
-			//movie = movieRepository.searchById(5l)
-			date = new Date(2019 - 1900, 12, 25)
-			time = LocalTime.of(21,45)
-			cinemaName = "Cinema Las toninas"
-		]
-		screeningRepository.create(newScreening)
-		movieRepository.searchById(5L).screenings.add(newScreening)
+		])
+
 	}
 }

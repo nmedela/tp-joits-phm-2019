@@ -56,4 +56,18 @@ class Ticket {
 		DateFormatArgentina.dateFormat.format(buyDate)
 	}
 
+	override boolean equals(Object obj) {
+		try {
+			val other = obj as Ticket
+			id == other?.id
+		} catch (ClassCastException e) {
+			return false
+		}
+	} 
+    
+ 	override hashCode() {
+		if (id !== null) id.hashCode else super.hashCode
+	}
+ 	
+
 }
