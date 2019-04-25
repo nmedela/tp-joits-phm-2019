@@ -1,0 +1,11 @@
+DROP PROCEDURE IF EXISTS get_action_movie_screenings_by_cinema_name;
+
+CREATE PROCEDURE get_action_movie_screenings_by_cinema_name(IN CINEMA_NAME VARCHAR(255))
+SELECT movie.title, movie.year, movie.rating, screening.* 
+FROM movie_screening 
+LEFT JOIN movie 
+	ON movie_screening.Movie_id = movie.id
+LEFT JOIN screening 
+	ON movie_screening.screenings_id = screening.id
+WHERE genre LIKE '%Accion%'
+AND cinemaName = CINEMA_NAME;

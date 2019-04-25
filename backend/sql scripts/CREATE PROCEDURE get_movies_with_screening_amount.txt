@@ -1,0 +1,9 @@
+DROP PROCEDURE IF EXISTS get_movies_with_screening_amount;
+
+CREATE PROCEDURE get_movies_with_screening_amount(IN SCREENING_AMOUNT INT)
+SELECT movie.*
+FROM movie_screening
+LEFT JOIN movie
+	ON movie.id = Movie_id
+GROUP BY Movie_id
+HAVING COUNT(*) = SCREENING_AMOUNT
