@@ -41,6 +41,8 @@ class User {
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JsonIgnore Set<User> friends = newHashSet
 	
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL )
+	@JsonIgnore Set<Ticket> tickets= newHashSet
 
 	new() {
 	}

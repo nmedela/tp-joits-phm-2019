@@ -60,14 +60,20 @@ class PeliculasBootstrap {
 			time = LocalTime.of(20, 00)
 			cinemaName = "Colegio Holters"
 		]
+		val screeningGalaxy3 = new Screening => [
+			date = new Date(2019 - 1900, 10, 12)
+			time = LocalTime.of(22, 00)
+			cinemaName = "Cinemita"
+		]
 		screeningRepository.create(screeningGalaxy1)
 		screeningRepository.create(screeningGalaxy2)
+		screeningRepository.create(screeningGalaxy3)
 		val guardiansMovie = new Movie => [
 			title = "Guardians of the Galaxy"
 			year = 2014
 			rating = 5
 			genre = "Aventura/Ciencia ficcion"
-			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2)
+			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2,screeningGalaxy3)
 		]
 		movieRepository.create(guardiansMovie)
 
@@ -145,13 +151,25 @@ class PeliculasBootstrap {
 			cinemaName = "Jardin Japones"
 		]
 		screeningRepository.create(screeningDragon)
-
+		val screeningDragon2 = new Screening => [
+			date = new Date(2019 - 1900, 04, 16)
+			time = LocalTime.of(19, 00)
+			cinemaName = "Jardin Pequines"
+		]
+		val screeningDragon3 = new Screening => [
+			date = new Date(2019 - 1900, 05, 16)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Cinemark"
+		]
+		screeningRepository.create(screeningDragon2)
+		screeningRepository.create(screeningDragon3)
+		
 		movieRepository.create(new Movie => [
 			title = "Dragon ball super: Broly"
 			year = 2019
 			rating = 5
 			genre = "Anime"
-			screenings = newArrayList(screeningDragon)
+			screenings = newArrayList(screeningDragon,screeningDragon2,screeningDragon3)
 		])
 		// La Momia + Guardians-----------------------------------------------------	
 		val screeningMomiaAndGuardians1 = new Screening => [
@@ -177,6 +195,65 @@ class PeliculasBootstrap {
 			screenings = newArrayList(screeningMomiaAndGuardians1, screeningMomiaAndGuardians2)
 			sagaLevel = 100.5d
 		])
+
+
+	// El jorobado de Norte Das-------------------------------------------------		
+		val screeningJorobado = new Screening => [
+			date = new Date(2019 - 1900, 04, 12)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Jardin Japones"
+		]
+		screeningRepository.create(screeningJorobado)
+		val screeningJorobado2 = new Screening => [
+			date = new Date(2019 - 1900, 03, 13)
+			time = LocalTime.of(19, 00)
+			cinemaName = "Jardin Cinema"
+		]
+		val screeningJorobado3 = new Screening => [
+			date = new Date(2019 - 1900, 12, 16)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Cinemark"
+		]
+		screeningRepository.create(screeningJorobado2)
+		screeningRepository.create(screeningJorobado3)
+		
+		movieRepository.create(new Movie => [
+			title = "Jorobado de Norte Das"
+			year = 2019
+			rating = 3
+			genre = "Niños"
+			screenings = newArrayList(screeningJorobado,screeningJorobado2,screeningJorobado3)
+		])
+
+// El padrino 1-------------------------------------------------		
+		val screeningElPadrino = new Screening => [
+			date = new Date(2019 - 1900, 01, 12)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Jardin Japones"
+		]
+		screeningRepository.create(screeningElPadrino)
+		val screeningElPadrino2 = new Screening => [
+			date = new Date(2019 - 1900, 04, 13)
+			time = LocalTime.of(19, 00)
+			cinemaName = "Jardin Cinema"
+		]
+		val screeningElPadrino3 = new Screening => [
+			date = new Date(2019 - 1900, 12, 07)
+			time = LocalTime.of(20, 00)
+			cinemaName = "Cinemark"
+		]
+		screeningRepository.create(screeningElPadrino2)
+		screeningRepository.create(screeningElPadrino3)
+		
+		movieRepository.create(new Movie => [
+			title = "El Padrino"
+			year = 2019
+			rating = 3
+			genre = "Drama"
+			screenings = newArrayList(screeningElPadrino,screeningElPadrino2,screeningElPadrino3)
+		])
+
+
 
 	}
 }

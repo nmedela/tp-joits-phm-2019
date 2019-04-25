@@ -8,6 +8,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.criteria.JoinType
 import javax.persistence.PersistenceException
 import java.util.List
+import edu.unsam.joits.domain.Ticket
+import java.util.Set
 
 @Accessors
 class UserRepository extends Repository<User> {
@@ -26,24 +28,6 @@ class UserRepository extends Repository<User> {
 
 
 
-//	def User test(Long id) {
-//		val entityManager = this.entityManager
-//		try {
-//			val criteria = entityManager.criteriaBuilder
-//			val query = criteria.createQuery(entityType)
-//			val from = query.from(entityType)
-//			from.fetch("friends", JoinType.LEFT)
-//			query.select(from)
-//			query.where(criteria.equal(from.get('id'), id))
-//			entityManager.createQuery(query).singleResult
-//		} catch (PersistenceException e) {
-//			e.printStackTrace
-//			entityManager.transaction.rollback
-//			throw new RuntimeException("Ocurrió un error, la operación no puede completarse", e)
-//		} finally {
-//			entityManager.close
-//		}
-//	}
 	def User getUserBy(String username, String password) {
 		val entityManager = entityManager
 		try {
@@ -57,7 +41,18 @@ class UserRepository extends Repository<User> {
 			entityManager.close
 		}
 	}
-
+	def User getUserByUserName(String username) {
+		val entityManager = entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val camposUser = query.from(entityType)
+			query.select(camposUser).where(criteria.equal(camposUser.get("username"), username))
+			return entityManager.createQuery(query).singleResult
+		} finally {
+			entityManager.close
+		}
+	}
 	override getEntityType() {
 		typeof(User)
 	}
@@ -66,24 +61,24 @@ class UserRepository extends Repository<User> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-//	def User searchById(Long id) {
-//		val entityManager = entityManager
-//		try {
-//			val criteria = entityManager.criteriaBuilder
-//			val query = criteria.createQuery(entityType)
-//			val camposUser = query.from(entityType)
-//			query.select(camposUser).where(criteria.equal(camposUser.get("id"), id))
-//			return entityManager.createQuery(query).singleResult
-//		} finally {
-//			entityManager.close
-//		}
-//	}
-//
-//	override def buscarId(CriteriaBuilder criteria, CriteriaQuery<User> query, Root<User> from, Long id) {
-//		query.where(criteria.equal(from.get("id"), id))
-//	}
+	def Set<Ticket> searchTicket(Long id) {
+		val entityManager = entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val camposUser = query.from(entityType)
+			camposUser.fetch("tickets")
+			query.select(camposUser).where(criteria.equal(camposUser.get("id"), id))
+			return entityManager.createQuery(query).singleResult.tickets
+			} catch (PersistenceException e) {
+			return newHashSet
+		} finally {
+			entityManager.close
+		}
+	}
 	override generateWhereId(CriteriaBuilder criteria, CriteriaQuery<User> query, Root<User> from, Long id) {
 		from.fetch("friends", JoinType.LEFT)
+		from.fetch("tickets", JoinType.LEFT)
 		query.where(criteria.equal(from.get("id"), id))
 	}
 

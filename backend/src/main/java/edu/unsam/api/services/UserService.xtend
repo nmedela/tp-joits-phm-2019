@@ -10,6 +10,7 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
+import edu.unsam.api.repository.TicketRepository
 
 class UserService {
 	def static User getUserById(Long id) {
@@ -31,13 +32,13 @@ class UserService {
 	}
 
 	def static getSuggested() {
-		 val repository = UserRepository.instance.allInstances
+		val repository = UserRepository.instance.allInstances
 		val suggested = newHashSet
 		repository.forEach [ user |
-		 	suggested.add(
-		 		new UserShort(user.getId, user.getName, user.getLastName)
-		 	)
-		 ]
+			suggested.add(
+				new UserShort(user.getId, user.getName, user.getLastName)
+			)
+		]
 		return suggested
 	}
 
@@ -48,7 +49,7 @@ class UserService {
 //		 val User newFriend = repository.findFirst [ item |
 //		 	item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
 //		 ]
-		 user.addFriend(friend)
+		user.addFriend(friend)
 		UserRepository.instance.update(user)
 	}
 
@@ -72,14 +73,10 @@ class UserService {
 
 	def static finishShopping(Long id, List<Ticket> shoppingCart) {
 		var user = getUserById(id)
-		deduceBalanceFromUser(user,shoppingCart)
-		ShoppingCart.instance.addBuyOut(id, shoppingCart)
-	}
-
-	def private static deduceBalanceFromUser(User user, List<Ticket> shoppingCart) {
 		var Double sum = 0d;
 		for (Ticket ticket : shoppingCart) {
 			sum = sum + ticket.price
+			user.tickets.add(ticket)
 		}
 
 		if (user.balance < sum)
@@ -90,13 +87,10 @@ class UserService {
 	}
 
 	def static Set<Movie> getSeenMovies(Long id) {
-		val List<Ticket> cart = ShoppingCart.instance.getCart(id)
-		if (cart === null) {
-			return new HashSet
-		} else {
-			return cart.map(ticket|ticket.movie).toSet()
-
-		}
+		val tickets = UserRepository.instance.searchTicket(id)
+		val Set<Movie> seenMovies = newHashSet
+		tickets.forEach[ticket|seenMovies.add(ticket.movie)]
+		return seenMovies
 	}
 
 	def static searchFriends(Long id, String name) {
