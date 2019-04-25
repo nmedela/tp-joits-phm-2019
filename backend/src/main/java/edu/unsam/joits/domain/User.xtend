@@ -15,6 +15,7 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.Transient
+import javax.persistence.ManyToMany
 
 @Entity
 @Accessors
@@ -33,11 +34,11 @@ class User {
 	@Accessors String password
 	@Column
 	@Accessors Integer age
-	@Column
+	@Column(nullable = false)
 	Double balance = 0.0
 	
 	
-	@OneToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JsonIgnore Set<User> friends = newHashSet
 	
 
