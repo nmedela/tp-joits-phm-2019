@@ -29,9 +29,9 @@ class MovieRepository extends Repository<Movie> {
 		return this.searchBy(searchMovie)
 	}
 
-	def Movie searchById(Long id) {
-		return this.searchById2(id)
-	}
+//	def Movie searchById(Long id) {
+//		return this.searchById2(id)
+//	}
 
 	def Movie searchFullMovieById(Long id) {
 		val entityManager = this.entityManager
@@ -67,7 +67,8 @@ class MovieRepository extends Repository<Movie> {
 		}
 	}
 
-	override buscarId(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato, Long id) {
+	
+	override generateWhereId(CriteriaBuilder criteria, CriteriaQuery<Movie> query, Root<Movie> camposCandidato, Long id) {
 		query.where(criteria.equal(camposCandidato.get("id"), id))
 	}
 

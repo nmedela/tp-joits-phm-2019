@@ -31,11 +31,7 @@ class ScreeningRepository extends Repository<Screening> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-	def Screening searchById(Long id) {
-		return this.searchById2(id)
-	}
-
-	override buscarId(CriteriaBuilder criteria, CriteriaQuery<Screening> query, Root<Screening> camposCandidato,
+	override generateWhereId(CriteriaBuilder criteria, CriteriaQuery<Screening> query, Root<Screening> camposCandidato,
 		Long id) {
 		query.where(criteria.equal(camposCandidato.get("id"), id))
 	}

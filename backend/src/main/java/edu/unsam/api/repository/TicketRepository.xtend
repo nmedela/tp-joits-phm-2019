@@ -24,7 +24,8 @@ class TicketRepository extends Repository {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override buscarId(CriteriaBuilder criteria, CriteriaQuery query, Root camposCandidato, Long id) {
+	
+	override generateWhereId(CriteriaBuilder criteria, CriteriaQuery query, Root camposCandidato, Long id) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	

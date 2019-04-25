@@ -42,7 +42,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 		}
 	}
 
-	def searchById2(Long id) {
+	def searchById(Long id) {
 		val entityManager = this.entityManager
 		try {
 			val criteria = entityManager.criteriaBuilder
@@ -50,7 +50,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 			val from = query.from(entityType)
 			query.select(from)
 			if (id !== null) {
-				buscarId(criteria, query,from, id)
+				generateWhereId(criteria, query, from, id)
 			}
 			entityManager.createQuery(query).singleResult
 		} finally {
@@ -60,7 +60,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 	abstract def void generateWhere(CriteriaBuilder criteria, CriteriaQuery<T> query, Root<T> camposCandidato, T t)
 
-	abstract def void buscarId(CriteriaBuilder criteria, CriteriaQuery<T> query, Root<T> camposCandidato, Long id)
+	abstract def void generateWhereId(CriteriaBuilder criteria, CriteriaQuery<T> query, Root<T> camposCandidato, Long id)
 
 	def create(T t) {
 		val entityManager = this.entityManager

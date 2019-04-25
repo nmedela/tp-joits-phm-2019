@@ -13,7 +13,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class UserService {
 	def static User getUserById(Long id) {
-		return UserRepository.instance.test(id)
+		return UserRepository.instance.searchById(id)
 	}
 
 	def static loadBalance(Long id, AddCashRequest cash) {
