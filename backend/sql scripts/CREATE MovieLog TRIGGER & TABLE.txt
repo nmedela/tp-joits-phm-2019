@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS `joits`.`movie_log`
+
+CREATE TABLE `joits`.`movie_log` (
+  `movie_log_id` INT NOT NULL AUTO_INCREMENT,
+  `movie_id` VARCHAR(45) NOT NULL,
+  `modified_date` DATETIME NOT NULL,
+  `previous_movie_title` VARCHAR(150) NULL,
+  `new_movie_title` VARCHAR(150) NULL,
+  PRIMARY KEY (`movie_log_id`));
+  
+DROP TRIGGER IF EXISTS after_update_log;
+
+CREATE TRIGGER after_update_log AFTER UPDATE ON movie
+	FOR EACH ROW
+	  INSERT INTO movie_log (movie_id, modified_date, previous_movie_title, new_movie_title)
+	  VALUES(NEW.id,NOW(),OLD.title,NEW.title)
