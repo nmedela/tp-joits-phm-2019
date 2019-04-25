@@ -7,6 +7,7 @@ import javax.persistence.criteria.Root
 import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.criteria.JoinType
 import javax.persistence.PersistenceException
+import java.util.List
 
 @Accessors
 class UserRepository extends Repository<User> {
@@ -22,6 +23,8 @@ class UserRepository extends Repository<User> {
 		}
 		return instance
 	}
+
+
 
 //	def User test(Long id) {
 //		val entityManager = this.entityManager
@@ -41,7 +44,6 @@ class UserRepository extends Repository<User> {
 //			entityManager.close
 //		}
 //	}
-
 	def User getUserBy(String username, String password) {
 		val entityManager = entityManager
 		try {

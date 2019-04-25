@@ -31,23 +31,25 @@ class UserService {
 	}
 
 	def static getSuggested() {
-		// val repository = UserRepository.instance.repositoryContent
+		 val repository = UserRepository.instance.allInstances
 		val suggested = newHashSet
-		/*repository.forEach [ user |
-		 * 	suggested.add(
-		 * 		new UserShort(user.getId, user.getName, user.getLastName)
-		 * 	)
-		 ]*/
+		repository.forEach [ user |
+		 	suggested.add(
+		 		new UserShort(user.getId, user.getName, user.getLastName)
+		 	)
+		 ]
 		return suggested
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
-		/*val user = getUserById(id)
-		 * val repository = UserRepository.getInstance.repositoryContent
-		 * val User newFriend = repository.findFirst [ item |
-		 * 	item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
-		 * ]
-		 user.addFriend(newFriend)*/
+		val user = getUserById(id)
+		val friend = getUserById(newFriendJson.id)
+//		 val repository = UserRepository.getInstance.repositoryContent
+//		 val User newFriend = repository.findFirst [ item |
+//		 	item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
+//		 ]
+		 user.addFriend(friend)
+		UserRepository.instance.update(user)
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
