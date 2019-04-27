@@ -23,8 +23,8 @@ class Ticket {
 	@ManyToOne
 	Screening screening
 
-	@JsonIgnore Date buyDate
-	@JsonIgnore LocalTime buyTime
+	@JsonIgnore @Column Date buyDate
+	@JsonIgnore @Column LocalTime buyTime
 	
 	@Column
 	Double price
@@ -39,6 +39,7 @@ class Ticket {
 	}
 	
 	new() {
+	
 	}
 
 	@JsonProperty("screeningId")

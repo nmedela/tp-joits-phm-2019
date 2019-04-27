@@ -61,17 +61,6 @@ class UserController {
 		}
 	}
 
-	@Put("/user/:id/friends")
-	def addFriends(@Body String body) {
-		val wrappedId = Long.valueOf(id)
-		try {
-			val RequestFriends requestFriends = body.fromJson(RequestFriends)
-			UserService.addNewFriends(wrappedId, requestFriends.friends)
-			return ok()
-		} catch (Error e) {
-			badRequest("Can't load friends. ")
-		}
-	}
 
 	@Put("/user/:id")
 	def updateUser(@Body String body) {

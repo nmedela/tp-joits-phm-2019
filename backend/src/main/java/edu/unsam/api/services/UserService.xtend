@@ -10,7 +10,6 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
-import edu.unsam.api.repository.TicketRepository
 
 class UserService {
 	def static User getUserById(Long id) {
@@ -28,7 +27,10 @@ class UserService {
 	}
 
 	def static updateUser(Long id, User newUser) {
-		UserRepository.instance.update(newUser)
+		val user = UserRepository.instance.searchById(id)
+		user.age=newUser.age
+		user.balance = newUser.balance
+		UserRepository.instance.update(user)
 	}
 
 	def static getSuggested() {
@@ -45,31 +47,12 @@ class UserService {
 	def static addNewFriend(Long id, Friend newFriendJson) {
 		val user = getUserById(id)
 		val friend = getUserById(newFriendJson.id)
-//		 val repository = UserRepository.getInstance.repositoryContent
-//		 val User newFriend = repository.findFirst [ item |
-//		 	item.id == newFriendJson.id || (item.name == newFriendJson.name && item.lastName == newFriendJson.lastName)
-//		 ]
 		user.addFriend(friend)
 		UserRepository.instance.update(user)
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
-	def static addNewFriends(Long id, Set<UserShort> newFriendsJson) {
-		val user = getUserById(id)
-		val Set<User> newFriends = newHashSet
-		mapperUserShortToUser(newFriendsJson).forEach[friend|user.addFriend(friend)]
-	}
 
-	def static Set<User> mapperUserShortToUser(Set<UserShort> usersShort) {
-		/*val repository = UserRepository.getInstance.repositoryContent
-		 * val Set<User> newFriends = newHashSet
-		 * usersShort.forEach [ newFriend |
-		 * 	newFriends.add(repository.findFirst [ item |
-		 * 		item.id == newFriend.id || (item.name == newFriend.name && item.lastName == newFriend.lastName)
-		 * 	])
-		 * ]
-		 return newFriends*/
-	}
 
 	def static finishShopping(Long id, List<Ticket> shoppingCart) {
 		var user = getUserById(id)
@@ -101,10 +84,6 @@ class UserService {
 		].toList();
 	}
 
-	def static suggestedFriends(Long id) {
-		/*val user = getUserById(id)
-		 return UserRepository.getInstance.repositoryContent*/
-	}
 
 }
 

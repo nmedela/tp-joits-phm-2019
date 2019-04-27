@@ -29,9 +29,6 @@ class MovieRepository extends Repository<Movie> {
 		return this.searchBy(searchMovie)
 	}
 
-//	def Movie searchById(Long id) {
-//		return this.searchById2(id)
-//	}
 
 	def Movie searchFullMovieById(Long id) {
 		val entityManager = this.entityManager

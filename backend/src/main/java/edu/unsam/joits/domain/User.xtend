@@ -31,7 +31,7 @@ class User {
 	@Column(length=150)
 	@Accessors String lastName
 	@Column(length=150)
-	@Accessors String password
+	@JsonIgnore @Accessors String password
 	@Column
 	@Accessors Integer age
 	@Column(nullable = false)
@@ -42,7 +42,7 @@ class User {
 	@JsonIgnore Set<User> friends = newHashSet
 	
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL )
-	@JsonIgnore Set<Ticket> tickets= newHashSet
+	Set<Ticket> tickets= newHashSet
 
 	new() {
 	}

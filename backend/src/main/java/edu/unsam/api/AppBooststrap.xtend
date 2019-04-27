@@ -2,7 +2,6 @@ package edu.unsam.api
 
 import edu.unsam.api.repository.MovieRepository
 import edu.unsam.api.repository.ScreeningRepository
-import edu.unsam.api.repository.TicketRepository
 import edu.unsam.api.repository.UserRepository
 import edu.unsam.joits.domain.Movie
 import edu.unsam.joits.domain.Saga
@@ -19,7 +18,6 @@ class AppBooststrap {
 	def static crearContenidoInicial() {
 		val movieRepository = MovieRepository.getInstance
 		val screeningRepository = ScreeningRepository.getInstance
-		val ticketRepository = TicketRepository.getInstance
 		val screeningMomia1 = new Screening => [
 			date = new Date(2019 - 1900, 03, 23)
 			time = LocalTime.of(10, 00)
@@ -74,7 +72,7 @@ class AppBooststrap {
 			year = 2014
 			rating = 5
 			genre = "Aventura/Ciencia ficcion"
-			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2,screeningGalaxy3)
+			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2, screeningGalaxy3)
 		]
 		movieRepository.create(guardiansMovie)
 
@@ -100,13 +98,14 @@ class AppBooststrap {
 		]
 		screeningRepository.create(screeningInterstellar3)
 
-		movieRepository.create(new Movie => [
+		val movieInterestelar = new Movie => [
 			title = "Interstellar"
 			year = 2014
 			rating = 4
 			genre = "Accion/Ciencia ficcion"
 			screenings = newArrayList(screeningInterstellar1, screeningInterstellar2, screeningInterstellar3)
-		])
+		]
+		movieRepository.create(movieInterestelar)
 
 		// Avengers: Endgame--------------------------------------------------
 		val screeningAvengers1 = new Screening => [
@@ -137,13 +136,14 @@ class AppBooststrap {
 		]
 		screeningRepository.create(screeningAvengers4)
 
-		movieRepository.create(new Movie => [
+		val movieAvenger = new Movie => [
 			title = "Avengers: Endgame"
 			year = 2019
 			rating = 3
 			genre = "Accion"
 			screenings = newArrayList(screeningAvengers1, screeningAvengers2, screeningAvengers3, screeningAvengers4)
-		])
+		]
+		movieRepository.create(movieAvenger)
 
 		// Dragon ball super: Broly-------------------------------------------------		
 		val screeningDragon = new Screening => [
@@ -164,14 +164,15 @@ class AppBooststrap {
 		]
 		screeningRepository.create(screeningDragon2)
 		screeningRepository.create(screeningDragon3)
-		
-		movieRepository.create(new Movie => [
+
+		val movieDragon = new Movie => [
 			title = "Dragon ball super: Broly"
 			year = 2019
 			rating = 5
 			genre = "Anime"
-			screenings = newArrayList(screeningDragon,screeningDragon2,screeningDragon3)
-		])
+			screenings = newArrayList(screeningDragon, screeningDragon2, screeningDragon3)
+		]
+		movieRepository.create(movieDragon)
 		// La Momia + Guardians-----------------------------------------------------	
 		val screeningMomiaAndGuardians1 = new Screening => [
 			date = new Date(2019 - 1900, 05, 15)
@@ -197,8 +198,7 @@ class AppBooststrap {
 			sagaLevel = 100.5d
 		])
 
-
-	// El jorobado de Norte Das-------------------------------------------------		
+		// El jorobado de Norte Das-------------------------------------------------		
 		val screeningJorobado = new Screening => [
 			date = new Date(2019 - 1900, 04, 12)
 			time = LocalTime.of(20, 00)
@@ -217,14 +217,15 @@ class AppBooststrap {
 		]
 		screeningRepository.create(screeningJorobado2)
 		screeningRepository.create(screeningJorobado3)
-		
-		movieRepository.create(new Movie => [
+
+		val movieJorobado = new Movie => [
 			title = "Jorobado de Norte Das"
 			year = 2019
 			rating = 3
 			genre = "Niños"
-			screenings = newArrayList(screeningJorobado,screeningJorobado2,screeningJorobado3)
-		])
+			screenings = newArrayList(screeningJorobado, screeningJorobado2, screeningJorobado3)
+		]
+		movieRepository.create(movieJorobado)
 
 // El padrino 1-------------------------------------------------		
 		val screeningElPadrino = new Screening => [
@@ -245,16 +246,15 @@ class AppBooststrap {
 		]
 		screeningRepository.create(screeningElPadrino2)
 		screeningRepository.create(screeningElPadrino3)
-		
-		movieRepository.create(new Movie => [
+
+		val moviePadrino = new Movie => [
 			title = "El Padrino"
 			year = 2019
 			rating = 3
 			genre = "Drama"
-			screenings = newArrayList(screeningElPadrino,screeningElPadrino2,screeningElPadrino3)
-		])
-
-
+			screenings = newArrayList(screeningElPadrino, screeningElPadrino2, screeningElPadrino3)
+		]
+		movieRepository.create(moviePadrino)
 
 		val newTicket = new Ticket => [
 			screening = screeningMomia1
@@ -262,8 +262,60 @@ class AppBooststrap {
 			buyDate = Calendar.getInstance().getTime()
 			buyTime = LocalTime.now()
 		]
-		
-
+		val newTicket2 = new Ticket => [
+			screening = screeningElPadrino
+			movie = moviePadrino
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket3 = new Ticket => [
+			screening = screeningElPadrino2
+			movie = moviePadrino
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket4 = new Ticket => [
+			screening = screeningDragon
+			movie = movieDragon
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket5 = new Ticket => [
+			screening = screeningAvengers3
+			movie = movieAvenger
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket6 = new Ticket => [
+			screening = screeningDragon2
+			movie = movieDragon
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket7 = new Ticket => [
+			screening = screeningInterstellar1
+			movie = movieInterestelar
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket8 = new Ticket => [
+			screening = screeningJorobado3
+			movie = movieJorobado
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket9 = new Ticket => [
+			screening = screeningMomia3
+			movie = momiaMovie
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
+		val newTicket10 = new Ticket => [
+			screening = screeningElPadrino2
+			movie = moviePadrino
+			buyDate = Calendar.getInstance().getTime()
+			buyTime = LocalTime.now()
+		]
 		val userRepository = UserRepository.getInstance
 
 		val User nico = new User => [
@@ -272,10 +324,10 @@ class AppBooststrap {
 			lastName = "Medela"
 			password = "1234"
 			age = 25
-			balance=10000d
-			tickets= #[newTicket].toSet
+			balance = 10000d
+			tickets = #[newTicket,newTicket2].toSet
 		]
-		
+
 		val User gonzalo = new User => [
 			name = "Gonzalo"
 			username = "guusygonzalo"
@@ -283,6 +335,7 @@ class AppBooststrap {
 			lastName = "Canton"
 			age = 21
 			balance = 10000d
+			tickets = #[newTicket3,newTicket4].toSet
 		]
 		val User facundo = new User => [
 			name = "Facundo"
@@ -290,6 +343,7 @@ class AppBooststrap {
 			password = "1234"
 			lastName = "Rodriguez"
 			age = 21
+			tickets = #[newTicket5,newTicket6].toSet
 		]
 
 		val User carlitos = new User => [
@@ -298,6 +352,7 @@ class AppBooststrap {
 			password = "1234"
 			lastName = "Pappo"
 			age = 21
+			tickets = #[newTicket7,newTicket8].toSet
 		]
 		val User leandro = new User => [
 			name = "Leandro"

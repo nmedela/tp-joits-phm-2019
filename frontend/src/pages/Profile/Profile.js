@@ -113,10 +113,10 @@ class Profile extends Component {
                     <div>
                       <Paper >
                         <List style={{ overflow: "auto", height: "10em" }}>
-                          {this.state.seenMovies && this.state.seenMovies.map(movie =>
+                          {this.state.user &&  this.state.user.tickets && this.state.user.tickets.map(ticket =>
                             <ListItem>
                               <ListItemText
-                                primary={movie.title}
+                                primary={ticket.movie.title}
                               ></ListItemText>
                             </ListItem>,
 
