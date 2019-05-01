@@ -6,11 +6,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+import ExitToApp from "@material-ui/icons/ExitToApp";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 
-import { withRouter } from "react-router-dom";
 
 const styles = {
   root: {
@@ -55,36 +54,16 @@ class Navbar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              Joits
-            </Typography>
             {isLogged && (
               <div>
                 <IconButton
                   aria-owns={open ? "menu-appbar" : undefined}
                   aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit"
+                  onClick={this.logOut}
+                                    color="inherit"
                 >
-                  <AccountCircle />
+                  <ExitToApp />
                 </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.goToProfile}>Profile</MenuItem>
-                  <MenuItem onClick={this.logOut}>Log out</MenuItem>
-                </Menu>
               </div>
             )}
           </Toolbar>
@@ -98,4 +77,4 @@ Navbar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withRouter(withStyles(styles)(Navbar));
+export default withStyles(styles)(Navbar);

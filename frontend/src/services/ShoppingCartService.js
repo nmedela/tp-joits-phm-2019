@@ -21,7 +21,7 @@ export default class ShoppingCartService {
         const shoppingCart = JSON.parse(sessionStorage.getItem("tickets"));
         try {
             let resp = await axios.post(`${endpointURL}/shoppingcart/details`, {
-                 tickets:shoppingCart
+                 tickets: !!shoppingCart ? shoppingCart : []
             });
             return resp.data;
         }
