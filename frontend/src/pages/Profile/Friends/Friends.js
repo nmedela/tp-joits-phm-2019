@@ -175,11 +175,13 @@ class Friends extends Component {
                   </GridItem>
                 </GridContainer>
                 {friends.length > 0 ? (
-                  <FriendsTable friends={friends} />
+                  <FriendsTable
+                    friends={friends}
+                    onClickFriend={this.openModalAddFriend}
+                  />
                 ) : (
-                  <div style={{textAlign:"center",padding:"3em"}}>
-                  <Typography>No hay resultados para tu busqueda</Typography>
-
+                  <div style={{ textAlign: "center", padding: "3em" }}>
+                    <Typography>No hay resultados para tu busqueda</Typography>
                   </div>
                 )}
               </CardBody>
@@ -199,7 +201,6 @@ class Friends extends Component {
             </Card>
           </GridItem>
         </GridContainer>
-        )}
         <Snackbar
           place="bc"
           color="success"
