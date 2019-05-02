@@ -76,12 +76,16 @@ class UserService {
 		return seenMovies
 	}
 
-	def static searchFriends(Long id, String name) {
+	def static searchFriends(Long id, String value) {
 		val user = getUserById(id)
-		val nameLower = name.toLowerCase()
-		return user.friends.filter [ friend |
-			(friend.name.toLowerCase()).contains(nameLower) || (friend.lastName.toLowerCase()).contains(nameLower)
-		].toList();
+//		val nameLower = name.toLowerCase()
+		
+		val usuarios= UserRepository.instance.searchFriends(value)
+		return usuarios.filter[usuario | !user.friends.exists[friend | friend.id == usuario.id] && user.id != usuario.id].toSet
+		
+//		return user.friends.filter [ friend |
+//			(friend.name.toLowerCase()).contains(nameLower) || (friend.lastName.toLowerCase()).contains(nameLower)
+//		].toSet();
 	}
 
 

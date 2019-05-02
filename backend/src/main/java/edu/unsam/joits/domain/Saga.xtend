@@ -8,9 +8,12 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
 import org.eclipse.xtend.lib.annotations.Accessors
+import javax.persistence.InheritanceType
+import javax.persistence.Inheritance
 
 @Entity
 @Accessors
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 class Saga extends Movie{
 	
 	@Id @GeneratedValue

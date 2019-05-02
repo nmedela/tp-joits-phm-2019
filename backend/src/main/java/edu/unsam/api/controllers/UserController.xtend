@@ -39,6 +39,7 @@ class UserController {
 	def Result getFriends(String name) {
 		val wrappedId = Long.valueOf(id)
 		val suggested = UserService.searchFriends(wrappedId, name)
+//		val suggested = UserService.searchFriends(wrappedId, name)
 		return ok(suggested.toJson)
 	}
 

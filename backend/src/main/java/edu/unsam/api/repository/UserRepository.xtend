@@ -10,6 +10,7 @@ import javax.persistence.PersistenceException
 import java.util.List
 import edu.unsam.joits.domain.Ticket
 import java.util.Set
+import edu.unsam.api.services.UserShort
 
 @Accessors
 class UserRepository extends Repository<User> {
@@ -26,8 +27,6 @@ class UserRepository extends Repository<User> {
 		return instance
 	}
 
-
-
 	def User getUserBy(String username, String password) {
 		val entityManager = entityManager
 		try {
@@ -41,6 +40,7 @@ class UserRepository extends Repository<User> {
 			entityManager.close
 		}
 	}
+
 	def User getUserByUserName(String username) {
 		val entityManager = entityManager
 		try {
@@ -53,6 +53,7 @@ class UserRepository extends Repository<User> {
 			entityManager.close
 		}
 	}
+
 	override getEntityType() {
 		typeof(User)
 	}
@@ -70,16 +71,34 @@ class UserRepository extends Repository<User> {
 			camposUser.fetch("tickets")
 			query.select(camposUser).where(criteria.equal(camposUser.get("id"), id))
 			return entityManager.createQuery(query).singleResult.tickets
-			} catch (PersistenceException e) {
+		} catch (PersistenceException e) {
 			return newHashSet
 		} finally {
 			entityManager.close
 		}
 	}
+
 	override generateWhereId(CriteriaBuilder criteria, CriteriaQuery<User> query, Root<User> from, Long id) {
 		from.fetch("friends", JoinType.LEFT)
 		from.fetch("tickets", JoinType.LEFT)
 		query.where(criteria.equal(from.get("id"), id))
 	}
 
+	def Set<User> searchFriends(String value) {
+		val entityManager = entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val camposUser = query.from(entityType)
+			camposUser.fetch("friends", JoinType.LEFT)
+			camposUser.fetch("tickets", JoinType.LEFT)
+			query.select(camposUser).where(criteria.or(
+				criteria.like(camposUser.get("name"), "%" + value + "%"),
+				criteria.like(camposUser.get("lastName"), "%" + value + "%")
+			))
+			return entityManager.createQuery(query).resultList.toSet
+		} finally {
+			entityManager.close
+		}
+	}
 }

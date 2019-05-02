@@ -13,17 +13,19 @@
 		<class>edu.unsam.joits.domain.Movie</class>
 		<class>edu.unsam.joits.domain.Screening</class>
 		<class>edu.unsam.joits.domain.Saga</class>
-		
-		
+
+
 		<properties>
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/joits" />
+			<property name="javax.persistence.jdbc.driver"
+				value="com.mysql.cj.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:mysql://localhost/joits" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="admin" />
 
-
 			<!-- propiedades de hibernate -->
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
