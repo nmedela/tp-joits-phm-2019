@@ -11,6 +11,10 @@ import java.util.List
 import edu.unsam.joits.domain.Ticket
 import java.util.Set
 import edu.unsam.api.services.UserShort
+import org.hibernate.criterion.Restrictions
+import java.util.Arrays
+import java.util.ArrayList
+import javax.persistence.criteria.Predicate
 
 @Accessors
 class UserRepository extends Repository<User> {
@@ -84,18 +88,19 @@ class UserRepository extends Repository<User> {
 		query.where(criteria.equal(from.get("id"), id))
 	}
 
-	def Set<User> searchFriends(String value) {
+	def Set<User> searchFriends(String value, List<Long> ids) {
 		val entityManager = entityManager
 		try {
 			val criteria = entityManager.criteriaBuilder
 			val query = criteria.createQuery(entityType)
 			val camposUser = query.from(entityType)
-			camposUser.fetch("friends", JoinType.LEFT)
-			camposUser.fetch("tickets", JoinType.LEFT)
-			query.select(camposUser).where(criteria.or(
-				criteria.like(camposUser.get("name"), "%" + value + "%"),
-				criteria.like(camposUser.get("lastName"), "%" + value + "%")
-			))
+			query.select(camposUser).where(
+				criteria.and(
+					criteria.or(criteria.like(camposUser.get("name"), "%" + value + "%"),
+						criteria.like(camposUser.get("lastName"), "%" + value + "%")),
+					criteria.not(camposUser.get("id").in(ids))
+				)
+			)
 			return entityManager.createQuery(query).resultList.toSet
 		} finally {
 			entityManager.close

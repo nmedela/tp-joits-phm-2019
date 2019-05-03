@@ -10,6 +10,7 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.Arrays
 
 class UserService {
 	def static User getUserById(Long id) {
@@ -28,7 +29,7 @@ class UserService {
 
 	def static updateUser(Long id, User newUser) {
 		val user = UserRepository.instance.searchById(id)
-		user.age=newUser.age
+		user.age = newUser.age
 		user.balance = newUser.balance
 		UserRepository.instance.update(user)
 	}
@@ -52,8 +53,6 @@ class UserService {
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
-
-
 	def static finishShopping(Long id, List<Ticket> shoppingCart) {
 		var user = getUserById(id)
 		var Double sum = 0d;
@@ -77,9 +76,18 @@ class UserService {
 	}
 
 	def static searchFriends(Long id, String value) {
-		val user = getUserById(id)		
-		val usuarios= UserRepository.instance.searchFriends(value)
-		return usuarios.filter[usuario | !user.friends.exists[friend | friend.id == usuario.id] && user.id != usuario.id].toSet
+		val user = getUserById(id)
+		val List<Long> restrictedIds = user.friends.map[friend|friend.id].toList();
+		restrictedIds.add(id);
+		val usuarios = UserRepository.instance.searchFriends(value, restrictedIds)
+
+		val suggested = newHashSet
+		usuarios.forEach [ usuario |
+			suggested.add(
+				new UserShort(usuario.getId, usuario.getName, usuario.getLastName)
+			)
+		]
+		return suggested
 	}
 
 }
