@@ -20,8 +20,10 @@
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://localhost/joits" />
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="Neku28609Dota$" />
+<!-- 			<property name="javax.persistence.jdbc.user" value="root" /> -->
+<!-- 			<property name="javax.persistence.jdbc.password" value="Neku28609Dota$" /> -->
+			<property name="javax.persistence.jdbc.user" value="nicolas" />
+			<property name="javax.persistence.jdbc.password" value="1234" />
 
 			<!-- propiedades de hibernate -->
 			<property name="hibernate.dialect"

@@ -13,11 +13,20 @@ import java.util.Arrays
 import java.util.Calendar
 import java.util.Date
 import java.util.HashSet
+import edu.unsam.api.repository.MovieRepositoryMongo
+import edu.unsam.joits.domain.MovieMongo
+import edu.unsam.api.repository.ScreeningSearch
 
 class AppBooststrap {
 	def static crearContenidoInicial() {
 		val movieRepository = MovieRepository.getInstance
 		val screeningRepository = ScreeningRepository.getInstance
+		val repoMongo = new MovieRepositoryMongo()
+		val buscarMomia = new ScreeningSearch(new MovieMongo("Momia"))
+		val buscarCinem = new ScreeningSearch()=>[
+			cinemaComienzaCon = "Cinem"
+		]	
+		System.out.println(repoMongo.getScreenings(buscarCinem).get(0).cinemaName)
 		val screeningMomia1 = new Screening => [
 			date = new Date(2019 - 1900, 03, 23)
 			time = LocalTime.of(10, 00)
