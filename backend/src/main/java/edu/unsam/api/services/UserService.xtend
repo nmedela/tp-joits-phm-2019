@@ -11,6 +11,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Arrays
+import edu.unsam.joits.domain.MovieMongo
 
 class UserService {
 	def static User getUserById(Long id) {
@@ -68,13 +69,18 @@ class UserService {
 		UserRepository.instance.update(user)
 	}
 
-	def static Set<Movie> getSeenMovies(Long id) {
+//	def static Set<Movie> getSeenMovies(Long id) {
+//		val tickets = UserRepository.instance.searchTicket(id)
+//		val Set<Movie> seenMovies = newHashSet
+//		tickets.forEach[ticket|seenMovies.add(ticket.movie)]
+//		return seenMovies
+//	}
+	def static Set<String> getSeenMovies(Long id) {
 		val tickets = UserRepository.instance.searchTicket(id)
-		val Set<Movie> seenMovies = newHashSet
+		val Set<String> seenMovies = newHashSet
 		tickets.forEach[ticket|seenMovies.add(ticket.movie)]
 		return seenMovies
 	}
-
 	def static searchFriends(Long id, String value) {
 		val user = getUserById(id)
 		val List<Long> restrictedIds = user.friends.map[friend|friend.id].toList();

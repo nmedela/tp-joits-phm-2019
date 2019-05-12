@@ -8,7 +8,7 @@ class ScreeningSearch {
 	
 	MovieMongo movie
 	String cinemaComienzaCon
-	String funcion
+	String date
 	new() {
 		this(null)	
 	}
@@ -16,11 +16,10 @@ class ScreeningSearch {
 	new(MovieMongo movie) {
 		this.movie = movie
 	}
-	
 	override toString() {
-		var result = "Busqueda de jugadores " 
-		if (funcion !== null) {
-			result += " - funcion " + funcion
+		var result = "Busqueda de peliculas " 
+		if (date !== null) {
+			result += " - funcion " + date
 		}
 		if (movie !== null) {
 			result += " - movie " + titleMovie

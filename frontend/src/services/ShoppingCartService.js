@@ -31,7 +31,7 @@ export default class ShoppingCartService {
     }
 
     async updateShoppingCart(userId, shoppingCart) {
-        const tickets = shoppingCart.map(ticket => ({movieId: ticket.movie.id, screeningId: ticket.screeningId}))
+        const tickets = shoppingCart.map(ticket => ({movieTitle: ticket.movie.title, date: ticket.screening.date,time: ticket.screening.time, cinemaName:ticket.screening.cinemaName }))
         sessionStorage.setItem("tickets",JSON.stringify(tickets));
     }
     async submitOrder(userId) {

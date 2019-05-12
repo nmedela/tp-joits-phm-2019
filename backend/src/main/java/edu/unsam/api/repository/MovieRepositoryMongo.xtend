@@ -9,7 +9,15 @@ import java.util.List
 import java.util.ArrayList
 
 class MovieRepositoryMongo {
-	Datastore ds
+	static Datastore ds
+	static MovieRepositoryMongo instance
+
+	static def getInstance() {
+		if (instance === null) {
+			instance = new MovieRepositoryMongo
+		}
+		return instance
+	}
 
 	new() {
 		val mongo = new MongoClient("localhost", 27017)
@@ -21,6 +29,14 @@ class MovieRepositoryMongo {
 		println("Conectado a MongoDB. Bases: " + ds.getDB.collectionNames)
 	}
 
+	def List<MovieMongo> allInstances() {
+		ds.createQuery(MovieMongo).asList
+	}
+
+	def searchByTitle(String title) {
+		ds.createQuery(MovieMongo).field("title").containsIgnoreCase(title ?: "").asList
+	}
+
 	def getScreenings(ScreeningSearch screeningSearch) {
 		//
 		if (screeningSearch.movie !== null) {
@@ -28,7 +44,7 @@ class MovieRepositoryMongo {
 
 			if (iterator.hasNext) {
 				val funciones = (iterator.next as MovieMongo).screenings
-				println("*/Búsqueda x Equipo: " + screeningSearch.titleMovie)
+				println("*/Búsqueda x Pelicula: " + screeningSearch.titleMovie)
 				println("*/Resultado: " + funciones)
 				println("****************************************")
 				return funciones
@@ -38,7 +54,8 @@ class MovieRepositoryMongo {
 		val cinemaComienzaCon = screeningSearch.cinemaComienzaCon
 		if (cinemaComienzaCon !== null) {
 			val List<ScreeningMongo> screenings = new ArrayList<ScreeningMongo>
-			val query = ds.createQuery(typeof(MovieMongo)).field("screenings.cinemaName").containsIgnoreCase(cinemaComienzaCon)
+			val query = ds.createQuery(typeof(MovieMongo)).field("screenings.cinemaName").
+				containsIgnoreCase(cinemaComienzaCon)
 
 			val iterator = ds.createAggregation(typeof(MovieMongo)).unwind("screenings").match(query).aggregate(
 				typeof(MovieMongo))
@@ -53,6 +70,17 @@ class MovieRepositoryMongo {
 			println("****************************************")
 			return screenings
 		}
+	}
+
+	def List<MovieMongo> getRecommendedMovies() {
+		return allInstances()
+	}
+
+	def static searchByScreening(ScreeningMongo screening) {
+		val query = ds.createQuery(typeof(MovieMongo))
+			.field("screenings.cinemaName").equal(screening.cinemaName)
+			.field("screenings.date").equal(screening.date)
+						
 	}
 
 }

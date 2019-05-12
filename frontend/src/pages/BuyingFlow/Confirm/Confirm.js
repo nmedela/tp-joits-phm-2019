@@ -41,7 +41,8 @@ class Confirm extends Component {
 
   removeScreening = element => async () => {
     const newShoppingCart = this.state.shoppingCart.filter(
-      screening => screening.screeningId !== element.screeningId
+      // screening => screening.screeningId !== element.screeningId
+      screening => screening !== element
     );
     this.updateShoppingCart(newShoppingCart);
   };

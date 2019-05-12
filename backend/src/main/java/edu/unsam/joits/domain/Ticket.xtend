@@ -11,42 +11,61 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.Id
 import javax.persistence.GeneratedValue
 import javax.persistence.Column
+import java.text.SimpleDateFormat
 
 @Accessors
 @Entity
 class Ticket {
 	@Id @GeneratedValue
 	Long id
-	@ManyToOne
-	Movie movie
+//	@ManyToOne
+//	Movie movie
+	@Column
+	String movie
 
-	@ManyToOne
-	Screening screening
+//	@ManyToOne
+//	Screening screening
+	@Column
+	Date screening
+	@Column
+	String Cinema
 
 	@JsonIgnore @Column Date buyDate
 	@JsonIgnore @Column LocalTime buyTime
-	
+
 	@Column
 	Double price
 
-	new(Movie movie, Screening screening) {
-		super()
+	new(String movie, String _date, String time, String _cinemaName) {
 		this.movie = movie
-		this.screening = screening
+		val SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+		val fecha = formatoDelTexto.parse(_date + "T"+ time + ".000-03:00");
+		this.screening = fecha
+		this.cinema = _cinemaName
+//		price = movie.getPrice() + screening.getPrice()
+		buyDate = Calendar.getInstance().getTime()
+		buyTime = LocalTime.now()
+	}
+
+	new(
+		Movie movie,
+		Screening screening
+	) {
+		super()
+//		this.movie = movie
+//		this.screening = screening
 		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()
 	}
-	
+
 	new() {
-	
 	}
 
-	@JsonProperty("screeningId")
-	def getScreeningId() {
-		return screening.id
-	}
-
+//	@JsonProperty("screeningId")
+//	def getScreeningId() {
+//		return screening.id
+//	}
 	@JsonProperty("buyTime")
 	def buyTimeToString() {
 		buyTime.toString()
@@ -64,11 +83,10 @@ class Ticket {
 		} catch (ClassCastException e) {
 			return false
 		}
-	} 
-    
- 	override hashCode() {
-		if (id !== null) id.hashCode else super.hashCode
 	}
- 	
+
+	override hashCode() {
+		if(id !== null) id.hashCode else super.hashCode
+	}
 
 }

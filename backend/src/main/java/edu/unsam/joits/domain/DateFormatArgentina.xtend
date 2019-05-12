@@ -6,9 +6,14 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class DateFormatArgentina {
-	static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy")
-	
-	def static getDateFormat(){
+	static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+	static final DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+
+	def static getDateFormat() {
 		return dateFormat
+	}
+
+	def static getTimeFormat() {
+		return hourFormat
 	}
 }
