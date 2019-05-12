@@ -18,16 +18,16 @@ import java.text.SimpleDateFormat
 class Ticket {
 	@Id @GeneratedValue
 	Long id
-//	@ManyToOne
-//	Movie movie
-	@Column
-	String movie
 
-//	@ManyToOne
-//	Screening screening
+	@Column(length=150)
+	String title
 	@Column
-	Date screening
+	int rating
+	@Column(length=150)
+	String genre
 	@Column
+	Date date
+	@Column(length=150)
 	String Cinema
 
 	@JsonIgnore @Column Date buyDate
@@ -36,24 +36,12 @@ class Ticket {
 	@Column
 	Double price
 
-	new(String movie, String _date, String time, String _cinemaName) {
-		this.movie = movie
-		val SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-		val fecha = formatoDelTexto.parse(_date + "T"+ time + ".000-03:00");
-		this.screening = fecha
-		this.cinema = _cinemaName
-//		price = movie.getPrice() + screening.getPrice()
-		buyDate = Calendar.getInstance().getTime()
-		buyTime = LocalTime.now()
-	}
-
-	new(
-		Movie movie,
-		Screening screening
-	) {
-		super()
-//		this.movie = movie
-//		this.screening = screening
+	new(MovieMongo movie, ScreeningMongo screening) {
+		this.title = movie.title
+		this.rating = movie.rating
+		this.genre = movie.genre
+		this.date = screening.date
+		this.cinema = screening.cinemaName
 		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()
@@ -62,10 +50,6 @@ class Ticket {
 	new() {
 	}
 
-//	@JsonProperty("screeningId")
-//	def getScreeningId() {
-//		return screening.id
-//	}
 	@JsonProperty("buyTime")
 	def buyTimeToString() {
 		buyTime.toString()

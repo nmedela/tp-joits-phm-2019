@@ -3,7 +3,6 @@ package edu.unsam.api.services
 import edu.unsam.api.repository.ShoppingCart
 import edu.unsam.api.repository.UserRepository
 import edu.unsam.joits.domain.Friend
-import edu.unsam.joits.domain.Movie
 import edu.unsam.joits.domain.Ticket
 import edu.unsam.joits.domain.User
 import java.util.HashSet
@@ -69,17 +68,10 @@ class UserService {
 		UserRepository.instance.update(user)
 	}
 
-//	def static Set<Movie> getSeenMovies(Long id) {
-//		val tickets = UserRepository.instance.searchTicket(id)
-//		val Set<Movie> seenMovies = newHashSet
-//		tickets.forEach[ticket|seenMovies.add(ticket.movie)]
-//		return seenMovies
-//	}
 	def static Set<String> getSeenMovies(Long id) {
 		val tickets = UserRepository.instance.searchTicket(id)
 		val Set<String> seenMovies = newHashSet
-		tickets.forEach[ticket|seenMovies.add(ticket.movie)]
-		return seenMovies
+		return seenMovies.toSet()
 	}
 	def static searchFriends(Long id, String value) {
 		val user = getUserById(id)

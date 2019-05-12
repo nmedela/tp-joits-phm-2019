@@ -1,11 +1,11 @@
 package edu.unsam.api
 
-import edu.unsam.api.repository.MovieRepository
-import edu.unsam.api.repository.ScreeningRepository
+//import edu.unsam.api.repository.MovieRepository
+//import edu.unsam.api.repository.ScreeningRepository
 import edu.unsam.api.repository.UserRepository
-import edu.unsam.joits.domain.Movie
-import edu.unsam.joits.domain.Saga
-import edu.unsam.joits.domain.Screening
+//import edu.unsam.joits.domain.Movie
+//import edu.unsam.joits.domain.Saga
+//import edu.unsam.joits.domain.Screening
 import edu.unsam.joits.domain.Ticket
 import edu.unsam.joits.domain.User
 import java.time.LocalTime
@@ -22,16 +22,16 @@ class AppBooststrap {
 //		val movieRepository = MovieRepository.getInstance
 //		val screeningRepository = ScreeningRepository.getInstance
 		val repoMongo = MovieRepositoryMongo.instance
-		val buscarMomia = new ScreeningSearch(new MovieMongo("La Momia"))
-		val buscarCinem = new ScreeningSearch()=>[
-			cinemaComienzaCon = "Cinem"
-		]	
-		val resultado = repoMongo.getScreenings(buscarCinem)
-		
-		resultado.forEach[funcion | 
-		System.out.println(funcion.toString())
-			
-		]
+//		val buscarMomia = new ScreeningSearch(new MovieMongo("La Momia"))
+//		val buscarCinem = new ScreeningSearch()=>[
+//			cinemaComienzaCon = "Cinem"
+//		]	
+//		val resultado = repoMongo.getScreenings(buscarCinem)
+//		
+//		resultado.forEach[funcion | 
+//		System.out.println(funcion.toString())
+//			
+//		]
 //		
 //		val screeningMomia1 = new Screening => [
 //			date = new Date(2019 - 1900, 03, 23)

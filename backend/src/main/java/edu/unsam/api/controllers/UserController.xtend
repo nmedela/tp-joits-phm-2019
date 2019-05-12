@@ -14,7 +14,6 @@ import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.json.JSONUtils
-import edu.unsam.joits.domain.Movie
 import java.util.Set
 import edu.unsam.joits.domain.MovieMongo
 
@@ -40,7 +39,6 @@ class UserController {
 	def Result getFriends(String name) {
 		val wrappedId = Long.valueOf(id)
 		val suggested = UserService.searchFriends(wrappedId, name)
-//		val suggested = UserService.searchFriends(wrappedId, name)
 		return ok(suggested.toJson)
 	}
 

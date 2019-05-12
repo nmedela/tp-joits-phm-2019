@@ -13,14 +13,11 @@ import java.util.Calendar
 @Accessors
 @Embedded
 class ScreeningMongo {
-
-//	@Id ObjectId id
 	@JsonIgnore final Double weekendPrice = 120d
 	@JsonIgnore final Double wednesdayPrice = 50d
 	@JsonIgnore final Double defaultPrice = 80d
 
 	@JsonIgnore Date date
-//	@JsonIgnore LocalTime time
 	String cinemaName
 
 	new() {
