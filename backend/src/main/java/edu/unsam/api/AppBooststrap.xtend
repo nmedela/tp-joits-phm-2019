@@ -28,21 +28,25 @@ class AppBooststrap {
 		val userRepository = UserRepository.instance
 
 		repoMongo.dropColection
+		val cal = Calendar.getInstance()
 
+		cal.set(2019, 05, 11, 1, 00, 0)
 		val screeningMomia1 = new ScreeningMongo => [
 			cinemaName = "Cinemark"
-			date = DateFormatArgentina.getDateFormat.parse("2019-05-11T01:00:00-03:00")
+			date = new Date(cal.timeInMillis)
 		]
 //
+		cal.set(2019, 04, 10, 5, 30, 0)
 		val screeningMomia2 = new ScreeningMongo => [
 			cinemaName = "Joyts"
-			date = DateFormatArgentina.getDateFormat.parse("2019-04-10T05:00:00-03:00")
+			date = new Date(cal.timeInMillis)
 		]
 
 //
+		cal.set(2019, 12, 10, 18, 30, 0)
 		val screeningMomia3 = new ScreeningMongo => [
 			cinemaName = "Joyts"
-			date = DateFormatArgentina.getDateFormat.parse("2019-12-10T18:30:00-03:00")
+			date = new Date(cal.timeInMillis)
 		]
 
 		repoMongo.create(new MovieMongo => [
@@ -55,16 +59,19 @@ class AppBooststrap {
 
 //
 //		// Guardians of the Galaxy-------------------------------------------		
+		cal.set(2019, 08, 15, 17, 00, 0)
 		val screeningGalaxy1 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-08-15T17:00:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Joits Miramar"
 		]
+		cal.set(2019, 11, 07, 9, 00, 0)
 		val screeningGalaxy2 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-11-07T09:00:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Colegio Holters"
 		]
+		cal.set(2019, 02, 07, 01, 30, 0)
 		val screeningGalaxy3 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-02-07T01:30:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Cinemita"
 		]
 
@@ -78,18 +85,19 @@ class AppBooststrap {
 		repoMongo.create(guardiansMovie)
 //
 //		// Interstellar------------------------------------------------------
+		cal.set(2019, 07, 13, 14, 40, 0)
 		val screeningInterstellar1 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-07-13T14:40:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Carrefour San Justo"
 		]
-
+		cal.set(2019, 06, 14, 19, 25, 0)
 		val screeningInterstellar2 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-06-14T19:25:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Municipalidad de Buenos Aires"
 		]
-
+		cal.set(2019, 09, 02, 14, 30, 0)
 		val screeningInterstellar3 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-09-02T14:30:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Teatro Colon"
 		]
 
@@ -104,18 +112,19 @@ class AppBooststrap {
 		repoMongo.create(movieInterestelar)
 //
 //		// Avengers: Endgame--------------------------------------------------
+		cal.set(2019, 04, 13, 20, 40, 0)
 		val screeningAvengers1 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-04-13T20:40:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Autocine Recoleta"
 		]
-
+		cal.set(2019, 09, 14, 19, 25, 0)
 		val screeningAvengers2 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-09-14T19:25:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Sodimac Miguelete"
 		]
-
+		cal.set(2019, 01, 02, 10, 30, 0)
 		val screeningAvengers3 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-01-02T10:30:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Obelisco"
 		]
 //
@@ -129,16 +138,19 @@ class AppBooststrap {
 		repoMongo.create(movieAvenger)
 //
 //		// Dragon ball super: Broly-------------------------------------------------		
+		cal.set(2019, 07, 15, 16, 00, 0)
 		val screeningDragon = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-07-15T16:00:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Jardin Japones"
 		]
+		cal.set(2019, 08, 07, 12, 00, 0)
 		val screeningDragon2 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-08-07T12:00:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Jardin Pequines"
 		]
+		cal.set(2019, 10, 07, 12, 30, 0)
 		val screeningDragon3 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-10-07T12:30:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Cinemark"
 		]
 
@@ -153,16 +165,17 @@ class AppBooststrap {
 
 		val laMomia = repoMongo.searchByTitleStrict("La Momia")
 		val dragonBall = repoMongo.searchByTitleStrict("Dragon ball super: Broly")
-		
+
 //		// La Momia + Guardians-----------------------------------------------------	
+		cal.set(2019, 04, 01, 19, 50, 0)
 		val screeningMomiaAndGuardians1 = new ScreeningMongo => [
 			cinemaName = "Jardin Japones"
-			date = DateFormatArgentina.getDateFormat.parse("2019-04-01T19:50:00-03:00")
+			date = new Date(cal.timeInMillis)
 		]
-
+		cal.set(2019, 09, 17, 17, 35, 0)
 		val screeningMomiaAndGuardians2 = new ScreeningMongo => [
 			cinemaName = "Joyts"
-			date = DateFormatArgentina.getDateFormat.parse("2019-09-17T17:35:00-03:00")
+			date = new Date(cal.timeInMillis)
 		]
 
 		repoMongo.create(new SagaMongo => [
@@ -176,16 +189,19 @@ class AppBooststrap {
 		])
 //
 //		// El jorobado de Norte Das-------------------------------------------------		
+		cal.set(2019, 04, 13, 20, 40, 0)
 		val screeningJorobado = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-04-13T20:40:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Jardin Japones"
 		]
+		cal.set(2019, 09, 14, 12, 35, 0)
 		val screeningJorobado2 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-09-14T12:35:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Jardin Cinema"
 		]
+		cal.set(2019, 05, 02, 11, 30, 0)
 		val screeningJorobado3 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-05-02T11:30:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Cinemark"
 		]
 
@@ -199,16 +215,19 @@ class AppBooststrap {
 		repoMongo.create(movieJorobado)
 //
 //// El padrino 1-------------------------------------------------		
+		cal.set(2019, 04, 13, 19, 40, 0)
 		val screeningElPadrino = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-04-13T19:40:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Jardin Japones"
 		]
+		cal.set(2019, 09, 14, 14, 35, 0)
 		val screeningElPadrino2 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-09-14T14:35:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Jardin Cinema"
 		]
+		cal.set(2019, 05, 04, 11, 30, 0)
 		val screeningElPadrino3 = new ScreeningMongo => [
-			date = DateFormatArgentina.getDateFormat.parse("2019-05-04T11:30:00-03:00")
+			date = new Date(cal.timeInMillis)
 			cinemaName = "Cinemark"
 		]
 
@@ -342,6 +361,7 @@ class AppBooststrap {
 		userRepository.create(nico)
 		userRepository.create(gonzalo)
 
+		System.out.println("###############################" + new Date(cal.timeInMillis))
 //		PeliculasBootstrap.crearContenidoInicial()
 	}
 

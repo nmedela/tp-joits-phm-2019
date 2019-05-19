@@ -9,6 +9,7 @@ class DateFormatArgentina {
 	static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd")
 	static final DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
 	static final SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+//	static final SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 	
 	def static getDateFormat() {
 		return dateFormat
