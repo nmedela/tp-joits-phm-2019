@@ -16,260 +16,211 @@ import java.util.HashSet
 import edu.unsam.api.repository.MovieRepositoryMongo
 import edu.unsam.joits.domain.MovieMongo
 import edu.unsam.api.repository.ScreeningSearch
+import edu.unsam.joits.domain.ScreeningMongo
+import edu.unsam.joits.domain.DateFormatArgentina
+import edu.unsam.joits.domain.SagaMongo
 
 class AppBooststrap {
+
+	// TODO: hacer la creacion de saga, trayendo las pelis. Ver tema de herencia. Traer al frontend la pelocula enteras
 	def static crearContenidoInicial() {
-//		val movieRepository = MovieRepository.getInstance
-//		val screeningRepository = ScreeningRepository.getInstance
 		val repoMongo = MovieRepositoryMongo.instance
-//		val buscarMomia = new ScreeningSearch(new MovieMongo("La Momia"))
-//		val buscarCinem = new ScreeningSearch()=>[
-//			cinemaComienzaCon = "Cinem"
-//		]	
-//		val resultado = repoMongo.getScreenings(buscarCinem)
-//		
-//		resultado.forEach[funcion | 
-//		System.out.println(funcion.toString())
-//			
-//		]
-//		
-//		val screeningMomia1 = new Screening => [
-//			date = new Date(2019 - 1900, 03, 23)
-//			time = LocalTime.of(10, 00)
-//			cinemaName = "Buenos Aires Cinema"
-//		]
+		val userRepository = UserRepository.instance
+
+		repoMongo.dropColection
+
+		val screeningMomia1 = new ScreeningMongo => [
+			cinemaName = "Cinemark"
+			date = DateFormatArgentina.getDateFormat.parse("2019-05-11T01:00:00-03:00")
+		]
 //
-//		val screeningMomia2 = new Screening => [
-//			date = new Date(2019 - 1900, 02, 27)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Joits recoleta"
-//		]
+		val screeningMomia2 = new ScreeningMongo => [
+			cinemaName = "Joyts"
+			date = DateFormatArgentina.getDateFormat.parse("2019-04-10T05:00:00-03:00")
+		]
+
 //
-//		val screeningMomia3 = new Screening => [
-//			date = new Date(2019 - 1900, 01, 02)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Unicenter"
-//		]
-//		screeningRepository.create(screeningMomia1)
-//		screeningRepository.create(screeningMomia2)
-//		screeningRepository.create(screeningMomia3)
-//
-//		val momiaMovie = new Movie => [
-//			title = "La momia"
-//			year = 1999
-//			rating = 3
-//			genre = "Terror"
-//			screenings = newArrayList(screeningMomia1, screeningMomia2, screeningMomia3)
-//		]
-//		movieRepository.create(momiaMovie)
+		val screeningMomia3 = new ScreeningMongo => [
+			cinemaName = "Joyts"
+			date = DateFormatArgentina.getDateFormat.parse("2019-12-10T18:30:00-03:00")
+		]
+
+		repoMongo.create(new MovieMongo => [
+			title = "La Momia"
+			year = 1999
+			rating = 3
+			genre = "Terror"
+			screenings = newArrayList(screeningMomia1, screeningMomia2, screeningMomia3)
+		])
+
 //
 //		// Guardians of the Galaxy-------------------------------------------		
-//		val screeningGalaxy1 = new Screening => [
-//			date = new Date(2019 - 1900, 06, 10)
-//			time = LocalTime.of(10, 00)
-//			cinemaName = "Joits Miramar"
-//		]
-//		val screeningGalaxy2 = new Screening => [
-//			date = new Date(2019 - 1900, 10, 22)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Colegio Holters"
-//		]
-//		val screeningGalaxy3 = new Screening => [
-//			date = new Date(2019 - 1900, 10, 12)
-//			time = LocalTime.of(22, 00)
-//			cinemaName = "Cinemita"
-//		]
-//		screeningRepository.create(screeningGalaxy1)
-//		screeningRepository.create(screeningGalaxy2)
-//		screeningRepository.create(screeningGalaxy3)
-//		val guardiansMovie = new Movie => [
-//			title = "Guardians of the Galaxy"
-//			year = 2014
-//			rating = 5
-//			genre = "Aventura/Ciencia ficcion"
-//			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2, screeningGalaxy3)
-//		]
-//		movieRepository.create(guardiansMovie)
+		val screeningGalaxy1 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-08-15T17:00:00-03:00")
+			cinemaName = "Joits Miramar"
+		]
+		val screeningGalaxy2 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-11-07T09:00:00-03:00")
+			cinemaName = "Colegio Holters"
+		]
+		val screeningGalaxy3 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-02-07T01:30:00-03:00")
+			cinemaName = "Cinemita"
+		]
+
+		val guardiansMovie = new MovieMongo => [
+			title = "Guardians of the Galaxy"
+			year = 2014
+			rating = 5
+			genre = "Aventura/Ciencia ficcion"
+			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2, screeningGalaxy3)
+		]
+		repoMongo.create(guardiansMovie)
 //
 //		// Interstellar------------------------------------------------------
-//		val screeningInterstellar1 = new Screening => [
-//			date = new Date(2019 - 1900, 03, 23)
-//			time = LocalTime.of(10, 00)
-//			cinemaName = "Carrefour San Justo"
-//		]
-//		screeningRepository.create(screeningInterstellar1)
+		val screeningInterstellar1 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-07-13T14:40:00-03:00")
+			cinemaName = "Carrefour San Justo"
+		]
+
+		val screeningInterstellar2 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-06-14T19:25:00-03:00")
+			cinemaName = "Municipalidad de Buenos Aires"
+		]
+
+		val screeningInterstellar3 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-09-02T14:30:00-03:00")
+			cinemaName = "Teatro Colon"
+		]
+
 //
-//		val screeningInterstellar2 = new Screening => [
-//			date = new Date(2019 - 1900, 02, 27)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Municipalidad de Buenos Aires"
-//		]
-//		screeningRepository.create(screeningInterstellar2)
-//
-//		val screeningInterstellar3 = new Screening => [
-//			date = new Date(2019 - 1900, 01, 02)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Teatro Colon"
-//		]
-//		screeningRepository.create(screeningInterstellar3)
-//
-//		val movieInterestelar = new Movie => [
-//			title = "Interstellar"
-//			year = 2014
-//			rating = 4
-//			genre = "Accion/Ciencia ficcion"
-//			screenings = newArrayList(screeningInterstellar1, screeningInterstellar2, screeningInterstellar3)
-//		]
-//		movieRepository.create(movieInterestelar)
+		val movieInterestelar = new MovieMongo => [
+			title = "Interstellar"
+			year = 2014
+			rating = 4
+			genre = "Accion/Ciencia ficcion"
+			screenings = newArrayList(screeningInterstellar1, screeningInterstellar2, screeningInterstellar3)
+		]
+		repoMongo.create(movieInterestelar)
 //
 //		// Avengers: Endgame--------------------------------------------------
-//		val screeningAvengers1 = new Screening => [
-//			date = new Date(2019 - 1900, 06, 10)
-//			time = LocalTime.of(10, 00)
-//			cinemaName = "Autocine Recoleta"
-//		]
-//		screeningRepository.create(screeningAvengers1)
+		val screeningAvengers1 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-04-13T20:40:00-03:00")
+			cinemaName = "Autocine Recoleta"
+		]
+
+		val screeningAvengers2 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-09-14T19:25:00-03:00")
+			cinemaName = "Sodimac Miguelete"
+		]
+
+		val screeningAvengers3 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-01-02T10:30:00-03:00")
+			cinemaName = "Obelisco"
+		]
 //
-//		val screeningAvengers2 = new Screening => [
-//			date = new Date(2019 - 1900, 10, 22)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Sodimac Miguelete"
-//		]
-//		screeningRepository.create(screeningAvengers2)
-//
-//		val screeningAvengers3 = new Screening => [
-//			date = new Date(2019 - 1900, 06, 10)
-//			time = LocalTime.of(10, 00)
-//			cinemaName = "Obelisco"
-//		]
-//		screeningRepository.create(screeningAvengers3)
-//
-//		val screeningAvengers4 = new Screening => [
-//			date = new Date(2019 - 1900, 10, 22)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Radio Mitre"
-//		]
-//		screeningRepository.create(screeningAvengers4)
-//
-//		val movieAvenger = new Movie => [
-//			title = "Avengers: Endgame"
-//			year = 2019
-//			rating = 3
-//			genre = "Accion"
-//			screenings = newArrayList(screeningAvengers1, screeningAvengers2, screeningAvengers3, screeningAvengers4)
-//		]
-//		movieRepository.create(movieAvenger)
+		val movieAvenger = new MovieMongo => [
+			title = "Avengers: Endgame"
+			year = 2019
+			rating = 3
+			genre = "Accion"
+			screenings = newArrayList(screeningAvengers1, screeningAvengers2, screeningAvengers3)
+		]
+		repoMongo.create(movieAvenger)
 //
 //		// Dragon ball super: Broly-------------------------------------------------		
-//		val screeningDragon = new Screening => [
-//			date = new Date(2019 - 1900, 04, 12)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Jardin Japones"
-//		]
-//		screeningRepository.create(screeningDragon)
-//		val screeningDragon2 = new Screening => [
-//			date = new Date(2019 - 1900, 04, 16)
-//			time = LocalTime.of(19, 00)
-//			cinemaName = "Jardin Pequines"
-//		]
-//		val screeningDragon3 = new Screening => [
-//			date = new Date(2019 - 1900, 05, 16)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Cinemark"
-//		]
-//		screeningRepository.create(screeningDragon2)
-//		screeningRepository.create(screeningDragon3)
-//
-//		val movieDragon = new Movie => [
-//			title = "Dragon ball super: Broly"
-//			year = 2019
-//			rating = 5
-//			genre = "Anime"
-//			screenings = newArrayList(screeningDragon, screeningDragon2, screeningDragon3)
-//		]
-//		movieRepository.create(movieDragon)
+		val screeningDragon = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-07-15T16:00:00-03:00")
+			cinemaName = "Jardin Japones"
+		]
+		val screeningDragon2 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-08-07T12:00:00-03:00")
+			cinemaName = "Jardin Pequines"
+		]
+		val screeningDragon3 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-10-07T12:30:00-03:00")
+			cinemaName = "Cinemark"
+		]
+
+		val movieDragon = new MovieMongo => [
+			title = "Dragon ball super: Broly"
+			year = 2019
+			rating = 5
+			genre = "Anime"
+			screenings = newArrayList(screeningDragon, screeningDragon2, screeningDragon3)
+		]
+		repoMongo.create(movieDragon)
+
+		val laMomia = repoMongo.searchByTitleStrict("La Momia")
+		val dragonBall = repoMongo.searchByTitleStrict("Dragon ball super: Broly")
+		
 //		// La Momia + Guardians-----------------------------------------------------	
-//		val screeningMomiaAndGuardians1 = new Screening => [
-//			date = new Date(2019 - 1900, 05, 15)
-//			time = LocalTime.of(11, 00)
-//			cinemaName = "Terreno valdio"
-//		]
-//		screeningRepository.create(screeningMomiaAndGuardians1)
-//
-//		val screeningMomiaAndGuardians2 = new Screening => [
-//			date = new Date(2019 - 1900, 12, 25)
-//			time = LocalTime.of(21, 45)
-//			cinemaName = "Cinema Las toninas"
-//		]
-//		screeningRepository.create(screeningMomiaAndGuardians2)
-//
-//		movieRepository.create(new Saga => [
-//			title = "La momia + Guardians"
-//			year = 2000
-//			rating = 3
-//			genre = "Suspenso"
-//			movies = new HashSet<Movie>(Arrays.asList(momiaMovie, guardiansMovie))
-//			screenings = newArrayList(screeningMomiaAndGuardians1, screeningMomiaAndGuardians2)
-//			sagaLevel = 100.5d
-//		])
+		val screeningMomiaAndGuardians1 = new ScreeningMongo => [
+			cinemaName = "Jardin Japones"
+			date = DateFormatArgentina.getDateFormat.parse("2019-04-01T19:50:00-03:00")
+		]
+
+		val screeningMomiaAndGuardians2 = new ScreeningMongo => [
+			cinemaName = "Joyts"
+			date = DateFormatArgentina.getDateFormat.parse("2019-09-17T17:35:00-03:00")
+		]
+
+		repoMongo.create(new SagaMongo => [
+			title = "La momia + Guardians"
+			year = 2000
+			rating = 3
+			genre = "Suspenso"
+			movies = newArrayList(laMomia.get(0), dragonBall.get(0))
+			screenings = newArrayList(screeningMomiaAndGuardians1, screeningMomiaAndGuardians2)
+			sagaLevel = 100.5d
+		])
 //
 //		// El jorobado de Norte Das-------------------------------------------------		
-//		val screeningJorobado = new Screening => [
-//			date = new Date(2019 - 1900, 04, 12)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Jardin Japones"
-//		]
-//		screeningRepository.create(screeningJorobado)
-//		val screeningJorobado2 = new Screening => [
-//			date = new Date(2019 - 1900, 03, 13)
-//			time = LocalTime.of(19, 00)
-//			cinemaName = "Jardin Cinema"
-//		]
-//		val screeningJorobado3 = new Screening => [
-//			date = new Date(2019 - 1900, 12, 16)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Cinemark"
-//		]
-//		screeningRepository.create(screeningJorobado2)
-//		screeningRepository.create(screeningJorobado3)
-//
-//		val movieJorobado = new Movie => [
-//			title = "Jorobado de Norte Das"
-//			year = 2019
-//			rating = 3
-//			genre = "Niños"
-//			screenings = newArrayList(screeningJorobado, screeningJorobado2, screeningJorobado3)
-//		]
-//		movieRepository.create(movieJorobado)
+		val screeningJorobado = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-04-13T20:40:00-03:00")
+			cinemaName = "Jardin Japones"
+		]
+		val screeningJorobado2 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-09-14T12:35:00-03:00")
+			cinemaName = "Jardin Cinema"
+		]
+		val screeningJorobado3 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-05-02T11:30:00-03:00")
+			cinemaName = "Cinemark"
+		]
+
+		val movieJorobado = new MovieMongo => [
+			title = "Jorobado de Norte Das"
+			year = 2019
+			rating = 3
+			genre = "Niños"
+			screenings = newArrayList(screeningJorobado, screeningJorobado2, screeningJorobado3)
+		]
+		repoMongo.create(movieJorobado)
 //
 //// El padrino 1-------------------------------------------------		
-//		val screeningElPadrino = new Screening => [
-//			date = new Date(2019 - 1900, 01, 12)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Jardin Japones"
-//		]
-//		screeningRepository.create(screeningElPadrino)
-//		val screeningElPadrino2 = new Screening => [
-//			date = new Date(2019 - 1900, 04, 13)
-//			time = LocalTime.of(19, 00)
-//			cinemaName = "Jardin Cinema"
-//		]
-//		val screeningElPadrino3 = new Screening => [
-//			date = new Date(2019 - 1900, 12, 07)
-//			time = LocalTime.of(20, 00)
-//			cinemaName = "Cinemark"
-//		]
-//		screeningRepository.create(screeningElPadrino2)
-//		screeningRepository.create(screeningElPadrino3)
-//
-//		val moviePadrino = new Movie => [
-//			title = "El Padrino"
-//			year = 2019
-//			rating = 3
-//			genre = "Drama"
-//			screenings = newArrayList(screeningElPadrino, screeningElPadrino2, screeningElPadrino3)
-//		]
-//		movieRepository.create(moviePadrino)
+		val screeningElPadrino = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-04-13T19:40:00-03:00")
+			cinemaName = "Jardin Japones"
+		]
+		val screeningElPadrino2 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-09-14T14:35:00-03:00")
+			cinemaName = "Jardin Cinema"
+		]
+		val screeningElPadrino3 = new ScreeningMongo => [
+			date = DateFormatArgentina.getDateFormat.parse("2019-05-04T11:30:00-03:00")
+			cinemaName = "Cinemark"
+		]
+
+		val moviePadrino = new MovieMongo => [
+			title = "El Padrino"
+			year = 2019
+			rating = 3
+			genre = "Drama"
+			screenings = newArrayList(screeningElPadrino, screeningElPadrino2, screeningElPadrino3)
+		]
+		repoMongo.create(moviePadrino)
+
 //
 //		val newTicket = new Ticket => [
 //			screening = screeningMomia1
@@ -331,8 +282,6 @@ class AppBooststrap {
 //			buyDate = Calendar.getInstance().getTime()
 //			buyTime = LocalTime.now()
 //		]
-		val userRepository = UserRepository.getInstance
-
 		val User nico = new User => [
 			name = "Nicolas"
 			username = "nmedela"

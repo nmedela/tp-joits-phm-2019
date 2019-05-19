@@ -21,15 +21,15 @@ class Ticket {
 
 	@Column(length=150)
 	String title
-	@Column
-	int rating
-	@Column(length=150)
-	String genre
-	@Column
-	Date date
-	@Column(length=150)
-	String Cinema
-
+//	@Column
+//	int rating
+//	@Column(length=150)
+//	String genre
+//	@Column
+//	Date date
+//	@Column(length=150)
+//	String Cinema
+//
 	@JsonIgnore @Column Date buyDate
 	@JsonIgnore @Column LocalTime buyTime
 
@@ -38,10 +38,10 @@ class Ticket {
 
 	new(MovieMongo movie, ScreeningMongo screening) {
 		this.title = movie.title
-		this.rating = movie.rating
-		this.genre = movie.genre
-		this.date = screening.date
-		this.cinema = screening.cinemaName
+//		this.rating = movie.rating
+//		this.genre = movie.genre
+//		this.date = screening.date
+//		this.cinema = screening.cinemaName
 		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()

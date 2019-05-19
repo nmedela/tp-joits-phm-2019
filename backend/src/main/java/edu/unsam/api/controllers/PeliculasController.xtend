@@ -32,8 +32,4 @@ class PeliculasController {
 		return ok(MovieService.getRecommendedMovies().toJson);
 	}
 	
-		@Get('/movies/screenings')
-	def Result getMovieScreeningsByTitle(String title){
-		return ok(MovieService.getScreeningsByMovieTitle(title).toJson)
-	}
 }

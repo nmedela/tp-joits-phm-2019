@@ -61,5 +61,8 @@ class User {
 		this.friends.forEach(friend|friendsShort.add(new UserShort(friend.id, friend.name, friend.lastName)))
 		return friendsShort
 	}
-
+	@JsonProperty("tickets")
+	def getTicketsJSon(){
+		tickets.map[ticket | ticket.title].toSet
+	}
 }

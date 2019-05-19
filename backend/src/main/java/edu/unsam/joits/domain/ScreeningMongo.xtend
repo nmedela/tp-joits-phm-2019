@@ -9,30 +9,26 @@ import java.util.Date
 import java.time.LocalTime
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Calendar
+import javax.persistence.Transient
 
 @Accessors
 @Embedded
 class ScreeningMongo {
-	@JsonIgnore final Double weekendPrice = 120d
-	@JsonIgnore final Double wednesdayPrice = 50d
-	@JsonIgnore final Double defaultPrice = 80d
+	@org.mongodb.morphia.annotations.Transient @JsonIgnore final Double weekendPrice = 120d
+	@org.mongodb.morphia.annotations.Transient @JsonIgnore final Double wednesdayPrice = 50d
+	@org.mongodb.morphia.annotations.Transient @JsonIgnore final Double defaultPrice = 80d
 
 	@JsonIgnore Date date
 	String cinemaName
 
 	new() {
 	}
-
-	override toString() {
-		var result = "Busqueda de peliculas "
-		if (date !== null) {
-			result += " - funcion " + date
-		}
-		if (cinemaName !== null) {
-			result += " - nombre comienza con " + cinemaName
-		}
-		result
+	
+	new(String _cinemaName , Date _date){
+		this.cinemaName = _cinemaName
+		this.date = _date
 	}
+
 	@JsonProperty('date')
 	def dateToString(){		
 		DateFormatArgentina.dateFormat.format(date)		
@@ -44,7 +40,7 @@ class ScreeningMongo {
 	}	
 	
 	@JsonProperty('price')
-	def getPrice(){
+	@Transient def getPrice(){
 		var Calendar calObj = Calendar.getInstance()
 		calObj.time = date
 		switch(calObj.get(Calendar.DAY_OF_WEEK)){

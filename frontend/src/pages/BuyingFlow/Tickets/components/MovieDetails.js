@@ -11,7 +11,8 @@ export default class MovieDetails extends Component {
   state = { shoppingCart: [] }
 
   loadMovieScreenings = async () => {
-    const screenings = await movieService.getScreeningsForMovie(this.props.movie);
+    // const screenings = await movieService.getScreeningsForMovie(this.props.movie);
+    const screenings = this.props.movie.screenings
     this.setState({ screenings: screenings, shoppingCart: this.props.shoppingCart.filter((element) => true) });
   }
 

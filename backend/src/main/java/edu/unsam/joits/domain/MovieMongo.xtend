@@ -9,23 +9,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.List
 import org.mongodb.morphia.annotations.Entity
 import java.util.Set
+import org.mongodb.morphia.annotations.Embedded
+import javax.persistence.Transient
 
-@Entity("movies")
+@Entity(value ="movies",noClassnameStored=false)
 @Accessors
 class MovieMongo implements Serializable {
 
 	@Id ObjectId id
-	@Property("movie")
+//	@Property("movie")
 	String title
 	Integer year
 	int rating
 	String genre
-	Double sagaLevel
-	Set<MovieMongo> movies = newHashSet()
-
+	
+	@org.mongodb.morphia.annotations.Transient
 	boolean recommended
 
-	@JsonIgnore List<ScreeningMongo> screenings = newArrayList()
+	List<ScreeningMongo> screenings = newArrayList()
 
 	new() {
 	}
@@ -33,11 +34,8 @@ class MovieMongo implements Serializable {
 	new(String nombre) {
 		this.title = nombre
 	}
-
+	@Transient
 	def getPrice() {
-		if (sagaLevel != null)
-			return movies.length * 10d + sagaLevel
-		else
 			return 30d
 	}
 

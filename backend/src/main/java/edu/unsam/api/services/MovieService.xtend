@@ -15,9 +15,9 @@ class MovieService {
 		return MovieRepositoryMongo.instance.getRecommendedMovies()
 	}
 
-	def static getScreeningsByMovieTitle(String movieTitle) {
-		return MovieRepositoryMongo.instance.getScreeningsByMovieTitle(movieTitle)
-	}
+//	def static getScreeningsByMovieTitle(String movieTitle) {
+//		return MovieRepositoryMongo.instance.getScreeningsByMovieTitle(movieTitle)
+//	}
 
 	def static List<MovieMongo> getMovies() {
 		return MovieRepositoryMongo.instance.allInstances()

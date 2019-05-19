@@ -201,7 +201,7 @@ class Profile extends Component {
                       this.state.user.tickets &&
                       this.state.user.tickets.map(ticket => (
                         <ListItem>
-                          <ListItemText primary={ticket.title} />
+                          <ListItemText primary={ticket} />
                         </ListItem>
                       ))}
                   </List>
