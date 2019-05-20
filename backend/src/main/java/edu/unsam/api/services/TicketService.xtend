@@ -17,14 +17,8 @@ class TicketService {
 		val date = DateFormatArgentina.getDateTimeFormat.parse(_date + "T"+ time + ".000-03:00");
 		return new ScreeningMongo(_cinemaName,date)
 	}
-	def static List<Ticket> convertFromDTOMongo(ShoppingCartDTO shoppingCartDTO) {
-		shoppingCartDTO.tickets.map(
-			ticket |
-				
-				return new Ticket(getMovie(ticket.movieTitle), getScreening(ticket.date, ticket.time, ticket.cinemaName))
-		).toList
-	}
 	
-
-	
+	def static Ticket convertFromDTO(TicketDTO ticketDTO) {
+		return new Ticket(getMovie(ticketDTO.movieTitle), getScreening(ticketDTO.date, ticketDTO.time, ticketDTO.cinemaName))
+	}	
 }

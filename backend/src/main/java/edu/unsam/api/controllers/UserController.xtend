@@ -16,6 +16,7 @@ import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.json.JSONUtils
 import java.util.Set
 import edu.unsam.joits.domain.MovieMongo
+import edu.unsam.api.services.ShoppingCartService
 
 @Controller
 class UserController {
@@ -86,6 +87,19 @@ class UserController {
 			badRequest("Can't load cash. ")
 		}
 	}
+	
+	@Get("/user/:userId/shoppingcart")
+	def getShoppingCart(){
+		val id = Long.valueOf(userId)
+		return ok(ShoppingCartService.getByUserId(id).toJson)
+	}
+	
+	@Post("/user/:userId/shoppingcart")
+	def updateShoppingCart(@Body String body){
+		val id = Long.valueOf(userId)
+		val newShoppingCart = body.fromJson(ShoppingCartDTO)
+		return ok(ShoppingCartService.update(id, newShoppingCart.tickets).toJson)
+	}
 
 	@Post("/shoppingcart/details")
 	def Result getShoppingCartDetailsBy(@Body String body) {
@@ -93,15 +107,15 @@ class UserController {
 		System.out.println(body)
 
 		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
-		val newShoppingCart = TicketService.convertFromDTOMongo(newShoppingCartDTO)
+		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketDTO | TicketService.convertFromDTO(ticketDTO)]
 		return ok(newShoppingCart.toJson)
 	}
 
 
-	@Post("/user/:userId/shoppingcart")
+	@Put("/user/:userId/shoppingcart")
 	def finishShopping(@Body String body) {
 		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
-		val newShoppingCart = TicketService.convertFromDTOMongo(newShoppingCartDTO)
+		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketDTO | TicketService.convertFromDTO(ticketDTO)]
 		
 		UserService.finishShopping(Long.valueOf(userId),newShoppingCart)
 		return ok()

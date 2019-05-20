@@ -7,6 +7,5 @@ import java.util.List
 
 @Accessors
 class ShoppingCartDTO {
-//	List<TicketDTO> tickets
-	List<TicketDTOMongo> tickets
+	List<TicketDTO> tickets
 }

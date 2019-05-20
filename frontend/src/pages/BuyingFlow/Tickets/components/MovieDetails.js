@@ -11,7 +11,6 @@ export default class MovieDetails extends Component {
   state = { shoppingCart: [] }
 
   loadMovieScreenings = async () => {
-    // const screenings = await movieService.getScreeningsForMovie(this.props.movie);
     const screenings = this.props.movie.screenings
     this.setState({ screenings: screenings, shoppingCart: this.props.shoppingCart.filter((element) => true) });
   }
@@ -25,8 +24,6 @@ export default class MovieDetails extends Component {
   }
 
   handleClick = (screening) => () => {
-    // if (this.state.shoppingCart.some( ticket => ticket.movie.id === this.props.movie.id && ticket.screeningId === screening.id)) {
-    //   const indexToRemove = this.state.shoppingCart.findIndex(chorizo => chorizo.movie.id === this.props.movie.id && chorizo.screeningId === screening.id) 
     if (this.state.shoppingCart.some( ticket => ticket.movie.title === this.props.movie.title && ticket.screening === screening)) {
       const indexToRemove = this.state.shoppingCart.findIndex(chorizo => chorizo.movie.title === this.props.movie.title && chorizo.screening === screening) 
 
@@ -35,9 +32,7 @@ export default class MovieDetails extends Component {
        }));
     }
     else {
-      // this.setState((prevState) => { prevState.shoppingCart.push({movie: this.props.movie, screeningId: screening.id}); return prevState; });
       this.setState((prevState) => { prevState.shoppingCart.push({movie: this.props.movie, screening}); return prevState; });
- 
     }
   }
 
