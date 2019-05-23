@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.Request
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.uqbar.xtrest.json.JSONUtils
+import org.bson.types.ObjectId
 
 @Controller
 class PeliculasController {
@@ -24,16 +25,11 @@ class PeliculasController {
 	@Get('/movies')
 	def Result getMoviesBySearchText(String title){
 		return ok(MovieService.getMoviesByTitleSearch(title).toJson);
-	}
-	
+	} // agregar el text
+
 	@Get('/movies/recommended')
 	def Result getMoviesBySearchText(){
 		return ok(MovieService.getRecommendedMovies().toJson);
 	}
 	
-	@Get('/movies/:id/screenings')
-	def Result getMovieScreenings(){
-		val _id = Long.valueOf(id)
-		return ok(MovieService.getScreeningsByMovieId(_id).toJson)
-	}
 }

@@ -31,7 +31,13 @@ export default class MovieService {
 
     getScreeningsForMovie = async (movie) => {
         try {
-            let resp = await axios.get(`${endpointURL}/movies/${movie.id}/screenings`);
+            // let resp = await axios.get(`${endpointURL}/movies/${movie.id}/screenings`);
+            let resp = await axios.get(`${endpointURL}/movies/screenings`,{
+                params:{
+                    title:movie.title
+                }
+            });
+            
             return resp.data;
         }
         catch (exception) {

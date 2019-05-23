@@ -11,40 +11,43 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.Id
 import javax.persistence.GeneratedValue
 import javax.persistence.Column
+import java.text.SimpleDateFormat
 
 @Accessors
 @Entity
 class Ticket {
 	@Id @GeneratedValue
 	Long id
-	@ManyToOne
-	Movie movie
 
-	@ManyToOne
-	Screening screening
-
+	@Column(length=150)
+	String title
+//	@Column
+//	int rating
+//	@Column(length=150)
+//	String genre
+//	@Column
+//	Date date
+//	@Column(length=150)
+//	String Cinema
+//
 	@JsonIgnore @Column Date buyDate
 	@JsonIgnore @Column LocalTime buyTime
-	
+
 	@Column
 	Double price
 
-	new(Movie movie, Screening screening) {
-		super()
-		this.movie = movie
-		this.screening = screening
+	new(MovieMongo movie, ScreeningMongo screening) {
+		this.title = movie.title
+//		this.rating = movie.rating
+//		this.genre = movie.genre
+//		this.date = screening.date
+//		this.cinema = screening.cinemaName
 		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()
 	}
-	
-	new() {
-	
-	}
 
-	@JsonProperty("screeningId")
-	def getScreeningId() {
-		return screening.id
+	new() {
 	}
 
 	@JsonProperty("buyTime")
@@ -64,11 +67,10 @@ class Ticket {
 		} catch (ClassCastException e) {
 			return false
 		}
-	} 
-    
- 	override hashCode() {
-		if (id !== null) id.hashCode else super.hashCode
 	}
- 	
+
+	override hashCode() {
+		if(id !== null) id.hashCode else super.hashCode
+	}
 
 }

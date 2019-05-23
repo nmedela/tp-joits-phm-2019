@@ -3,7 +3,6 @@ package edu.unsam.api.services
 import edu.unsam.api.repository.ShoppingCart
 import edu.unsam.api.repository.UserRepository
 import edu.unsam.joits.domain.Friend
-import edu.unsam.joits.domain.Movie
 import edu.unsam.joits.domain.Ticket
 import edu.unsam.joits.domain.User
 import java.util.HashSet
@@ -11,6 +10,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Arrays
+import edu.unsam.joits.domain.MovieMongo
 
 class UserService {
 	def static User getUserById(Long id) {
@@ -68,13 +68,11 @@ class UserService {
 		UserRepository.instance.update(user)
 	}
 
-	def static Set<Movie> getSeenMovies(Long id) {
+	def static Set<String> getSeenMovies(Long id) {
 		val tickets = UserRepository.instance.searchTicket(id)
-		val Set<Movie> seenMovies = newHashSet
-		tickets.forEach[ticket|seenMovies.add(ticket.movie)]
-		return seenMovies
+		val Set<String> seenMovies = newHashSet
+		return seenMovies.toSet()
 	}
-
 	def static searchFriends(Long id, String value) {
 		val user = getUserById(id)
 		val List<Long> restrictedIds = user.friends.map[friend|friend.id].toList();
