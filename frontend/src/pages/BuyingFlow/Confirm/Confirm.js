@@ -41,7 +41,6 @@ class Confirm extends Component {
 
   removeScreening = element => async () => {
     const newShoppingCart = this.state.shoppingCart.filter(
-      // screening => screening.screeningId !== element.screeningId
       screening => screening !== element
     );
     this.updateShoppingCart(newShoppingCart);
@@ -54,10 +53,7 @@ class Confirm extends Component {
   updateShoppingCart = async newShoppingCart => {
     const oldShoppingCart = this.state.shoppingCart;
     try {
-      const response = await shoppingCartService.updateShoppingCart(
-        this.props.userId,
-        newShoppingCart
-      );
+      const response = await shoppingCartService.updateShoppingCart(this.props.userId, newShoppingCart);
       this.setState({ shoppingCart: newShoppingCart });
     } catch (exception) {
       this.setState({ shoppingCart: oldShoppingCart });
@@ -108,10 +104,10 @@ class Confirm extends Component {
                 <TableBody>
                   {shoppingCart.map(screening => (
                     <TableRow>
-                      <TableCell>{screening.title}</TableCell>
-                      <TableCell>{screening.rating}</TableCell>
+                      <TableCell>{screening.movieTitle}</TableCell>
+                      <TableCell>{screening.movieRating}</TableCell>
                       <TableCell>{"$" + screening.price}</TableCell>
-                      <TableCell>{screening.genre}</TableCell>
+                      <TableCell>{screening.movieGenre}</TableCell>
                       <TableCell onClick={this.removeScreening(screening)}>
                         <IconButton>
                           <DeleteIcon />

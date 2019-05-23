@@ -7,12 +7,10 @@ import java.util.Date
 
 @Accessors
 class TicketDTO {
-	Long movieId
-	Long screeningId
-}
-@Accessors
-class TicketDTOMongo {
 	String movieTitle
+	String movieGenre
+	Float movieRating
+	Float price
 	String date
 	String time
 	String cinemaName
