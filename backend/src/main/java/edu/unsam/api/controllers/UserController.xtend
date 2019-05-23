@@ -112,12 +112,13 @@ class UserController {
 	}
 
 
-	@Put("/user/:userId/shoppingcart")
-	def finishShopping(@Body String body) {
-		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
-		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketDTO | TicketService.convertFromDTO(ticketDTO)]
-		
-		UserService.finishShopping(Long.valueOf(userId),newShoppingCart)
+	@Post("/user/:userId/shoppingcart/confirm")
+	def finishShopping() {
+		val id = Long.valueOf(userId)
+		val newShoppingCartDTO = ShoppingCartService.getByUserId(id)
+		ShoppingCartService.removeAll(id)
+		val newShoppingCart = newShoppingCartDTO.map[ticketDTO | TicketService.convertFromDTO(ticketDTO)]
+		UserService.finishShopping(Long.valueOf(userId), newShoppingCart)
 		return ok()
 	}
 }

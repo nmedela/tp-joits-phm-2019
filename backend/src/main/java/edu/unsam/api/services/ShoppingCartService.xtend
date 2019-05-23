@@ -31,4 +31,7 @@ class ShoppingCartService {
 			jedis.rpush(key, tickets.map[ ticket | ticket.toJson ])
 	}	
 	
+	def static removeAll(Long userID){
+		jedis.del(getKey(userID))
+	}
 }

@@ -49,7 +49,7 @@ export default class ShoppingCartService {
     async submitOrder(userId) {
         const shoppingCart = JSON.parse(sessionStorage.getItem("tickets"));
         try {
-            let resp = await axios.put(`${endpointURL}/user/${userId}/shoppingcart`,{
+            let resp = await axios.post(`${endpointURL}/user/${userId}/shoppingcart/confirm`,{
                 tickets:shoppingCart
             });
             return resp.data;
