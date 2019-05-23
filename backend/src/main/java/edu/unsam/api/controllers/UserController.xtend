@@ -111,7 +111,6 @@ class UserController {
 		return ok(newShoppingCart.toJson)
 	}
 
-
 	@Post("/user/:userId/shoppingcart/confirm")
 	def finishShopping() {
 		val id = Long.valueOf(userId)
