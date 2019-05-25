@@ -35,7 +35,7 @@ export default class Tickets extends Component {
   componentDidMount = async () => {
     let movies = await movieService.getMoviesByName("");
     let recommended = await movieService.getRecommended();
-    let shoppingCart = []; //await shoppingCartService.getShoppingCart(this.props.userId);
+    let shoppingCart = await shoppingCartService.getShoppingCart(this.props.userId);
     const user = await ProfileService.getUserData(this.props.userId);
     this.setState({
       movies: movies,
@@ -73,18 +73,19 @@ export default class Tickets extends Component {
     this.setState({ openDialog: false });
   };
 
-  updateShoppingCart = async newShoppingCart => {
-    const oldShoppingCart = this.state.shoppingCart;
+  addToShoppingCart = async screening => {
+    let newShoppingCart = this.state.shoppingCart;
+    newShoppingCart.push(screening);
+    this.setState(prevState => ({shoppingCart: newShoppingCart}))
+
     try {
       const response = await shoppingCartService.updateShoppingCart(
         this.props.userId,
-        newShoppingCart
+        this.state.shoppingCart
       );
-      this.setState({ shoppingCart: newShoppingCart });
     } catch (exception) {
-      this.setState({ shoppingCart: oldShoppingCart });
+      alert(exception.message);
     }
-    this.closeDialog();
   };
 
   goToCheckout = () => {
@@ -246,8 +247,7 @@ export default class Tickets extends Component {
           open={this.state.openDialog}
           movie={this.state.selectedMovie}
           handleClose={this.closeDialog}
-          shoppingCart={this.state.shoppingCart}
-          updateShoppingCart={this.updateShoppingCart}
+          addToShoppingCart={this.addToShoppingCart}
         />
       </div>
     );

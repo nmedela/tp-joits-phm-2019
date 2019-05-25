@@ -3,44 +3,37 @@ import { Dialog, DialogTitle, Table, TableHead, TableRow, TableCell, TableBody, 
 import "./MovieTable.scss";
 import MovieServiceMock from './../../../../services/mocks/MovieServiceMock';
 import MovieService from './../../../../services/MovieService';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import IconButton from '@material-ui/core/IconButton';
 
 const movieService = new MovieService();
 
 export default class MovieDetails extends Component {
 
-  state = { shoppingCart: [] }
+  state = {}
 
   loadMovieScreenings = async () => {
     const screenings = this.props.movie.screenings
-    this.setState({ screenings: screenings, shoppingCart: this.props.shoppingCart.filter((element) => true) });
-  }
-
-  cancelEdit = () => {
-    this.props.handleClose();
-  }
-
-  saveChanges = () => {
-    this.props.updateShoppingCart(this.state.shoppingCart);
+    this.setState({ screenings: screenings});
   }
 
   handleClick = (screening) => () => {
-    if (this.state.shoppingCart.some( ticket => ticket.movie.title === this.props.movie.title && ticket.screening === screening)) {
-      const indexToRemove = this.state.shoppingCart.findIndex(chorizo => chorizo.movie.title === this.props.movie.title && chorizo.screening === screening) 
-
-      this.setState((prevState) => ({ shoppingCart: prevState.shoppingCart.filter((ticket,index) => { 
-        return index !== indexToRemove})
-       }));
+    const ticket = {
+      movieTitle: this.props.movie.title,
+      price: screening.price + this.props.movie.price,
+      movieRating: this.props.movie.rating,
+      movieGenre: this.props.movie.genre,
+      date: screening.date,
+      time: screening.time, 
+      cinemaName: screening.cinemaName 
     }
-    else {
-      this.setState((prevState) => { prevState.shoppingCart.push({movie: this.props.movie, screening}); return prevState; });
-    }
+    this.props.addToShoppingCart(ticket);
   }
-
 
   render() {
     const { movie } = this.props;
     return (
-      <Dialog onClose={this.cancelEdit} open={this.props.open} onEnter={this.loadMovieScreenings}>
+      <Dialog fullWidth onClose={this.cancelEdit} open={this.props.open} onEnter={this.loadMovieScreenings}>
         {
           movie &&
           <Fragment>
@@ -48,38 +41,37 @@ export default class MovieDetails extends Component {
             <DialogContent>
               <Typography variant="subtitle2">Funciones</Typography>
             </DialogContent>
-            <Table>
+            <Table fullWidth>
               <TableHead>
                 <TableRow role="checkbox">
-                  <TableCell padding="none"></TableCell>
                   <TableCell>Fecha</TableCell>
                   <TableCell>Hora</TableCell>
                   <TableCell numeric>Precio entrada ($)</TableCell>
                   <TableCell>Ubicacion</TableCell>
+                  <TableCell padding="none"></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {this.state.screenings && this.state.screenings.map((screening) => {
                   return (
-                    // <TableRow className="tableRow" onClick={this.handleClick(screening)} selected={this.state.shoppingCart.includes(screening.id)}>
-                    //   <TableCell padding="none"><Checkbox checked={this.state.shoppingCart.some(ticket => ticket.movie.id === this.props.movie.id && ticket.screeningId === screening.id)} /></TableCell>
-                    <TableRow className="tableRow" onClick={this.handleClick(screening)} selected={this.state.shoppingCart.includes(screening)}>
-                    <TableCell padding="none"><Checkbox checked={this.state.shoppingCart.some(ticket => ticket.movie.title === this.props.movie.title && ticket.screening === screening)} /></TableCell>
+                    <TableRow className="tableRow">
                       <TableCell>{screening.date}</TableCell>
                       <TableCell>{screening.time}</TableCell>
-                      <TableCell numeric>{"$" + screening.price}</TableCell>
+                      <TableCell numeric>{"$" + (screening.price + this.props.movie.price)}</TableCell>
                       <TableCell>{screening.cinemaName}</TableCell>
+                      <TableCell padding="none">
+                        <IconButton color="primary" aria-label="Add to shopping cart" onClick={this.handleClick(screening)}>
+                          <AddShoppingCartIcon />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   )
                 })}
               </TableBody>
             </Table>
             <DialogActions>
-              <Button color="primary" onClick={this.saveChanges}>
-                Aceptar
-              </Button>
-              <Button color="secondary" onClick={this.cancelEdit}>
-                Cancelar
+              <Button color="primary" variant="contained" onClick={this.props.handleClose}>
+                Volver
               </Button>
             </DialogActions>
           </Fragment>

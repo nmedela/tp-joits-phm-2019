@@ -29,17 +29,11 @@ export default class ShoppingCartService {
     }
 
     async updateShoppingCart(userId, shoppingCart) {
-        const tickets = shoppingCart.map(ticket => ({
-            movieTitle: ticket.movie.title,
-            movieGenre: ticket.movie.genre,
-            movieRating: ticket.movie.rating,
-            price: ticket.movie.price,
-            date: ticket.screening.date,
-            time: ticket.screening.time, 
-            cinemaName:ticket.screening.cinemaName 
-        }));
+        if(!shoppingCart)
+            return;
+
         try {
-            await axios.post(`${endpointURL}/user/${userId}/shoppingcart`, {tickets});
+            await axios.post(`${endpointURL}/user/${userId}/shoppingcart`, {tickets: shoppingCart});
         }
         catch(exception){
             alert(exception.message);
