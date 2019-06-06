@@ -1,19 +1,19 @@
 package edu.unsam.api.repository
 
-import edu.unsam.joits.domain.MovieMongo
 import org.eclipse.xtend.lib.annotations.Accessors
+import edu.unsam.joits.domain.Movie
 
 @Accessors
 class ScreeningSearch {
 	
-	MovieMongo movie
+	Movie movie
 	String cinemaComienzaCon
 	String date
 	new() {
 		this(null)	
 	}
 	
-	new(MovieMongo movie) {
+	new(Movie movie) {
 		this.movie = movie
 	}
 	override toString() {

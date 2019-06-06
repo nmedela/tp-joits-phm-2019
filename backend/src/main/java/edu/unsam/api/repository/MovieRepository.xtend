@@ -3,20 +3,20 @@ package edu.unsam.api.repository
 import org.mongodb.morphia.Datastore
 import com.mongodb.MongoClient
 import org.mongodb.morphia.Morphia
-import edu.unsam.joits.domain.MovieMongo
-import edu.unsam.joits.domain.ScreeningMongo
 import java.util.List
 import java.util.ArrayList
 import java.util.Date
-import edu.unsam.joits.domain.SagaMongo
+import edu.unsam.joits.domain.Movie
+import edu.unsam.joits.domain.Saga
+import edu.unsam.joits.domain.Screening
 
-class MovieRepositoryMongo {
+class MovieRepository {
 	static Datastore ds
-	static MovieRepositoryMongo instance
+	static MovieRepository instance
 
 	static def getInstance() {
 		if (instance === null) {
-			instance = new MovieRepositoryMongo
+			instance = new MovieRepository
 		}
 		return instance
 	}
@@ -24,38 +24,38 @@ class MovieRepositoryMongo {
 	new() {
 		val mongo = new MongoClient("localhost", 27017)
 		new Morphia => [
-			map(MovieMongo).map(ScreeningMongo)
+			map(Movie).map(Screening)
 			ds = createDatastore(mongo, "admin") // O "local", dependiendo dónde lo corras
 			ds.ensureIndexes
 		]
 		println("Conectado a MongoDB. Bases: " + ds.getDB.collectionNames)
 	}
-	def create(MovieMongo saga){
+	def create(Movie saga){
 		ds.save(saga)	}
 
-	def List<MovieMongo> allInstances() {
-		ds.createQuery(MovieMongo).asList
+	def List<Movie> allInstances() {
+		ds.createQuery(Movie).asList
 	}
 
 	def searchByTitle(String title) {
-		ds.createQuery(MovieMongo).field("title").containsIgnoreCase(title ?: "").asList
+		ds.createQuery(Movie).field("title").containsIgnoreCase(title ?: "").asList
 	}
 
 	def searchByTitleStrict(String title) {
-		ds.createQuery(MovieMongo).field("title").equal(title).asList
+		ds.createQuery(Movie).field("title").equal(title).asList
 	}
 	
 
-	def List<MovieMongo> getRecommendedMovies() {
+	def List<Movie> getRecommendedMovies() {
 		return allInstances()
 	}
 
-	def static searchByScreening(ScreeningMongo screening) {
-		val query = ds.createQuery(typeof(MovieMongo)).field("screenings.cinemaName").equal(screening.cinemaName).field(
+	def static searchByScreening(Screening screening) {
+		val query = ds.createQuery(typeof(Movie)).field("screenings.cinemaName").equal(screening.cinemaName).field(
 			"screenings.date").equal(screening.date)
 
 	}
 	def dropColection(){
-		ds.getCollection(MovieMongo).drop
+		ds.getCollection(Movie).drop
 	}
 }

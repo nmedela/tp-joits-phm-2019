@@ -12,6 +12,7 @@ import javax.persistence.Id
 import javax.persistence.GeneratedValue
 import javax.persistence.Column
 import java.text.SimpleDateFormat
+import javax.persistence.Transient
 
 @Accessors
 @Entity
@@ -20,28 +21,24 @@ class Ticket {
 	Long id
 
 	@Column(length=150)
-	String title
-//	@Column
-//	int rating
-//	@Column(length=150)
-//	String genre
-//	@Column
-//	Date date
-//	@Column(length=150)
-//	String Cinema
-//
+	 String movieTitle
+	@Transient String movieGenre
+	@Transient Double movieRating
+	@Transient Double price
+	@Transient String date
+	@Transient String time
+	@Transient String cinemaName
+	
 	@JsonIgnore @Column Date buyDate
 	@JsonIgnore @Column LocalTime buyTime
 
-	@Column
-	Double price
-
-	new(MovieMongo movie, ScreeningMongo screening) {
-		this.title = movie.title
+	new(Movie movie, Screening screening) {
+		this.movieTitle = movie.title
 //		this.rating = movie.rating
 //		this.genre = movie.genre
 //		this.date = screening.date
 //		this.cinema = screening.cinemaName
+
 		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()
@@ -50,15 +47,6 @@ class Ticket {
 	new() {
 	}
 
-	@JsonProperty("buyTime")
-	def buyTimeToString() {
-		buyTime.toString()
-	}
-
-	@JsonProperty("buyDate")
-	def buyDateToString() {
-		DateFormatArgentina.dateFormat.format(buyDate)
-	}
 
 	override boolean equals(Object obj) {
 		try {

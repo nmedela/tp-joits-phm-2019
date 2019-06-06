@@ -63,6 +63,6 @@ class User {
 	}
 	@JsonProperty("tickets")
 	def getTicketsJSon(){
-		tickets.map[ticket | ticket.title].toSet
+		tickets.map[ticket | ticket.movieTitle].toSet
 	}
 }

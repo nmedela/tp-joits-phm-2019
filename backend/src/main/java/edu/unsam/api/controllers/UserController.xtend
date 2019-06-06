@@ -15,8 +15,8 @@ import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.json.JSONUtils
 import java.util.Set
-import edu.unsam.joits.domain.MovieMongo
 import edu.unsam.api.services.ShoppingCartService
+import edu.unsam.joits.domain.Movie
 
 @Controller
 class UserController {
@@ -107,7 +107,7 @@ class UserController {
 		System.out.println(body)
 
 		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
-		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketDTO | TicketService.convertFromDTO(ticketDTO)]
+		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketJSON | TicketService.fromJson(ticketJSON)]
 		return ok(newShoppingCart.toJson)
 	}
 
@@ -116,7 +116,7 @@ class UserController {
 		val id = Long.valueOf(userId)
 		val newShoppingCartDTO = ShoppingCartService.getByUserId(id)
 		ShoppingCartService.removeAll(id)
-		val newShoppingCart = newShoppingCartDTO.map[ticketDTO | TicketService.convertFromDTO(ticketDTO)]
+		val newShoppingCart = newShoppingCartDTO.map[ticketJSON | TicketService.fromJson(ticketJSON)]
 		UserService.finishShopping(Long.valueOf(userId), newShoppingCart)
 		return ok()
 	}

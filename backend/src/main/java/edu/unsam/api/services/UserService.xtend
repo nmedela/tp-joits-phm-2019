@@ -1,6 +1,5 @@
 package edu.unsam.api.services
 
-import edu.unsam.api.repository.ShoppingCart
 import edu.unsam.api.repository.UserRepository
 import edu.unsam.joits.domain.Friend
 import edu.unsam.joits.domain.Ticket
@@ -10,7 +9,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Arrays
-import edu.unsam.joits.domain.MovieMongo
+import edu.unsam.joits.domain.Movie
 
 class UserService {
 	def static User getUserById(Long id) {

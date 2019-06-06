@@ -14,7 +14,7 @@ import javax.persistence.Transient
 
 @Entity(value ="movies",noClassnameStored=false)
 @Accessors
-class MovieMongo implements Serializable {
+class Movie implements Serializable {
 
 	@Id ObjectId id
 //	@Property("movie")
@@ -26,7 +26,7 @@ class MovieMongo implements Serializable {
 	@org.mongodb.morphia.annotations.Transient
 	boolean recommended
 
-	List<ScreeningMongo> screenings = newArrayList()
+	List<Screening> screenings = newArrayList()
 
 	new() {
 	}

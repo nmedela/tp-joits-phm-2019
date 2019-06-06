@@ -13,7 +13,7 @@ import javax.persistence.Transient
 
 @Accessors
 @Embedded
-class ScreeningMongo {
+class Screening {
 	@org.mongodb.morphia.annotations.Transient @JsonIgnore final Double weekendPrice = 120d
 	@org.mongodb.morphia.annotations.Transient @JsonIgnore final Double wednesdayPrice = 50d
 	@org.mongodb.morphia.annotations.Transient @JsonIgnore final Double defaultPrice = 80d

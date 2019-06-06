@@ -7,5 +7,5 @@ import java.util.List
 
 @Accessors
 class ShoppingCartDTO {
-	List<TicketDTO> tickets
+	List<Ticket> tickets
 }

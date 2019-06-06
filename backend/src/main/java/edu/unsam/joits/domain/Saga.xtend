@@ -10,11 +10,11 @@ import java.util.List
 import javax.persistence.Transient
 
 @Accessors
-class SagaMongo extends MovieMongo{
+class Saga extends Movie{
 
 	Double sagaLevel
 	@Embedded
-	List<MovieMongo> movies = newArrayList
+	List<Movie> movies = newArrayList
 
 	new(){
 	super()

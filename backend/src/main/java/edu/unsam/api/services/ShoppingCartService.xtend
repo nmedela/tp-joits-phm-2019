@@ -7,7 +7,6 @@ import java.util.List
 import org.uqbar.xtrest.json.JSONUtils
 import redis.clients.jedis.Jedis
 import java.util.Set
-import edu.unsam.joits.domain.dtos.TicketDTO
 
 class ShoppingCartService {
 	static extension JSONUtils = new JSONUtils		
@@ -17,11 +16,11 @@ class ShoppingCartService {
 		return "user-"+id.toString
 	}
 	
-	def static List<TicketDTO> getByUserId(Long userID){
-		jedis.lrange(getKey(userID), 0, -1).map[ticketJson | return ticketJson.fromJson(TicketDTO)].toList
+	def static List<Ticket> getByUserId(Long userID){
+		jedis.lrange(getKey(userID), 0, -1).map[ticketJson | return ticketJson.fromJson(Ticket)].toList
 	}
 	
-	def static update(Long userID, List<TicketDTO> tickets){
+	def static update(Long userID, List<Ticket> tickets){
 		val key = getKey(userID)
 		
 		if (jedis.exists(key))
