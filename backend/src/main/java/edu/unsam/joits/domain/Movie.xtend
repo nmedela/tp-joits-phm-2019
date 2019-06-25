@@ -11,21 +11,29 @@ import org.mongodb.morphia.annotations.Entity
 import java.util.Set
 import org.mongodb.morphia.annotations.Embedded
 import javax.persistence.Transient
+import org.neo4j.ogm.annotation.NodeEntity
+import org.neo4j.ogm.annotation.GeneratedValue
+import org.neo4j.ogm.annotation.Properties
 
-@Entity(value ="movies",noClassnameStored=false)
+@NodeEntity(label="Movie")
+@Entity(value="movies", noClassnameStored=false)
 @Accessors
 class Movie implements Serializable {
+	@org.neo4j.ogm.annotation.Id @GeneratedValue
+	@Id Long id
 
-	@Id ObjectId id
-//	@Property("movie")
+	@org.neo4j.ogm.annotation.Property(name="title")
 	String title
+	@org.neo4j.ogm.annotation.Transient
 	Integer year
+	@org.neo4j.ogm.annotation.Transient
 	int rating
+	@org.neo4j.ogm.annotation.Transient
 	String genre
-	
+	@org.neo4j.ogm.annotation.Transient
 	@org.mongodb.morphia.annotations.Transient
 	boolean recommended
-
+	@org.neo4j.ogm.annotation.Transient
 	List<Screening> screenings = newArrayList()
 
 	new() {
@@ -34,9 +42,10 @@ class Movie implements Serializable {
 	new(String nombre) {
 		this.title = nombre
 	}
+
 	@Transient
 	def getPrice() {
-			return 30d
+		return 30d
 	}
 
 }

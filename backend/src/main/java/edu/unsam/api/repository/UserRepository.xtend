@@ -83,7 +83,7 @@ class UserRepository extends Repository<User> {
 	}
 
 	override generateWhereId(CriteriaBuilder criteria, CriteriaQuery<User> query, Root<User> from, Long id) {
-		from.fetch("friends", JoinType.LEFT)
+//		from.fetch("friends", JoinType.LEFT)
 		from.fetch("tickets", JoinType.LEFT)
 		query.where(criteria.equal(from.get("id"), id))
 	}

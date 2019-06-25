@@ -10,12 +10,34 @@ import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Arrays
 import edu.unsam.joits.domain.Movie
+import edu.unsam.api.repository.UserRepositoryNeo
+import edu.unsam.joits.domain.SeenMovie
+import edu.unsam.api.repository.MovieRepositoryNeo
+import edu.unsam.joits.domain.IsFriend
 
 class UserService {
+	def static getFullUserById(Long id){
+		val wrappedId = Long.valueOf(id)
+		var user = getUserById(id)
+		val User userNeo = getUserOnNeoById(id)
+		if(userNeo.getRelationFriend().length !=0)
+			user.addFriends(userNeo.getRelationFriend())
+		user.seenMovies = userNeo.seenMovies
+		return user
+	}
+	
 	def static User getUserById(Long id) {
 		return UserRepository.instance.searchById(id)
 	}
-
+	def static User getUserOnNeoById(Long id){
+		return UserRepositoryNeo.instance.getUserById(id)
+	}
+	def static Set<SeenMovie> getSeenMoviesByUserId(Long id){
+		return UserRepositoryNeo.instance.searchSeenMoviesByUserId(id)
+	}
+	def static Set<Movie> getMoviesToSee(Set<String> movieTitles){
+		return MovieRepositoryNeo.instance.searchMoviesToSee(movieTitles).toSet
+	} 
 	def static loadBalance(Long id, AddCashRequest cash) {
 		val user = getUserById(id)
 		user.loadBalance(cash.amount)
@@ -45,15 +67,21 @@ class UserService {
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
-		val user = getUserById(id)
-		val friend = getUserById(newFriendJson.id)
-		user.addFriend(friend)
-		UserRepository.instance.update(user)
+//		val user = getUserById(id)
+		val userNeo= UserRepositoryNeo.instance.getUserById(id)
+		val friend = UserRepositoryNeo.instance.getUserById(newFriendJson.id)
+//		val friend = getUserById(newFriendJson.id)
+		
+//		user.addFriend(friend)
+		userNeo.addNewFriend(friend)
+		UserRepositoryNeo.instance.actualizarUsuario(userNeo)
+//		UserRepository.instance.update(user)
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
 	def static finishShopping(Long id, List<Ticket> shoppingCart) {
-		var user = getUserById(id)
+//		val user = getUserById(id)
+		val user = getFullUserById(id)		
 		var Double sum = 0d;
 		for (Ticket ticket : shoppingCart) {
 			sum = sum + ticket.price
@@ -63,7 +91,33 @@ class UserService {
 		if (user.balance < sum)
 			throw new Exception("El usuario no cuenta con fondos suficientes")
 
+//		val Set<SeenMovie> seenMovies = getSeenMoviesByUserId(id)
+		val Set<String> movieTitles = shoppingCart.map[ticket | ticket.movieTitle].toSet
+//		var moviesFilter = movieTitles
+//		if (seenMovies.length != 0){
+//		user.addSeenMovies(seenMovies)
+		val moviesFilter = movieTitles.filter[title | !user.seenMovies.exists[movie | movie.movie.title == title]].toList.toSet
+//		System.out.println("Titulos de peliculas a ver " + moviesFilter)
+			
+//		}
+//		seenMovies.forEach[seenMovie |
+//		System.out.println("peliculas que ya vio " + seenMovie.movie.title)
+//		]
+//		System.out.println("Peliculas que compro "+ movieTitles)
+		
+			
+		val Set<Movie> moviesToSee = getMoviesToSee(moviesFilter.toSet) 
+//		moviesToSee.forEach[movie |
+//		System.out.println("pelicula a ver " + movie.id + " "  + movie.title)
+//		]
+		moviesToSee.forEach[moviess |
+//			System.out.println("pelicula a GUARDAR " + moviess.id + " "  + moviess.title)
+			user.addSeenMovie(moviess)
+		]	
+		
 		user.balance = user.balance - sum
+		System.out.println(user.seenMovies.length)
+		UserRepositoryNeo.instance.actualizarUsuario(user)
 		UserRepository.instance.update(user)
 	}
 

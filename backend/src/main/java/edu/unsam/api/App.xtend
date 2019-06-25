@@ -8,7 +8,7 @@ import edu.unsam.api.controllers.LoginController
 class App {
 
 	def static void main(String[] args) {
-//		AppBooststrap.crearContenidoInicial();
+		AppBooststrap.crearContenidoInicial();
 		XTRest.start(9000, PeliculasController,UserController,LoginController);
 	}
 

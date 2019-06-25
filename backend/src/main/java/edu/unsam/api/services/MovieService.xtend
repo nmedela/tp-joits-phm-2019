@@ -2,7 +2,6 @@ package edu.unsam.api.services
 
 import java.util.List
 import org.bson.types.ObjectId
-import edu.unsam.api.repository.ScreeningSearch
 import edu.unsam.api.repository.MovieRepository
 import edu.unsam.joits.domain.Movie
 

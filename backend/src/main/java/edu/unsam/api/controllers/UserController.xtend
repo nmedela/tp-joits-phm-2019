@@ -17,6 +17,8 @@ import org.uqbar.xtrest.json.JSONUtils
 import java.util.Set
 import edu.unsam.api.services.ShoppingCartService
 import edu.unsam.joits.domain.Movie
+import edu.unsam.api.repository.UserRepository
+import edu.unsam.api.repository.UserRepositoryNeo
 
 @Controller
 class UserController {
@@ -25,7 +27,7 @@ class UserController {
 	@Get('/user/:id')
 	def Result getUserById() {
 		val wrappedId = Long.valueOf(id)
-		var user = UserService.getUserById(wrappedId)
+		var user = UserService.getFullUserById(wrappedId)
 		return ok(user.toJson)
 	}
 
@@ -62,7 +64,6 @@ class UserController {
 		}
 	}
 
-
 	@Put("/user/:id")
 	def updateUser(@Body String body) {
 		val wrappedId = Long.valueOf(id)
@@ -87,36 +88,36 @@ class UserController {
 			badRequest("Can't load cash. ")
 		}
 	}
-	
+
 	@Get("/user/:userId/shoppingcart")
-	def getShoppingCart(){
+	def getShoppingCart() {
 		val id = Long.valueOf(userId)
 		return ok(ShoppingCartService.getByUserId(id).toJson)
 	}
-	
+
 	@Post("/user/:userId/shoppingcart")
-	def updateShoppingCart(@Body String body){
+	def updateShoppingCart(@Body String body) {
 		val id = Long.valueOf(userId)
 		val newShoppingCart = body.fromJson(ShoppingCartDTO)
 		return ok(ShoppingCartService.update(id, newShoppingCart.tickets).toJson)
 	}
 
-	@Post("/shoppingcart/details")
-	def Result getShoppingCartDetailsBy(@Body String body) {
-		System.out.println("lo que me llego es")
-		System.out.println(body)
-
-		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
-		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketJSON | TicketService.fromJson(ticketJSON)]
-		return ok(newShoppingCart.toJson)
-	}
-
+//	@Post("/shoppingcart/details")
+//	def Result getShoppingCartDetailsBy(@Body String body) {
+//		System.out.println("lo que me llego es")
+//		System.out.println(body)
+//
+//		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
+//		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketJSON | TicketService.fromJson(ticketJSON)]
+//		return ok(newShoppingCart.toJson)
+//	}
 	@Post("/user/:userId/shoppingcart/confirm")
 	def finishShopping() {
 		val id = Long.valueOf(userId)
+//		val user= UserRepository.instance.searchById(id)
 		val newShoppingCartDTO = ShoppingCartService.getByUserId(id)
 		ShoppingCartService.removeAll(id)
-		val newShoppingCart = newShoppingCartDTO.map[ticketJSON | TicketService.fromJson(ticketJSON)]
+		val newShoppingCart = newShoppingCartDTO.map[ticketJSON|TicketService.fromJson(ticketJSON)] // ,user
 		UserService.finishShopping(Long.valueOf(userId), newShoppingCart)
 		return ok()
 	}
