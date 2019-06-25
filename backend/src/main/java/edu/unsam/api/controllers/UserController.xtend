@@ -102,19 +102,9 @@ class UserController {
 		return ok(ShoppingCartService.update(id, newShoppingCart.tickets).toJson)
 	}
 
-//	@Post("/shoppingcart/details")
-//	def Result getShoppingCartDetailsBy(@Body String body) {
-//		System.out.println("lo que me llego es")
-//		System.out.println(body)
-//
-//		val newShoppingCartDTO = body.fromJson(ShoppingCartDTO)
-//		val newShoppingCart = newShoppingCartDTO.tickets.map[ticketJSON | TicketService.fromJson(ticketJSON)]
-//		return ok(newShoppingCart.toJson)
-//	}
 	@Post("/user/:userId/shoppingcart/confirm")
 	def finishShopping() {
 		val id = Long.valueOf(userId)
-//		val user= UserRepository.instance.searchById(id)
 		val newShoppingCartDTO = ShoppingCartService.getByUserId(id)
 		ShoppingCartService.removeAll(id)
 		val newShoppingCart = newShoppingCartDTO.map[ticketJSON|TicketService.fromJson(ticketJSON)] // ,user

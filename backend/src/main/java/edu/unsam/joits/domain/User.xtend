@@ -31,7 +31,6 @@ class User {
 	@Column(length=150)
 	@Accessors String name
 
-//	@org.neo4j.ogm.annotation.Property(name="username")
 	@org.neo4j.ogm.annotation.Transient
 	@Column(length=150)
 	@Accessors String username
@@ -51,8 +50,6 @@ class User {
 	@Column(nullable=false)
 	Double balance = 0.0
 
-//	@org.neo4j.ogm.annotation.Transient
-//	@ManyToMany(fetch=FetchType.LAZY)
 	@Transient
 	@Relationship(type="ISFRIEND", direction=Relationship.OUTGOING)
 	@JsonIgnore
@@ -83,9 +80,6 @@ class User {
 		this.friends.add(newFriend)
 	}
 
-//	def addFriend(User newUser) {
-//		this.friends.add(newUser)
-//	}
 	def addFriends(Set<IsFriend> _friends) {
 		this.friends = _friends
 	}
@@ -100,11 +94,6 @@ class User {
 		return this.friends.map[relation|relation.friend].toSet
 
 	}
-
-//	@JsonProperty("tickets")
-//	def getTicketsJSon() {
-//		tickets.map[ticket|ticket.movieTitle].toSet
-//	}
 
 	@JsonProperty("tickets")
 	def getMovies() {

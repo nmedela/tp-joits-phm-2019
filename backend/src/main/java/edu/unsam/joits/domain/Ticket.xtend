@@ -16,48 +16,24 @@ import javax.persistence.Transient
 
 @Accessors
 @Entity
-//@RelationshipEntity(type="SAW")
 class Ticket {
-//	@org.neo4j.ogm.annotation.Id @org.neo4j.ogm.annotation.GeneratedValue
 	@Id @GeneratedValue
 	Long id
 	
-//	@org.neo4j.ogm.annotation.Transient
 	@Column(length=150)
 	 String movieTitle
-//	@org.neo4j.ogm.annotation.Transient 
 	@Transient String movieGenre
-//	@org.neo4j.ogm.annotation.Transient 
 	@Transient Double movieRating
-//	@org.neo4j.ogm.annotation.Transient 
 	@Transient Double price
-//	@org.neo4j.ogm.annotation.Transient 
 	@Transient String date
-//	@org.neo4j.ogm.annotation.Transient 
 	@Transient String time
-//	@org.neo4j.ogm.annotation.Transient 
 	@Transient String cinemaName
 	
-//	@org.neo4j.ogm.annotation.Transient 
 	@JsonIgnore @Column Date buyDate
-//	@org.neo4j.ogm.annotation.Transient 
 	@JsonIgnore @Column LocalTime buyTime
 
-//	@Transient 
-//	@StartNode User user
-//	
-//	@Transient 
-//	@EndNode Movie movie
-	
 	new(Movie movie, Screening screening) { //, User user
 		this.movieTitle = movie.title
-//		this.movie = movie
-//		this.user = user
-//		this.rating = movie.rating
-//		this.genre = movie.genre
-//		this.date = screening.date
-//		this.cinema = screening.cinemaName
-
 		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()

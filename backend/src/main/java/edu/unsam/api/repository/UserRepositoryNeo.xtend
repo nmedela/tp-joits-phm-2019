@@ -27,10 +27,6 @@ class UserRepositoryNeo extends AbstractRepositoryNeo {
 	def  getUserById(Long id){
 		val filerByUserId = new Filter("id", ComparisonOperator.MATCHES, id)
 		val User user = session.load(typeof(User), id, 1)
-//		user.friends.forEach[friendd | 
-//				System.out.println("Acá trajo el amiguito " + friendd.friend.name)
-//		]
-//		return this.friends
 		return user
 	}
 	def searchSeenMoviesByUserId(Long id) {

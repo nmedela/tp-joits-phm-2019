@@ -18,5 +18,4 @@ class SeenMovie {
 	
 	@EndNode Movie movie
 
-//	new(){}
 }

@@ -67,54 +67,29 @@ class UserService {
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
-//		val user = getUserById(id)
 		val userNeo= UserRepositoryNeo.instance.getUserById(id)
 		val friend = UserRepositoryNeo.instance.getUserById(newFriendJson.id)
-//		val friend = getUserById(newFriendJson.id)
-		
-//		user.addFriend(friend)
 		userNeo.addNewFriend(friend)
 		UserRepositoryNeo.instance.actualizarUsuario(userNeo)
-//		UserRepository.instance.update(user)
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
 	def static finishShopping(Long id, List<Ticket> shoppingCart) {
-//		val user = getUserById(id)
 		val user = getFullUserById(id)		
 		var Double sum = 0d;
 		for (Ticket ticket : shoppingCart) {
 			sum = sum + ticket.price
 			user.tickets.add(ticket)
 		}
-
 		if (user.balance < sum)
 			throw new Exception("El usuario no cuenta con fondos suficientes")
 
-//		val Set<SeenMovie> seenMovies = getSeenMoviesByUserId(id)
 		val Set<String> movieTitles = shoppingCart.map[ticket | ticket.movieTitle].toSet
-//		var moviesFilter = movieTitles
-//		if (seenMovies.length != 0){
-//		user.addSeenMovies(seenMovies)
 		val moviesFilter = movieTitles.filter[title | !user.seenMovies.exists[movie | movie.movie.title == title]].toList.toSet
-//		System.out.println("Titulos de peliculas a ver " + moviesFilter)
-			
-//		}
-//		seenMovies.forEach[seenMovie |
-//		System.out.println("peliculas que ya vio " + seenMovie.movie.title)
-//		]
-//		System.out.println("Peliculas que compro "+ movieTitles)
-		
-			
 		val Set<Movie> moviesToSee = getMoviesToSee(moviesFilter.toSet) 
-//		moviesToSee.forEach[movie |
-//		System.out.println("pelicula a ver " + movie.id + " "  + movie.title)
-//		]
 		moviesToSee.forEach[moviess |
-//			System.out.println("pelicula a GUARDAR " + moviess.id + " "  + moviess.title)
 			user.addSeenMovie(moviess)
 		]	
-		
 		user.balance = user.balance - sum
 		System.out.println(user.seenMovies.length)
 		UserRepositoryNeo.instance.actualizarUsuario(user)
