@@ -21,7 +21,7 @@ class UserRepositoryNeo extends AbstractRepositoryNeo {
 		new UserRepositoryNeo => []
 	}
 
-	def void actualizarUsuario(User user) {
+	def void update(User user) {
 		session.save(user)
 	}
 	def  getUserById(Long id){

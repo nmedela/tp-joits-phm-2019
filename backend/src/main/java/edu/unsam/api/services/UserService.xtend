@@ -67,10 +67,10 @@ class UserService {
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
-		val userNeo= UserRepositoryNeo.instance.getUserById(id)
-		val friend = UserRepositoryNeo.instance.getUserById(newFriendJson.id)
+		val userNeo= getUserOnNeoById(id)
+		val friend = getUserOnNeoById(newFriendJson.id)
 		userNeo.addNewFriend(friend)
-		UserRepositoryNeo.instance.actualizarUsuario(userNeo)
+		UserRepositoryNeo.instance.update(userNeo)
 	}
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
@@ -92,7 +92,7 @@ class UserService {
 		]	
 		user.balance = user.balance - sum
 		System.out.println(user.seenMovies.length)
-		UserRepositoryNeo.instance.actualizarUsuario(user)
+		UserRepositoryNeo.instance.update(user)
 		UserRepository.instance.update(user)
 	}
 

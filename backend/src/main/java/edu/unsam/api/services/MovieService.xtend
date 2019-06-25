@@ -12,6 +12,7 @@ class MovieService {
 
 	def static getRecommendedMovies() {
 		return MovieRepository.instance.getRecommendedMovies()
+		
 	}
 
 

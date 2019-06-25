@@ -304,18 +304,18 @@ class AppBooststrap {
 			age = 21
 		]
 
-		repoNeoUser.actualizarUsuario(facundo)
+		repoNeoUser.update(facundo)
 		userRepository.create(facundo)
-		repoNeoUser.actualizarUsuario(carlitos)
+		repoNeoUser.update(carlitos)
 		userRepository.create(carlitos)
-		repoNeoUser.actualizarUsuario(leandro)
+		repoNeoUser.update(leandro)
 		userRepository.create(leandro)
-		repoNeoUser.actualizarUsuario(roberto)
+		repoNeoUser.update(roberto)
 		userRepository.create(roberto)
 //
 //		nico.addFriend(facundo)
 //		gonzalo.addFriend(nico)
-		repoNeoUser.actualizarUsuario(nico)
+		repoNeoUser.update(nico)
 		userRepository.create(nico)
 //		userRepository.create(gonzalo)
 		System.out.println("###############################" + new Date(cal.timeInMillis))
