@@ -34,8 +34,8 @@ class UserController {
 	@Get('/user/:id/friends/suggested')
 	def Result getSuggestedFriends() {
 		val wrappedId = Long.valueOf(id)
-		val suggested = UserService.getSuggested()
-		return ok(suggested.toJson)
+		return ok(UserService.getSuggested(wrappedId).toJson)
+//		return ok(suggested.toJson)
 	}
 
 	@Get('/user/:id/friends')

@@ -1,11 +1,11 @@
 package edu.unsam.api.repository
 
-import edu.unsam.joits.domain.User
 import org.neo4j.ogm.cypher.Filter
 import org.neo4j.ogm.cypher.ComparisonOperator
-import java.util.Set
-import java.util.ArrayList
-import edu.unsam.joits.domain.SeenMovie
+import java.util.Map
+import java.util.HashMap
+import java.util.List
+import edu.unsam.joits.domain.User
 
 class UserRepositoryNeo extends AbstractRepositoryNeo {
 	static UserRepositoryNeo instance
@@ -34,6 +34,16 @@ class UserRepositoryNeo extends AbstractRepositoryNeo {
 		val User user = session.load(typeof(User), id, 1)
 		return user.seenMovies
 
+	}
+	
+	def  getSuggested(Long id) {
+		val Map<String,Long> params= new HashMap()
+		params.put("id", id)
+		System.out.println(params.get('id'))
+		return session.queryForObject(typeof(User),
+			'match (suggested:User)-->(movies:Movie)<--(me:User) WHERE ID(me) =' + id + ' and not (me)-[:ISFRIEND]->(suggested) return  suggested LIMIT 5',
+			params)
+//		return suggested
 	}
 
 }

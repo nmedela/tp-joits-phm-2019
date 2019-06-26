@@ -29,11 +29,11 @@ class PeliculasController {
 	} // agregar el text
 
 	@Get('/movies/recommended/:id')
-	def Result getRecommendedMoviest(){
+	def Result getRecommendedMovies(){
 		val wrappedId = Long.valueOf(id)
-		val user = UserService.getUserOnNeoById(wrappedId)
+//		val user = UserService.getUserOnNeoById(wrappedId)
 		
-		return ok(MovieService.getRecommendedMovies().toJson);
+		return ok(MovieService.getRecommendedMovies(wrappedId).toJson);
 	}
 	
 }

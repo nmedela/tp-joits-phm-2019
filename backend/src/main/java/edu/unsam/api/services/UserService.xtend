@@ -16,28 +16,32 @@ import edu.unsam.api.repository.MovieRepositoryNeo
 import edu.unsam.joits.domain.IsFriend
 
 class UserService {
-	def static getFullUserById(Long id){
+	def static getFullUserById(Long id) {
 		val wrappedId = Long.valueOf(id)
 		var user = getUserById(id)
 		val User userNeo = getUserOnNeoById(id)
-		if(userNeo.getRelationFriend().length !=0)
+		if (userNeo.getRelationFriend().length != 0)
 			user.addFriends(userNeo.getRelationFriend())
 		user.seenMovies = userNeo.seenMovies
 		return user
 	}
-	
+
 	def static User getUserById(Long id) {
 		return UserRepository.instance.searchById(id)
 	}
-	def static User getUserOnNeoById(Long id){
+
+	def static User getUserOnNeoById(Long id) {
 		return UserRepositoryNeo.instance.getUserById(id)
 	}
-	def static Set<SeenMovie> getSeenMoviesByUserId(Long id){
+
+	def static Set<SeenMovie> getSeenMoviesByUserId(Long id) {
 		return UserRepositoryNeo.instance.searchSeenMoviesByUserId(id)
 	}
-	def static Set<Movie> getMoviesToSee(Set<String> movieTitles){
+
+	def static Set<Movie> getMoviesToSee(Set<String> movieTitles) {
 		return MovieRepositoryNeo.instance.searchMoviesToSee(movieTitles).toSet
-	} 
+	}
+
 	def static loadBalance(Long id, AddCashRequest cash) {
 		val user = getUserById(id)
 		user.loadBalance(cash.amount)
@@ -55,19 +59,20 @@ class UserService {
 		UserRepository.instance.update(user)
 	}
 
-	def static getSuggested() {
-		val repository = UserRepository.instance.allInstances
-		val suggested = newHashSet
-		repository.forEach [ user |
-			suggested.add(
-				new UserShort(user.getId, user.getName, user.getLastName)
-			)
-		]
-		return suggested
+	def static getSuggested(Long id) {
+//		val repository = UserRepositoryNeo.instance.getSuggested(id)
+		val repository = UserRepository.instance.allInstances()
+		val Set<User> suggested = newHashSet
+//		repository.forEach [ user |
+//			suggested.add(
+//				new UserShort(user.id, user.name, user.lastName)
+//			)
+//		]
+		return repository
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
-		val userNeo= getUserOnNeoById(id)
+		val userNeo = getUserOnNeoById(id)
 		val friend = getUserOnNeoById(newFriendJson.id)
 		userNeo.addNewFriend(friend)
 		UserRepositoryNeo.instance.update(userNeo)
@@ -75,7 +80,7 @@ class UserService {
 
 	// evaluar la posibilidad de que los amigos se guarden como short directamente
 	def static finishShopping(Long id, List<Ticket> shoppingCart) {
-		val user = getFullUserById(id)		
+		val user = getFullUserById(id)
 		var Double sum = 0d;
 		for (Ticket ticket : shoppingCart) {
 			sum = sum + ticket.price
@@ -84,12 +89,13 @@ class UserService {
 		if (user.balance < sum)
 			throw new Exception("El usuario no cuenta con fondos suficientes")
 
-		val Set<String> movieTitles = shoppingCart.map[ticket | ticket.movieTitle].toSet
-		val moviesFilter = movieTitles.filter[title | !user.seenMovies.exists[movie | movie.movie.title == title]].toList.toSet
-		val Set<Movie> moviesToSee = getMoviesToSee(moviesFilter.toSet) 
-		moviesToSee.forEach[moviess |
+		val Set<String> movieTitles = shoppingCart.map[ticket|ticket.movieTitle].toSet
+		val moviesFilter = movieTitles.filter[title|!user.seenMovies.exists[movie|movie.movie.title == title]].toList.
+			toSet
+		val Set<Movie> moviesToSee = getMoviesToSee(moviesFilter.toSet)
+		moviesToSee.forEach [ moviess |
 			user.addSeenMovie(moviess)
-		]	
+		]
 		user.balance = user.balance - sum
 		System.out.println(user.seenMovies.length)
 		UserRepositoryNeo.instance.update(user)
@@ -101,6 +107,7 @@ class UserService {
 		val Set<String> seenMovies = newHashSet
 		return seenMovies.toSet()
 	}
+
 	def static searchFriends(Long id, String value) {
 		val user = getUserById(id)
 		val List<Long> restrictedIds = user.friends.map[friend|friend.id].toList();
