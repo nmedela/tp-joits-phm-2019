@@ -58,10 +58,10 @@ class Profile extends Component {
   };
   async componentDidMount() {
     const user = await ProfileService.getUserData(this.props.userId);
-    const seenMovies = await ProfileService.getSeenMovies(this.props.userId);
+    // const seenMovies = await ProfileService.getSeenMovies(this.props.userId);
     this.setState({
       user,
-      seenMovies
+      // seenMovies
     });
   }
   chargeMoney = async () => {
