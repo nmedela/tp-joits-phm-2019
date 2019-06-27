@@ -40,7 +40,7 @@ class UserRepositoryNeo extends AbstractRepositoryNeo {
 		val Map<String,Long> params= new HashMap()
 		params.put("id", id)
 		System.out.println(params.get('id'))
-		return session.queryForObject(typeof(User),
+		return session.query(typeof(User),
 			'match (suggested:User)-->(movies:Movie)<--(me:User) WHERE ID(me) =' + id + ' and not (me)-[:ISFRIEND]->(suggested) return  suggested LIMIT 5',
 			params)
 //		return suggested

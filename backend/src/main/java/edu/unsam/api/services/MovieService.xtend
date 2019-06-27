@@ -13,8 +13,8 @@ class MovieService {
 
 	def static getRecommendedMovies(Long id) {
 		System.out.println("Paso por el servicio")
-		return MovieRepository.instance.allInstances()		
-//		return MovieRepositoryNeo.instance.searchRecommended(id)
+//		return MovieRepository.instance.allInstances()		
+		return MovieRepositoryNeo.instance.searchRecommended(id)
 	}
 
 

@@ -35,11 +35,11 @@ class MovieRepositoryNeo extends AbstractRepositoryNeo {
 	}
 
 	def searchRecommended(Long id) {
-		val Map<String,Long> params= new HashMap()
+		val Map<String,Object> params= new HashMap<String,Object>()
 		params.put("id", id)
 		System.out.println(params.get('id'))
-		return session.queryForObject(typeof(Movie),
-			'match (me:User)-[:ISFRIEND]->(friends:User)-[]->(movies:Movie)WHERE ID(me) ='+ id +' and not (movies)<--(me) return distinct movies LIMIT 5',
+		return session.query(typeof(Movie),
+			'match (me:User)-[:ISFRIEND]->(friends:User)-[]->(movies:Movie)WHERE ID(me) =' + id + ' and not (movies)<--(me) return distinct movies LIMIT 5',
 			params)
 	}
 

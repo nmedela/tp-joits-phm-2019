@@ -60,8 +60,8 @@ class UserService {
 	}
 
 	def static getSuggested(Long id) {
-//		val repository = UserRepositoryNeo.instance.getSuggested(id)
-		val repository = UserRepository.instance.allInstances()
+		val repository = UserRepositoryNeo.instance.getSuggested(id)
+//		val repository = UserRepository.instance.allInstances()
 		val Set<User> suggested = newHashSet
 //		repository.forEach [ user |
 //			suggested.add(
