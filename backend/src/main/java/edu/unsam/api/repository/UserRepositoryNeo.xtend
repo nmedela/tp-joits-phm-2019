@@ -7,7 +7,7 @@ import java.util.HashMap
 import java.util.List
 import edu.unsam.joits.domain.User
 
-class UserRepositoryNeo extends AbstractRepositoryNeo {
+class UserRepositoryNeo extends RepositoryNeo {
 	static UserRepositoryNeo instance
 
 	def static UserRepositoryNeo getInstance() {
@@ -25,15 +25,8 @@ class UserRepositoryNeo extends AbstractRepositoryNeo {
 		session.save(user)
 	}
 	def  getUserById(Long id){
-		val filerByUserId = new Filter("id", ComparisonOperator.MATCHES, id)
 		val User user = session.load(typeof(User), id, 1)
 		return user
-	}
-	def searchSeenMoviesByUserId(Long id) {
-		val filerByUserId = new Filter("id", ComparisonOperator.MATCHES, id)
-		val User user = session.load(typeof(User), id, 1)
-		return user.seenMovies
-
 	}
 	
 	def  getSuggested(Long id) {
@@ -43,7 +36,6 @@ class UserRepositoryNeo extends AbstractRepositoryNeo {
 		return session.query(typeof(User),
 			'match (suggested:User)-->(movies:Movie)<--(me:User) WHERE ID(me) =' + id + ' and not (me)-[:ISFRIEND]->(suggested) return  suggested LIMIT 5',
 			params)
-//		return suggested
 	}
 
 }

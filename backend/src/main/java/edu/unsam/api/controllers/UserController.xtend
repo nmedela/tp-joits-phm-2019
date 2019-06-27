@@ -35,7 +35,6 @@ class UserController {
 	def Result getSuggestedFriends() {
 		val wrappedId = Long.valueOf(id)
 		return ok(UserService.getSuggested(wrappedId).toJson)
-//		return ok(suggested.toJson)
 	}
 
 	@Get('/user/:id/friends')
@@ -43,13 +42,6 @@ class UserController {
 		val wrappedId = Long.valueOf(id)
 		val suggested = UserService.searchFriends(wrappedId, name)
 		return ok(suggested.toJson)
-	}
-
-	@Get('/user/:id/movies/seen')
-	def Result getSeenMovies() {
-		val wrappedId = Long.valueOf(id)
-		val Set<String> movies = UserService.getSeenMovies(wrappedId)
-		return ok(movies.toJson)
 	}
 
 	@Put("/user/:id/friend")

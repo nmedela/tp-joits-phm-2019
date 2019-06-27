@@ -34,10 +34,6 @@ class UserService {
 		return UserRepositoryNeo.instance.getUserById(id)
 	}
 
-	def static Set<SeenMovie> getSeenMoviesByUserId(Long id) {
-		return UserRepositoryNeo.instance.searchSeenMoviesByUserId(id)
-	}
-
 	def static Set<Movie> getMoviesToSee(Set<String> movieTitles) {
 		return MovieRepositoryNeo.instance.searchMoviesToSee(movieTitles).toSet
 	}
@@ -60,15 +56,7 @@ class UserService {
 	}
 
 	def static getSuggested(Long id) {
-		val repository = UserRepositoryNeo.instance.getSuggested(id)
-//		val repository = UserRepository.instance.allInstances()
-		val Set<User> suggested = newHashSet
-//		repository.forEach [ user |
-//			suggested.add(
-//				new UserShort(user.id, user.name, user.lastName)
-//			)
-//		]
-		return repository
+		return UserRepositoryNeo.instance.getSuggested(id)
 	}
 
 	def static addNewFriend(Long id, Friend newFriendJson) {
@@ -102,14 +90,9 @@ class UserService {
 		UserRepository.instance.update(user)
 	}
 
-	def static Set<String> getSeenMovies(Long id) {
-		val tickets = UserRepository.instance.searchTicket(id)
-		val Set<String> seenMovies = newHashSet
-		return seenMovies.toSet()
-	}
 
 	def static searchFriends(Long id, String value) {
-		val user = getUserById(id)
+		val user = getUserOnNeoById(id)
 		val List<Long> restrictedIds = user.friends.map[friend|friend.id].toList();
 		restrictedIds.add(id);
 		val usuarios = UserRepository.instance.searchFriends(value, restrictedIds)

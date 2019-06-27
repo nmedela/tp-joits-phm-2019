@@ -59,7 +59,7 @@ class AppBooststrap {
 			screenings = newArrayList(screeningMomia1, screeningMomia2, screeningMomia3)
 		]
 
-		repoNeo.actualizarPelicula(momia)
+		repoNeo.update(momia)
 		repoMongo.create(momia)
 
 //
@@ -87,7 +87,7 @@ class AppBooststrap {
 			genre = "Aventura/Ciencia ficcion"
 			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2, screeningGalaxy3)
 		]
-		repoNeo.actualizarPelicula(guardiansMovie)
+		repoNeo.update(guardiansMovie)
 		repoMongo.create(guardiansMovie)
 ////
 ////		// Interstellar------------------------------------------------------
@@ -115,7 +115,7 @@ class AppBooststrap {
 			genre = "Accion/Ciencia ficcion"
 			screenings = newArrayList(screeningInterstellar1, screeningInterstellar2, screeningInterstellar3)
 		]
-		repoNeo.actualizarPelicula(movieInterestelar)
+		repoNeo.update(movieInterestelar)
 		repoMongo.create(movieInterestelar)
 //
 ////		// Avengers: Endgame--------------------------------------------------
@@ -142,7 +142,7 @@ class AppBooststrap {
 			genre = "Accion"
 			screenings = newArrayList(screeningAvengers1, screeningAvengers2, screeningAvengers3)
 		]
-		repoNeo.actualizarPelicula(movieAvenger)
+		repoNeo.update(movieAvenger)
 		repoMongo.create(movieAvenger)
 //
 ////		// Dragon ball super: Broly-------------------------------------------------		
@@ -169,7 +169,7 @@ class AppBooststrap {
 			genre = "Anime"
 			screenings = newArrayList(screeningDragon, screeningDragon2, screeningDragon3)
 		]
-		repoNeo.actualizarPelicula(movieDragon)
+		repoNeo.update(movieDragon)
 		repoMongo.create(movieDragon)
 
 		val laMomia = repoMongo.searchByTitleStrict("La Momia")
@@ -196,7 +196,7 @@ class AppBooststrap {
 			screenings = newArrayList(screeningMomiaAndGuardians1, screeningMomiaAndGuardians2)
 			sagaLevel = 100.5d
 		]
-		repoNeo.actualizarPelicula(saga)
+		repoNeo.update(saga)
 		repoMongo.create(saga)
 ////
 ////		// El jorobado de Norte Das-------------------------------------------------		
@@ -223,7 +223,7 @@ class AppBooststrap {
 			genre = "Niños"
 			screenings = newArrayList(screeningJorobado, screeningJorobado2, screeningJorobado3)
 		]
-		repoNeo.actualizarPelicula(movieJorobado)
+		repoNeo.update(movieJorobado)
 		repoMongo.create(movieJorobado)
 ////
 ////// El padrino 1-------------------------------------------------		
@@ -250,7 +250,7 @@ class AppBooststrap {
 			genre = "Drama"
 			screenings = newArrayList(screeningElPadrino, screeningElPadrino2, screeningElPadrino3)
 		]
-		repoNeo.actualizarPelicula(moviePadrino)
+		repoNeo.update(moviePadrino)
 		repoMongo.create(moviePadrino)
 
 		val User nico = new User => [

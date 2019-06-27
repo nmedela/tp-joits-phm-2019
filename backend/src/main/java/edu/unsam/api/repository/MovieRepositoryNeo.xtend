@@ -11,7 +11,7 @@ import org.neo4j.ogm.cypher.BooleanOperator
 import java.util.Map
 import java.util.HashMap
 
-class MovieRepositoryNeo extends AbstractRepositoryNeo {
+class MovieRepositoryNeo extends RepositoryNeo {
 	static MovieRepositoryNeo instance
 
 	def static MovieRepositoryNeo getInstance() {
@@ -25,7 +25,7 @@ class MovieRepositoryNeo extends AbstractRepositoryNeo {
 		new MovieRepositoryNeo => []
 	}
 
-	def void actualizarPelicula(Movie movie) {
+	def void update(Movie movie) {
 		session.save(movie)
 	}
 

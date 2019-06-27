@@ -5,7 +5,7 @@ import org.neo4j.ogm.config.Configuration
 import org.neo4j.ogm.session.SessionFactory
 
 @Accessors
-abstract class AbstractRepositoryNeo {
+abstract class RepositoryNeo {
 
 	static Configuration configuration = new Configuration.Builder().uri("bolt://localhost").credentials("neo4j","").build()
 
