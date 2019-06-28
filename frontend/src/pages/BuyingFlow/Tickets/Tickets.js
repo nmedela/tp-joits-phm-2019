@@ -196,6 +196,7 @@ export default class Tickets extends Component {
                       <MovieTable
                         handleClick={this.showMovieScreenings}
                         movies={this.state.recommended}
+                        minimalist={true}
                       />
                     </GridItem>
                   </GridContainer>

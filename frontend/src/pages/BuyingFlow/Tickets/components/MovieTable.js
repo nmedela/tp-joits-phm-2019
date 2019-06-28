@@ -23,7 +23,7 @@ export default class MovieTable extends Component {
 
   render() {
 
-    const { movies } = this.props;
+    const { movies ,minimalist } = this.props;
 
     return (
       <Paper>
@@ -31,9 +31,9 @@ export default class MovieTable extends Component {
           <TableHead>
             <TableRow>
               <TableCell>Nombre</TableCell>
-              <TableCell>Fecha</TableCell>
+              {!minimalist && <React.Fragment > <TableCell>Fecha</TableCell>}
               <TableCell>Rating</TableCell>
-              <TableCell>Genero</TableCell>
+              <TableCell>Genero</TableCell></React.Fragment>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -41,6 +41,7 @@ export default class MovieTable extends Component {
               movies && movies.map(movie => {
                 return (
                   <TableRow className="tableRow" hover onClick={this.handleClick(movie)}>
+                  
                     <TableCell>{movie.title}</TableCell>
                     <TableCell>{movie.year}</TableCell>
                     <TableCell>{movie.rating}</TableCell>
