@@ -1,0 +1,9 @@
+Query 1
+
+match (me)-[:ISFRIEND]->(User)-->(unknow:User) where ID(me) = 115 and not (me)-[:ISFRIEND]->(unknow) return unknow
+
+Query 2
+match (me:User)-->(amigos:User)-->(pelisAmigos:Movie) where ID(me)=115  and pelisAmigos.genre = "Accion" and not (me)-->(pelisAmigos) return pelisAmigos
+
+MATCH (n:Movie)
+RETURN n, size(()-[:SAW]->(n)) AS count order by count desc LiMIT 1

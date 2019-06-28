@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.uqbar.xtrest.json.JSONUtils
 import org.bson.types.ObjectId
+import edu.unsam.api.services.UserService
 
 @Controller
 class PeliculasController {
@@ -27,9 +28,12 @@ class PeliculasController {
 		return ok(MovieService.getMoviesByTitleSearch(title).toJson);
 	} // agregar el text
 
-	@Get('/movies/recommended')
-	def Result getMoviesBySearchText(){
-		return ok(MovieService.getRecommendedMovies().toJson);
+	@Get('/movies/recommended/:id')
+	def Result getRecommendedMovies(){
+		val wrappedId = Long.valueOf(id)
+//		val user = UserService.getUserOnNeoById(wrappedId)
+		
+		return ok(MovieService.getRecommendedMovies(wrappedId).toJson);
 	}
 	
 }

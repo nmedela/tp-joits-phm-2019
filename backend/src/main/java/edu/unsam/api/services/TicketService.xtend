@@ -7,6 +7,7 @@ import edu.unsam.joits.domain.DateFormatArgentina
 import edu.unsam.api.repository.MovieRepository
 import edu.unsam.joits.domain.Movie
 import edu.unsam.joits.domain.Screening
+import edu.unsam.joits.domain.User
 
 class TicketService {
 	def static getMovie(String movie) {
@@ -17,7 +18,7 @@ class TicketService {
 		return new Screening(_cinemaName,date)
 	}
   
-	def static Ticket fromJson(Ticket ticketJson) {
-		return new Ticket(getMovie(ticketJson.movieTitle), getScreening(ticketJson.date, ticketJson.time, ticketJson.cinemaName))
+	def static Ticket fromJson(Ticket ticketJson) { //,User user
+		return new Ticket(getMovie(ticketJson.movieTitle), getScreening(ticketJson.date, ticketJson.time, ticketJson.cinemaName))//, user
 	}	
 }

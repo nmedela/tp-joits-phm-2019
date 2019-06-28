@@ -19,9 +19,9 @@ export default class MovieService {
         }
     }
 
-    getRecommended = async () => {
+    getRecommended = async (id) => {
         try {
-            let resp = await axios.get(`${endpointURL}/movies/recommended`);
+            let resp = await axios.get(`${endpointURL}/movies/recommended/${id} `);
             return resp.data;
         }
         catch (exception) {

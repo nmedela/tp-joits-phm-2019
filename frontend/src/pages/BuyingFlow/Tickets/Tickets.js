@@ -34,7 +34,7 @@ export default class Tickets extends Component {
 
   componentDidMount = async () => {
     let movies = await movieService.getMoviesByName("");
-    let recommended = await movieService.getRecommended();
+    let recommended = await movieService.getRecommended(this.props.userId);
     let shoppingCart = await shoppingCartService.getShoppingCart(this.props.userId);
     const user = await ProfileService.getUserData(this.props.userId);
     this.setState({

@@ -13,19 +13,22 @@ import java.util.Arrays
 import java.util.Calendar
 import java.util.Date
 import java.util.HashSet
-import edu.unsam.api.repository.ScreeningSearch
 import edu.unsam.joits.domain.DateFormatArgentina
 import edu.unsam.api.repository.MovieRepository
 import edu.unsam.joits.domain.Movie
 import edu.unsam.joits.domain.Saga
 import edu.unsam.joits.domain.Screening
+import edu.unsam.api.repository.MovieRepositoryNeo
+import edu.unsam.api.repository.UserRepositoryNeo
 
 class AppBooststrap {
-	
+
 	// TODO: hacer la creacion de saga, trayendo las pelis. Ver tema de herencia. Traer al frontend la pelocula enteras
 	def static crearContenidoInicial() {
 		val repoMongo = MovieRepository.instance
 		val userRepository = UserRepository.instance
+		val repoNeo = MovieRepositoryNeo.instance
+		val repoNeoUser = UserRepositoryNeo.instance
 
 		repoMongo.dropColection
 		val cal = Calendar.getInstance()
@@ -48,14 +51,16 @@ class AppBooststrap {
 			cinemaName = "Joyts"
 			date = new Date(cal.timeInMillis)
 		]
-
-		repoMongo.create(new Movie => [
+		val momia = new Movie => [
 			title = "La Momia"
 			year = 1999
 			rating = 3
 			genre = "Terror"
 			screenings = newArrayList(screeningMomia1, screeningMomia2, screeningMomia3)
-		])
+		]
+
+		repoNeo.update(momia)
+		repoMongo.create(momia)
 
 //
 //		// Guardians of the Galaxy-------------------------------------------		
@@ -82,9 +87,10 @@ class AppBooststrap {
 			genre = "Aventura/Ciencia ficcion"
 			screenings = newArrayList(screeningGalaxy1, screeningGalaxy2, screeningGalaxy3)
 		]
+		repoNeo.update(guardiansMovie)
 		repoMongo.create(guardiansMovie)
-//
-//		// Interstellar------------------------------------------------------
+////
+////		// Interstellar------------------------------------------------------
 		cal.set(2019, 07, 13, 14, 40, 0)
 		val screeningInterstellar1 = new Screening => [
 			date = new Date(cal.timeInMillis)
@@ -109,9 +115,10 @@ class AppBooststrap {
 			genre = "Accion/Ciencia ficcion"
 			screenings = newArrayList(screeningInterstellar1, screeningInterstellar2, screeningInterstellar3)
 		]
+		repoNeo.update(movieInterestelar)
 		repoMongo.create(movieInterestelar)
 //
-//		// Avengers: Endgame--------------------------------------------------
+////		// Avengers: Endgame--------------------------------------------------
 		cal.set(2019, 04, 13, 20, 40, 0)
 		val screeningAvengers1 = new Screening => [
 			date = new Date(cal.timeInMillis)
@@ -135,9 +142,10 @@ class AppBooststrap {
 			genre = "Accion"
 			screenings = newArrayList(screeningAvengers1, screeningAvengers2, screeningAvengers3)
 		]
+		repoNeo.update(movieAvenger)
 		repoMongo.create(movieAvenger)
 //
-//		// Dragon ball super: Broly-------------------------------------------------		
+////		// Dragon ball super: Broly-------------------------------------------------		
 		cal.set(2019, 07, 15, 16, 00, 0)
 		val screeningDragon = new Screening => [
 			date = new Date(cal.timeInMillis)
@@ -161,6 +169,7 @@ class AppBooststrap {
 			genre = "Anime"
 			screenings = newArrayList(screeningDragon, screeningDragon2, screeningDragon3)
 		]
+		repoNeo.update(movieDragon)
 		repoMongo.create(movieDragon)
 
 		val laMomia = repoMongo.searchByTitleStrict("La Momia")
@@ -178,7 +187,7 @@ class AppBooststrap {
 			date = new Date(cal.timeInMillis)
 		]
 
-		repoMongo.create(new Saga => [
+		val saga = new Saga => [
 			title = "La momia + Guardians"
 			year = 2000
 			rating = 3
@@ -186,9 +195,11 @@ class AppBooststrap {
 			movies = newArrayList(laMomia.get(0), dragonBall.get(0))
 			screenings = newArrayList(screeningMomiaAndGuardians1, screeningMomiaAndGuardians2)
 			sagaLevel = 100.5d
-		])
-//
-//		// El jorobado de Norte Das-------------------------------------------------		
+		]
+		repoNeo.update(saga)
+		repoMongo.create(saga)
+////
+////		// El jorobado de Norte Das-------------------------------------------------		
 		cal.set(2019, 04, 13, 20, 40, 0)
 		val screeningJorobado = new Screening => [
 			date = new Date(cal.timeInMillis)
@@ -212,9 +223,10 @@ class AppBooststrap {
 			genre = "Niños"
 			screenings = newArrayList(screeningJorobado, screeningJorobado2, screeningJorobado3)
 		]
+		repoNeo.update(movieJorobado)
 		repoMongo.create(movieJorobado)
-//
-//// El padrino 1-------------------------------------------------		
+////
+////// El padrino 1-------------------------------------------------		
 		cal.set(2019, 04, 13, 19, 40, 0)
 		val screeningElPadrino = new Screening => [
 			date = new Date(cal.timeInMillis)
@@ -238,69 +250,9 @@ class AppBooststrap {
 			genre = "Drama"
 			screenings = newArrayList(screeningElPadrino, screeningElPadrino2, screeningElPadrino3)
 		]
+		repoNeo.update(moviePadrino)
 		repoMongo.create(moviePadrino)
 
-//
-//		val newTicket = new Ticket => [
-//			screening = screeningMomia1
-//			movie = momiaMovie
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket2 = new Ticket => [
-//			screening = screeningElPadrino
-//			movie = moviePadrino
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket3 = new Ticket => [
-//			screening = screeningElPadrino2
-//			movie = moviePadrino
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket4 = new Ticket => [
-//			screening = screeningDragon
-//			movie = movieDragon
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket5 = new Ticket => [
-//			screening = screeningAvengers3
-//			movie = movieAvenger
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket6 = new Ticket => [
-//			screening = screeningDragon2
-//			movie = movieDragon
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket7 = new Ticket => [
-//			screening = screeningInterstellar1
-//			movie = movieInterestelar
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket8 = new Ticket => [
-//			screening = screeningJorobado3
-//			movie = movieJorobado
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket9 = new Ticket => [
-//			screening = screeningMomia3
-//			movie = momiaMovie
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
-//		val newTicket10 = new Ticket => [
-//			screening = screeningElPadrino2
-//			movie = moviePadrino
-//			buyDate = Calendar.getInstance().getTime()
-//			buyTime = LocalTime.now()
-//		]
 		val User nico = new User => [
 			name = "Nicolas"
 			username = "nmedela"
@@ -310,7 +262,7 @@ class AppBooststrap {
 			balance = 10000d
 //			tickets = #[newTicket,newTicket2].toSet
 		]
-
+//
 		val User gonzalo = new User => [
 			name = "Gonzalo"
 			username = "guusygonzalo"
@@ -328,7 +280,7 @@ class AppBooststrap {
 			age = 21
 //			tickets = #[newTicket5,newTicket6].toSet
 		]
-
+//
 		val User carlitos = new User => [
 			name = "Carlos"
 			username = "carlos_redondito"
@@ -351,16 +303,21 @@ class AppBooststrap {
 			lastName = "Puentes"
 			age = 21
 		]
+
+		repoNeoUser.update(facundo)
 		userRepository.create(facundo)
+		repoNeoUser.update(carlitos)
 		userRepository.create(carlitos)
+		repoNeoUser.update(leandro)
 		userRepository.create(leandro)
+		repoNeoUser.update(roberto)
 		userRepository.create(roberto)
-
-		nico.addFriend(facundo)
-		gonzalo.addFriend(nico)
+//
+//		nico.addFriend(facundo)
+//		gonzalo.addFriend(nico)
+		repoNeoUser.update(nico)
 		userRepository.create(nico)
-		userRepository.create(gonzalo)
-
+//		userRepository.create(gonzalo)
 		System.out.println("###############################" + new Date(cal.timeInMillis))
 //		PeliculasBootstrap.crearContenidoInicial()
 	}

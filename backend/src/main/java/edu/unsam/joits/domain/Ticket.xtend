@@ -19,7 +19,7 @@ import javax.persistence.Transient
 class Ticket {
 	@Id @GeneratedValue
 	Long id
-
+	
 	@Column(length=150)
 	 String movieTitle
 	@Transient String movieGenre
@@ -32,13 +32,8 @@ class Ticket {
 	@JsonIgnore @Column Date buyDate
 	@JsonIgnore @Column LocalTime buyTime
 
-	new(Movie movie, Screening screening) {
+	new(Movie movie, Screening screening) { //, User user
 		this.movieTitle = movie.title
-//		this.rating = movie.rating
-//		this.genre = movie.genre
-//		this.date = screening.date
-//		this.cinema = screening.cinemaName
-
 		price = movie.getPrice() + screening.getPrice()
 		buyDate = Calendar.getInstance().getTime()
 		buyTime = LocalTime.now()
