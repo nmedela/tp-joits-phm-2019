@@ -51,7 +51,7 @@ class User {
 	Double balance = 0.0
 
 	@Transient
-	@Relationship(type="ISFRIEND", direction=Relationship.OUTGOING)
+	@Relationship(type="ISFRIEND", direction=Relationship.UNDIRECTED)
 	@JsonIgnore
 	Set<IsFriend> friends = newHashSet
 

@@ -28,7 +28,7 @@ class Movie implements Serializable {
 	Integer year
 	@org.neo4j.ogm.annotation.Transient
 	int rating
-	@org.neo4j.ogm.annotation.Transient
+//	@org.neo4j.ogm.annotation.Transient
 	String genre
 	@org.neo4j.ogm.annotation.Transient
 	@org.mongodb.morphia.annotations.Transient
